@@ -39,7 +39,8 @@ Nous avons adapté la topologie en ajoutant un deuxième switchblock.
 
 ![Topologie](https://github.com/reseau-2020/projet-three/blob/master/Topologie_2_switchblocks.png)
 
-Par securité, la configuration a été faite à partir d'une copie de notre projet et mise en place avec l'outil ansible (repertoire : https://github.com/tayanateles/projet-three).
+Par securité, la configuration a été faite à partir d'une copie de notre projet et mise en place avec l'outil ansible.
+(repertoire : https://github.com/tayanateles/projet-three).
    - [x] Plan d'adressage du deuxième switchblock
    - [x] Fichiers édités : hosts, R1, R2, R3
    - [x] Fichiers crés : AS3, AS4, DS3, DS4
