@@ -81,11 +81,8 @@ reprise du traffic sur po2 [Capture à mettre]
 #### Coupure couche CORE
 
 ##### Test à partir de centos-1
-On aurait pu penser au résultat suivant :
 
 ![COREcentos1](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_fromcentos1.png?raw=true)
-
-Toutefois, un `traceroute` (sans aucune coupure) a permis de s'apercevoir que la route par défaut de centos vers internet était tout autre :
 ``` 
 [root@localhost ~]# traceroute 192.168.122.221
 traceroute to 192.168.122.221 (192.168.122.221), 30 hops max, 60 byte packets
@@ -93,6 +90,7 @@ traceroute to 192.168.122.221 (192.168.122.221), 30 hops max, 60 byte packets
  2  10.3.1.3 (10.3.1.3)  7.691 ms  12.740 ms  12.737 ms
  3  10.1.2.1 (10.1.2.1)  13.665 ms  18.387 ms  19.927 ms
 ```
+
 
 ##### Test à partir de centos-8
 
