@@ -29,7 +29,7 @@ service timestamp log datetime
 service timestamp debug datetime
 
 
-! Configuration SNMP
+! Configuration SNMP  (on va pas le faire pour l'instant mais faire plutot syslog)
 conf t
 snmp-server community private RO 
 snmp-server enable traps
