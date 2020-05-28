@@ -90,7 +90,7 @@ Trap logging: level debugging, 111 message lines logged
         Logging to 10.192.1.101
 ```
 
-MODIFICATION DU PARE-FEU
+# MODIFICATION DU PARE-FEU
 
 ```
 ip access-list extended SYSLOG
