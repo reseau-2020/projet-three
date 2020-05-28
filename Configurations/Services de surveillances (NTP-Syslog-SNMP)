@@ -28,6 +28,33 @@ conf t
 service timestamp log datetime
 service timestamp debug datetime
 
+sur pc-distant
+conf t 
+yum -y install rsyslog
+vi /etc/rsyslog.conf
+-> enlever les commentaire : 
+'''
+# Provides UDP syslog reception
+$ModLoad imudp
+$UDPServerRun 514
+# Provides TCP syslog reception
+$ModLoad imtcp
+$InputTCPServerRun 1514
+'''
+systemctl restart rsyslog
+
+Sur postes de travail :
+conf t
+yum -y install rsyslog
+vi /etc/rsyslog.conf
+****rajouter ce qu'on a mis********
+systemctl restart rsyslog
+
+Sur les routeur : 
+conf t
+logging trap debugging
+logging 192.168.100.2
+
 
 ! Configuration SNMP  (on va pas le faire pour l'instant mais faire plutot syslog)
 conf t
