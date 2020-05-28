@@ -83,6 +83,7 @@ reprise du traffic sur po2 [Capture à mettre]
 ##### Test à partir de centos-1
 
 ![COREcentos1](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_fromcentos1.png?raw=true)
+
 ``` 
 [root@localhost ~]# traceroute 192.168.122.221
 traceroute to 192.168.122.221 (192.168.122.221), 30 hops max, 60 byte packets
