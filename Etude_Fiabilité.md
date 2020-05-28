@@ -17,7 +17,7 @@ Ping fonctionnel
 
 Ping fonctionnel
 
-#### Remise de po2
+#### Rebranchement de po2
 
 reprise du traffic sur po2 [Capture à mettre]
 
