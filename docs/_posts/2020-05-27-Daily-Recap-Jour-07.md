@@ -96,6 +96,6 @@ Il serait interessant pour les prochains diagnostique de faire `traceroute` et u
   
  - Mise à jour documentation
  - Diagnostiques et tests de fiabilité
- - Diagnostique et tests de sécurité
+ - Diagnostiques et tests de sécurité
  - Mise en place d"un 2nd switchblock
   
