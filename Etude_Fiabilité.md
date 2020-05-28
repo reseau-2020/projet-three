@@ -80,10 +80,14 @@ reprise du traffic sur po2 [Capture à mettre]
 
 #### Coupure couche CORE
 
-##### Test à partir de centos-1
+##### Test à partir de centos-8
 
-![COREcentos1](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_fromcentos1.png?raw=true)
+![COREcentos8](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_traceroute_centos8.png?raw=true)
 
+
+## Debriefing
+
+On remarquera que après rebranchement, la route prise par les paquets ICMPs restent inchangés : Passage par DS2
 ``` 
 [root@localhost ~]# traceroute 192.168.122.221
 traceroute to 192.168.122.221 (192.168.122.221), 30 hops max, 60 byte packets
@@ -92,7 +96,10 @@ traceroute to 192.168.122.221 (192.168.122.221), 30 hops max, 60 byte packets
  3  10.1.2.1 (10.1.2.1)  13.665 ms  18.387 ms  19.927 ms
 ```
 
+Il a fallu un reboot complet de la topologie pour que les paquets passent par DS1 :
 
-##### Test à partir de centos-8
-
-![COREcentos8](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_traceroute_centos8.png?raw=true)
+[root@localhost ~]# traceroute 192.168.122.221
+traceroute to 192.168.122.221 (192.168.122.221), 30 hops max, 60 byte packets
+ 1  10.192.10.252 (10.192.10.252)  3.813 ms  15.899 ms  19.478 ms
+ 2  10.3.3.3 (10.3.3.3)  8.486 ms  9.971 ms  10.189 ms
+ 3  10.1.2.1 (10.1.2.1)  11.595 ms  12.783 ms  13.644 ms
