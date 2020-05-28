@@ -82,7 +82,9 @@ reprise du traffic sur po2 [Capture à mettre]
 
 ##### Test à partir de centos-1
 On aurait pu penser au résultat suivant :
+
 ![COREcentos1](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_fromcentos1.png?raw=true)
+
 Toutefois, un `traceroute` (sans aucune coupure) a permis de s'apercevoir que la route par défaut de centos vers internet était tout autre :
 ``` 
 [root@localhost ~]# traceroute 192.168.122.221
