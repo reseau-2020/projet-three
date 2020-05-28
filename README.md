@@ -13,7 +13,7 @@
 
 ## Topologie
 
-![Topologie](https://github.com/reseau-2020/projet-three/blob/master/Topologie.PNG?raw=true)
+![Topologie](https://github.com/reseau-2020/projet-three/blob/master/2020-05-28-Topologie.png?raw=true)
 
 ## Plan d'adressage
 
