@@ -17,7 +17,7 @@ categories: welcome
 
 ## Débriefing
 
-###VPN Ipv4
+### VPN Ipv4
 
 Le VPN Ipv4 ne fonctionnait pas : pas de `ping` de PC-distant vers VLAN10 ; pas de `ping` de R1 vers PCdistant.
 
