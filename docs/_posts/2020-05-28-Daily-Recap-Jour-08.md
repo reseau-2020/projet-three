@@ -40,7 +40,7 @@ L'ensemble des logs sont consultables directement sur le PC-distant. Syslog est 
    - [X] Update Scrum
    
     
-## Programme du 28.05.2020
+## Programme du 29.05.2020
   
  - Mise à jour documentation
  - Préparation présentation
