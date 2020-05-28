@@ -69,6 +69,12 @@ ip access-list extended NTP
  permit udp any any eq 123
  permit udp any eq 123 any
  deny udp any any
+ip access-list extended SYSLOG
+ permit udp any any eq 514
+ permit udp any eq 514 any
+ permit tcp any any eq 1514
+ permit tcp any eq 1514 any
+ deny udp any any
 end
 !
 conf t
@@ -82,6 +88,8 @@ class-map type inspect match-any dns-class
  match access-group name DNS
 class-map type inspect match-any ntp-class
  match access-group name NTP
+class-map type inspect match-any syslog-class
+ match access-group name SYSLOG
 end
 !
 conf t
@@ -97,6 +105,8 @@ policy-map type inspect to-self-policy
  class type inspect dns-class
   pass
  class type inspect ntp-class
+  pass
+ class type inspect syslog-class
   pass
 end
 !
