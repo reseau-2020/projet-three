@@ -34,7 +34,9 @@ zone-pair security internet-lan source internet destination lan
 
 Mise en place d'un routeur R4 avec un LAN avec adressage IPv4 et Ipv6,nat, dns, connectivité vers internet, eirgpv4 et v6 (Id 6.6.6.6). 
 > 2001:470:C814:7006::/64
+>
 > FD00:470:C814:7006::/64
+>
 > FE80::cafe:7 sur interface externe de R4
 
 Mise en place d'un VPN Ipv6 entre deux Cisco. Nous avions essayé entre 1 fortigate et 1 cisco mais cela semble très compliqué voir peut être impossible avec le fortiOS utilisé ici. L'usage de GUI pour ce faire sur FortiOs n'est pas possible, il aurait fallu utiliser CLI, sans être certain du résultat.
