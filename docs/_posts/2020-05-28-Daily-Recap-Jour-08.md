@@ -13,7 +13,8 @@ categories: welcome
  - Revision des services de surveillances
    - [x] SNMP
    - [x] Syslog
-
+ -Implémentation du deuxième switchblock
+ 
 ## Débriefing
 
 ### Tests de fiabilité IPV4
@@ -33,7 +34,11 @@ Nous n'avons pas trouvé l'origine du problème. Notre topologie semble conforme
 Reprise de Syslog, et installation du serveur sur le PC-distant `192.168.100.2`. Nous avons configuré R1 et centos-1 en client syslog. Le traffic TCP 1514 et UDP 514 passe donc par le VPN. Il a fallu adapter le pare-feu de R1.
 L'ensemble des logs sont consultables directement sur le PC-distant. Syslog est donc fonctionnel.
 
-
+## Deuxième switchblock
+Nous avons adapté la topologie en ajoutant un deuxième switchblock. Par securité, la configuration a été faite dans une copie de notre projet et mise en place avec l'outil ansible (repertoire : https://github.com/tayanateles/projet-three).
+ - Fichiers édités : hosts, R1, R2, R3
+ - Fichiers crés : AS3, AS4, DS3, DS4
+La connectivité de la topologie est fonctionnelle en ipv4.
 ## Update docs
 
    - [x] Update Blog
