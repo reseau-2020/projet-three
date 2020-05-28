@@ -31,6 +31,8 @@ show ntp config
 # Syslog
 ## Configuration Syslog
 
+On considaire que l'on veut vérifier notre topologie depuis chez nous. 
+
 ```
 conf t
 service timestamp log datetime
