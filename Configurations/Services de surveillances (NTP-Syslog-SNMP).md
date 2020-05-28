@@ -116,6 +116,7 @@ logging 192.168.100.2
 Pour vérifier : 
 ```
 R1#show logging
+
     Trap logging: level debugging, 58 message lines logged
         Logging to 192.168.100.2 
 ```
