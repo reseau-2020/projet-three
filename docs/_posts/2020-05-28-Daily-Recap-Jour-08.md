@@ -13,7 +13,7 @@ categories: welcome
  - Revision des services de surveillances
    - [x] SNMP
    - [x] Syslog
- -Implémentation du deuxième switchblock
+ - Implémentation d'un deuxième switchblock
  
 ## Débriefing
 
@@ -34,15 +34,20 @@ Nous n'avons pas trouvé l'origine du problème. Notre topologie semble conforme
 Reprise de Syslog, et installation du serveur sur le PC-distant `192.168.100.2`. Nous avons configuré R1 et centos-1 en client syslog. Le traffic TCP 1514 et UDP 514 passe donc par le VPN. Il a fallu adapter le pare-feu de R1.
 L'ensemble des logs sont consultables directement sur le PC-distant. Syslog est donc fonctionnel.
 
-## Deuxième switchblock
-Nous avons adapté la topologie en ajoutant un deuxième switchblock. Par securité, la configuration a été faite dans une copie de notre projet et mise en place avec l'outil ansible (repertoire : https://github.com/tayanateles/projet-three).
- - Fichiers édités : hosts, R1, R2, R3
- - Fichiers crés : AS3, AS4, DS3, DS4
+### Deuxième switchblock
+Nous avons adapté la topologie en ajoutant un deuxième switchblock. 
+- ![Topologie](https://github.com/reseau-2020/projet-three/blob/master/Topologie_2_switchblocks.png)
+Par securité, la configuration a été faite à partir d'une copie de notre projet et mise en place avec l'outil ansible (repertoire : https://github.com/tayanateles/projet-three).
+   - [x] Plan d'adressage du deuxième switchblock
+   - [x] Fichiers édités : hosts, R1, R2, R3
+   - [x] Fichiers crés : AS3, AS4, DS3, DS4
 La connectivité de la topologie est fonctionnelle en ipv4.
 ## Update docs
 
-   - [x] Update Blog
-   - [X] Update Scrum
+   - [x] Blog
+   - [X] [Scrum](https://github.com/reseau-2020/projet-three/projects/1)
+   - [x] [Plan d'adressage](https://github.com/reseau-2020/projet-three/blob/master/Plan%20d'adressage.md)
+   - [x] [Gantt_projet_3.xlsx](https://github.com/reseau-2020/projet-three/blob/master/Gantt_projet_3.xlsx)
    
     
 ## Programme du 29.05.2020
