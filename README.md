@@ -11,6 +11,8 @@
 
 [Scrum](https://github.com/reseau-2020/projet-three/projects/1)
 
+[Blog](https://reseau-2020.github.io/projet-three/)
+
 ## Topologie
 
 ![Topologie](https://github.com/reseau-2020/projet-three/blob/master/2020-05-28-Topologie.png?raw=true)
