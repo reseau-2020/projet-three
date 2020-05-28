@@ -89,8 +89,25 @@ reprise du traffic sur po2
 
 ![COREcentos8](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_traceroute_centos8.png?raw=true)
 
+```
+[root@localhost ~]# traceroute 192.168.122.221
+traceroute to 192.168.122.221 (192.168.122.221), 30 hops max, 60 byte packets
+ 1  10.192.40.253 (10.192.40.253)  15.048 ms  31.439 ms  32.344 ms
+ 2  10.3.2.3 (10.3.2.3)  9.529 ms  11.169 ms  11.322 ms
+ 3  10.1.2.1 (10.1.2.1)  16.853 ms  18.339 ms  18.635 ms
+```
 
-## Debriefing
+On coupe R1 et R3
+
+```
+[root@localhost ~]# traceroute 192.168.122.221
+traceroute to 192.168.122.221 (192.168.122.221), 30 hops max, 60 byte packets
+ 1  10.192.40.253 (10.192.40.253)  13.530 ms  22.151 ms  31.372 ms
+ 2  10.2.4.2 (10.2.4.2)  9.818 ms  11.352 ms  11.618 ms
+ 3  10.1.1.1 (10.1.1.1)  14.868 ms  16.440 ms  17.884 ms
+```
+
+##### Test à partir de centos-1
 
 On remarquera que après rebranchement, la route prise par les paquets ICMPs restent inchangés : Passage par DS2
 ``` 
