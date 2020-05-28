@@ -11,8 +11,8 @@ DS2 est la route principale pour le VLAN20 (que on regarde avec la commande "sho
 
 #### Coupure de DS2
 
-On fait un ping de PC6 vers PC2
-DS2 a été éteint a la requete 10
+On fait un ping de PC6 vers PC2. 
+DS2 a été éteint a la requete 10. 
 Le trafic reprend a partir de la requete donc hsrp fonctionnne bien, le trafic a changer de routeur. 
 
 ```
@@ -43,10 +43,10 @@ PC6> ping 10.192.20.102 -t
 
 #### Coupure d'un brin de po2 puis des 2 brins
 
-On fait un ping de PC6 vers PC2
-Le premier timeout c'est quand on a fait tombé une interface entre AS2 et DS2
-Les 3 timeout après c'est quand la seconde interface est tombé.  
-On voit bien que le trafic reprend 
+On fait un ping de PC6 vers PC2. 
+Le premier timeout c'est quand on a fait tombé une interface entre AS2 et DS2. 
+Les 3 timeout après c'est quand la seconde interface est tombé. 
+On voit bien que le trafic reprend. 
 
 ```
 PC6> ping 10.192.20.102 -t
@@ -67,8 +67,9 @@ PC6> ping 10.192.20.102 -t
 
 #### Rebranchement de po2
 
-Quand on refait un ping après avoir remis la liaison PO2 
-La capture de trafic montre qu'il repasse bien par Po2
+Quand on refait un ping après avoir remis la liaison PO2,
+la capture de trafic montre qu'il repasse bien par Po2. 
+
 reprise du traffic sur po2 [Capture à mettre]
 
 
