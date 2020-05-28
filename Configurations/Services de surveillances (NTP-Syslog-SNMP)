@@ -56,22 +56,36 @@ logging trap debugging
 logging 192.168.100.2
 
 
-! Configuration SNMP  (on va pas le faire pour l'instant mais faire plutot syslog)
-conf t
-snmp-server community private RO 
+# SNMP
+
+## Config périphériques Cisco
+
+snmp-server community Projet3SNMP RO
 snmp-server enable traps
-snmp-server host 10.100.0.1 private  (ou su rle centos 10.192.10.101)
-end
-wr
-!conf t
-!ip access-list extended LAN
-!permit ip 10.100.0.0 0.0.0.255 any
-!exit
-!snmp-server view SNMP-RO iso included
-!snmp-server group ADMIN v3 priv read SNMP-RO access LAN
-!snmp-server user bob ADMIN v3 auth sha testtest priv aes 128 testest
-!snmp-server host 10.100.0.1 version 3 priv bob
-!
-! Vérification SNMP
-! show snmp community
-! show snmp group
+snmp-server host 10.192.10.102 private       
+
+## Securisation envisageables
+
+SNMPv2c se sécurise :
+
+En choisissant judicieusement un nom de Communauté
+En configurant des SNMP View
+En activant des ACLs sur les Communautés et sur les interfaces
+En isolant ce trafic dans un VLAN contrôlé par des ACLs
+En activant SNMPv3
+
+## REMOTE
+
+Installation des outils Net-SNMP3 sous Rehat Enterprise Linux ou Centos (RHEL7) :
+
+yum install net-snmp-utils
+
+Usage :
+
+snmpwalk -v2c -c <nom de la communauté> <périphérique à gérer>
+
+
+
+
+
+
