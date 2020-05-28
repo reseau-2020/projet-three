@@ -72,4 +72,14 @@ la capture de trafic montre qu'il repasse bien par Po2.
 
 reprise du traffic sur po2 [Capture à mettre]
 
+## EIGRP v4
 
+#### Coupures entre CORE et DISTRIBUTION
+
+![coupuresEIGRP](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/fiabilit%C3%A9-eigrp4.png?raw=true)
+
+#### Coupure couche CORE
+
+![COREcentos1](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_fromcentos1.png?raw=true)
+
+![COREcentos8](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_traceroute_centos8.png?raw=true)
