@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Daily Recap JOUR 07"
-date:   2020-05-27
+title:  "Daily Recap JOUR 08"
+date:   2020-05-28
 categories: welcome
 ---
 
