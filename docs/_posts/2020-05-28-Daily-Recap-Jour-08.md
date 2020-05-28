@@ -19,7 +19,7 @@ categories: welcome
 ### Tests de fiabilité IPV4
 
 Tout fonctionne correctement. Plusieurs essais ont été effectuée en tombant des liaisons (couches ACCESS, DISTRIBUTION et CORE) ou des periphériques entiers.
-La connectivité entre les PCs et la connectivité sont restaurés systématiquement après quelques secondes d'attente.
+La connectivité entre les PCs et la connectivité vers internet sont restaurés systématiquement après quelques secondes d'attente (3 paquets perdus).
 
 ### Tests de fiabilité IPV6
 
