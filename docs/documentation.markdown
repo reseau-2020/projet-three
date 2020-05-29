@@ -5,7 +5,7 @@ permalink: /documentation/
 ---
 
 
-# Projet 3 Consultant réseau
+# Documentation Technique
 
 ## Sommaire
 
@@ -34,21 +34,6 @@ permalink: /documentation/
 #### [11. Annexes](#Annexes)
  - ##### [11.1 Fichiers de configuration](#config)
 
-
-
-## Groupe Projet
-
-**Groupe**: Tayana/Sandrine/Maxime/Cyril
-
-## Planning
-
-![Planning](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_planning/Planning.png)
-
-[Gantt](https://github.com/reseau-2020/projet-three/blob/master/Gantt_projet_3.xlsx)
-
-[Scrum](https://github.com/reseau-2020/projet-three/projects/1)
-
-[Blog](https://reseau-2020.github.io/projet-three/)
 
 <a id="Topo"></a>
 ## Topologie
@@ -106,6 +91,184 @@ permalink: /documentation/
 
 <a id="Parcisoc"></a>
 ###  7.2 Pare-feu Cisco
+
+### 7.2.1 Configuration globale
+
+R1 fera office de pare-feu. C'est un routeur cisco. 
+Cette première configuration permet de mettre en place le filtrage sortant de notre réseau vers l'Internet. 
+
+- #### CLASS MAPS
+
+Ici, on vient définir la `class-map` pour le traffic internet. Quels sont les protocoles ou les ACLs que l'on souhaite examiner ici ?
+Le traffic sortant concernera les protocoles HTTP, HTTPS, DNS, ICMP, SSH.
+
+```
+class-map type inspect match-any internet-trafic-class
+  match protocol http
+  match protocol https
+  match protocol dns
+  match protocol icmp
+  match protocol ssh
+```
+
+- #### POLICY MAPS
+
+La configuration de la policy-map `internet-trafic-policy` permet de définir la règle de filtrage. On inspectera tout le trafic de la `class-map` précédemment définie. 
+
+```
+policy-map type inspect internet-trafic-policy
+  class type inspect internet-trafic-class
+   inspect
+```
+
+- #### ZONES ET INTERFACES
+
+On crée les zones de sécurités que l'on vient associer aux interfaces de R1.
+
+```
+zone security lan
+zone security internet
+```
+```
+interface G0/0
+ description Interface WAN
+ zone-member security internet
+interface G0/2
+ description Interface vers R2
+ zone-member security lan
+interface G0/3
+ description Interface vers R3
+ zone-member security lan
+ ```
+
+- #### ZONE PAIR
+
+Enfin, on vient affecter une zone à notre policy-map. Ici la zone allant de la LAN à INTERNET.
+
+```
+zone-pair security lan-internet source lan destination internet
+  service-policy type inspect internet-trafic-policy
+```
+
+
+### 7.2.2 Configuration spécifiques
+
+Il a été nécessaire de rajouter des ACLs pour les protocoles spécifiques suivant : SSH, DNS, DHCP, NTP, SYSLOG.
+
+En effet, afin de pouvoir utiliser certains services, il est nécessaire d'autoriser le traffic de ces protocoles sur certains ports.
+
+L'ensemble de ce code n'a pas été mis en place d'un seul bloc. Nous sommes aperçu au fur et à mesure de problèmes avec le filtrage du pare-feu. Par exemple avec NTP, le log suivant est apparu sur R1 lors de la mise en place de ce dernier sur notre topologie :
+```
+Dropping udp session 188.165.250.19:123 192.168.122.221:123 on zone-pair internet-self class class-default due to  DROP action found in policy-map with ip ident 23648
+```
+
+De la même façon que précédemment, nous avons mis en place les ACLs, les class-maps, les policy-maps et les zones-pair.
+
+```
+ip access-list extended SSH
+ permit tcp any any eq 22
+ deny tcp any any
+ip access-list extended DHCP
+ permit udp any eq 67 any eq 68
+ permit udp any eq 68 any eq 67
+ deny udp any any
+ip access-list extended DNS
+ permit udp any any eq 53
+ permit udp any eq 53 any
+ deny udp any any
+ip access-list extended NTP
+ permit udp any any eq 123
+ permit udp any eq 123 any
+ deny udp any any
+ip access-list extended SYSLOG
+ permit udp any any eq 514
+ permit udp any eq 514 any
+ permit tcp any any eq 1514
+ permit tcp any eq 1514 any
+ deny udp any any
+```
+
+```
+class-map type inspect match-any remote-access-class
+ match access-group name SSH
+class-map type inspect match-any icmp-class
+ match protocol icmp
+class-map type inspect match-any dhcp-class
+ match access-group name DHCP
+class-map type inspect match-any dns-class
+ match access-group name DNS
+class-map type inspect match-any ntp-class
+ match access-group name NTP
+class-map type inspect match-any syslog-class
+ match access-group name SYSLOG
+```
+
+```
+policy-map type inspect to-self-policy
+ class type inspect remote-access-class
+  pass
+ class type inspect icmp-class
+  inspect
+ class class-default
+  drop log
+ class type inspect dhcp-class
+  pass
+ class type inspect dns-class
+  pass
+ class type inspect ntp-class
+  pass
+ class type inspect syslog-class
+  pass
+```
+
+```
+zone-pair security internet-self source internet destination self
+ service-policy type inspect to-self-policy
+zone-pair security self-internet source self destination internet
+ service-policy type inspect to-self-policy
+zone-pair security internet-lan source internet destination lan
+ service-policy type inspect to-self-policy
+```
+
+- #### VERIFICATIONS
+
+L'ensemble de la configuration pourra être inspecter avec les commandes suivantes.
+
+```
+show zone security
+show zone-pair security
+show policy-map type insp zone-pair
+```
+
+Aussi, les commandes suivantes nous a permis de vérifier le bon fonctionnement du pare-feu R1 :
+
+Sur centos-1 (VLAN10/16) :
+```
+ping www.google.com
+ping -6 www.google.com
+curl www.test.tf
+```
+
+Aussi, nous avons ajouter un PC-pirate afin de nous assurer des ports accessibles depuis Internet.
+192.168.122.221 étant l'adresse externe de R1 sur G0/0.
+
+![Image PC Pirate](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_divers/pirate.PNG?raw=true)
+
+```
+nmap 192.168.122.221
+Starting Nmap 6.40 ( http://nmap.org ) at 2020-05-26 11:51 CEST
+Nmap scan report for 192.168.122.221
+Host is up (0.97s latency).
+Not shown: 999 filtered ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+MAC Address: 0C:D0:27:38:D0:00 (Unknown)
+
+Nmap done: 1 IP address (1 host up) scanned in 90.78 seconds
+```
+
+On remarquera que seul SSH est disponible.
+
 
 
 <a id="VPN4"></a>
