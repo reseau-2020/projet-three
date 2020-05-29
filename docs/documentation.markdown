@@ -13,26 +13,26 @@ permalink: /documentation/
 2. Plan d’adressage Ipv4/Ipv6
 3. Ansible
 4. Configuration des services d’infrastructures
-4.1 DNS
-4.2 NTP
+ 4.1 DNS
+ 4.2 NTP
 5. Connectivité Ipv4 et Ipv6
 6. Tests de fiabilité
-6.1 Spanning-Tree
-6.2 HSRP
-6.3 EIGRP
+ 6.1 Spanning-Tree
+ 6.2 HSRP
+ 6.3 EIGRP
 7. Configuration parefeu FortiOS et Cisco
-7.1 Site distant et FortiOS
-7.2 Pare-feu Cisco
+ 7.1 Site distant et FortiOS
+ 7.2 Pare-feu Cisco
 8. Mise en place d'un VPN Ipsec Ipv4
 9. Mise en place des services de surveillance
-9.1 Syslog
-9.2 SNMP
+ 9.1 Syslog
+ 9.2 SNMP
 10. Pour aller plus loin
-10.1 Second Switchblock
-10.2 VPN Ipsec Ipv6
-10.3 Focus Sécurité
+ 10.1 Second Switchblock
+ 10.2 VPN Ipsec Ipv6
+ 10.3 Focus Sécurité
 11. Annexes
-11.1 Fichiers de configuration
+ 11.1 Fichiers de configuration
 
 #### [Topologie](#Topo)
 #### [Plan d'adressage](#Plan)
