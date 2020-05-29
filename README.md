@@ -1,5 +1,6 @@
 
 # Projet 3 Consultant réseau
+#### [Planning](#Plann)
 #### [Topologie](#Topo)
 #### [Plan d'adressage](#Plan)
 #### [Configuration des périphérique](#Config)
@@ -8,14 +9,16 @@
 
 **Groupe**: Tayana/Sandrine/Maxime/Cyril
 
+<a id="Plann"></a>
+## Planning
+
+![Planning](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_planning/Planning.png)
 
 [Gantt](https://github.com/reseau-2020/projet-three/blob/master/Gantt_projet_3.xlsx)
 
 [Scrum](https://github.com/reseau-2020/projet-three/projects/1)
 
 [Blog](https://reseau-2020.github.io/projet-three/)
-
-![Planning](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_planning/Planning.png)
 
 <a id="Topo"></a>
 ## Topologie
