@@ -47,7 +47,7 @@ Un controleur afin d'implémenter la configuration Ansible.
 ![Topologie](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/2020-05-28-Topologie.png?raw=true)
 
 *Avec un deuxième switchblock*
-![Topologie](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Topologie_2_switchblocks.png)
+![Topologie2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Topologie_2_switchblocks.png)
 
 <a id="Plan"></a>
 ## Plan d'adressage
@@ -62,7 +62,12 @@ Et il est plus facile a configurer que OSPF.
 
 
 Les livres de jeux Ansible sont lancé depuis un poste "controller". 
-Il faut adapter à notre configuration les fichiers du répertoire **/playbooks/inventories/ccna/host_var/**
+```
+[root@controller]# ansible-playbook /ansible-ccna-lab/playbooks/ccna.yml
+```
+Il faut adapter à notre configuration les fichiers du répertoire **/playbooks/inventories/projet3_main/host_var/**
+
+Pour mettre a jour sur le controller les modifications on effetue un `git pull` dans le répertoire souhaité. 
 
 
 <a id="Infra"></a>
