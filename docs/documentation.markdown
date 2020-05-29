@@ -26,79 +26,6 @@ permalink: /documentation/
 #### [8. Mise en place d'un VPN Ipsec Ipv4](#VPN4)
 #### [9. Mise en place des services de surveillance](#Surveillance)
  - #####  [9.1 Syslog](#Syslog)
- 
- On considère que le client, depuis son PC, veut surveiller son installation avec le service **Syslog**. 
-On installe le serveur sur le PC-distant `yum -y install rsyslog` qui a pour adresse IP `192.168.100.2` 
-
-Il faut modifier le fichier de configuration `vi /etc/rsyslog.conf` 
-et décommenter la partie UDP et TCP syslog reception avec port UDP : 514 et port TCP : 1514.
-
-Il faut redémarrer le système Syslog pour que les modifications soit prises en compte : `systemctl restart rsyslog`
-
-Le traffic TCP 1514 et UDP 514 passe donc par le VPN.
-
-
-
-Nous avons configuré centos-1 en client syslog :
-
-Il faut installer Syslog sur le PC : `yum -y install rsyslog` et modifier le fichier de configuration : `vi /etc/rsyslog.conf` 
-``` 
-$template TmplAuthpriv, "/var/log/remote/auth/%HOSTNAME%/%PROGRAMNAME:::secpath--
-replace%.log"
-$template TmplMsg, "/var/log/remote/msg/%HOSTNAME%/%PROGRAMNAME:::secpath-replacc
-e%.log"
-# Provides UDP syslog reception
-#$ModLoad imudp
-#$UDPServerRun 514
-# Provides TCP syslog reception
-$ModLoad imtcp
-# Adding this ruleset to process remote messages
-$RuleSet remote1
-authpriv.*   ?TmplAuthpriv
-*.info;mail.none;authpriv.none;cron.none   ?TmplMsg
-$RuleSet RSYSLOG_DefaultRuleset   #End the rule set by switching back to the deff
-ault rule set
-$InputTCPServerBindRuleset remote1  #Define a new input and bind it to the "remoo
-te1" rule set
-$InputTCPServerRun 1514
-*.* @192.168.100.2:514
-*.* @192.168.100.2:1514
-```
-Il faut redémarrer le système Syslog pour que les modifications soit prises en compte : `systemctl restart rsyslog`
-
-
-
-Nous avons également configuré R1 en client syslog :
-
-En configuration terminal, on active le service Syslog avec `logging trap debugging` et on indique le server `logging 192.168.100.2`
-
-Pour vérifier la configuratin de R1 : `show logging`
-```
-Trap logging: level debugging, 111 message lines logged
-        Logging to 10.192.1.101
-```
-
-Il a fallu adapter le pare-feu de R1 pour laisser passer le trafic du pour 514 en UDP et 1514 en TCP : 
-```
-ip access-list extended SYSLOG
- permit udp any any eq 514
- permit udp any eq 514 any
- permit tcp any any eq 1514
- permit tcp any eq 1514 any
- deny udp any any
-!
-class-map type inspect match-any syslog-class
- match access-group name SYSLOG
-!
-policy-map type inspect to-self-policy
- class type inspect syslog-class
-  pass
-```
-
-**L’ensemble des logs sont consultables directement sur le PC-distant. 
-Syslog est donc fonctionnel.**
-
-
  - #####  [9.2 SNMP](#SNMP)
 #### [10. Pour aller plus loin](#+loin)
  - ##### [10.1 Second Switchblock](#2switchblock)
@@ -192,9 +119,116 @@ Syslog est donc fonctionnel.**
 <a id="Syslog"></a>
 ###  9.1 Syslog
 
+ 
+ On considère que le client, depuis son PC, veut surveiller son installation avec le service **Syslog**. 
+On installe le serveur sur le PC-distant `yum -y install rsyslog` qui a pour adresse IP `192.168.100.2` 
+
+Il faut modifier le fichier de configuration `vi /etc/rsyslog.conf` 
+et décommenter la partie UDP et TCP syslog reception avec port UDP : 514 et port TCP : 1514.
+
+Il faut redémarrer le système Syslog pour que les modifications soit prises en compte : `systemctl restart rsyslog`
+
+Le traffic TCP 1514 et UDP 514 passe donc par le VPN.
+
+
+
+Nous avons configuré centos-1 en client syslog :
+
+Il faut installer Syslog sur le PC : `yum -y install rsyslog` et modifier le fichier de configuration : `vi /etc/rsyslog.conf` 
+``` 
+$template TmplAuthpriv, "/var/log/remote/auth/%HOSTNAME%/%PROGRAMNAME:::secpath--
+replace%.log"
+$template TmplMsg, "/var/log/remote/msg/%HOSTNAME%/%PROGRAMNAME:::secpath-replacc
+e%.log"
+# Provides UDP syslog reception
+#$ModLoad imudp
+#$UDPServerRun 514
+# Provides TCP syslog reception
+$ModLoad imtcp
+# Adding this ruleset to process remote messages
+$RuleSet remote1
+authpriv.*   ?TmplAuthpriv
+*.info;mail.none;authpriv.none;cron.none   ?TmplMsg
+$RuleSet RSYSLOG_DefaultRuleset   #End the rule set by switching back to the deff
+ault rule set
+$InputTCPServerBindRuleset remote1  #Define a new input and bind it to the "remoo
+te1" rule set
+$InputTCPServerRun 1514
+*.* @192.168.100.2:514
+*.* @192.168.100.2:1514
+```
+Il faut redémarrer le système Syslog pour que les modifications soit prises en compte : `systemctl restart rsyslog`
+
+
+
+Nous avons également configuré R1 en client syslog :
+
+En configuration terminal, on active le service Syslog avec `logging trap debugging` et on indique le server `logging 192.168.100.2`
+
+Pour vérifier la configuratin de R1 : `show logging`
+```
+Trap logging: level debugging, 111 message lines logged
+        Logging to 10.192.1.101
+```
+
+Il a fallu adapter le pare-feu de R1 pour laisser passer le trafic du pour 514 en UDP et 1514 en TCP : 
+```
+ip access-list extended SYSLOG
+ permit udp any any eq 514
+ permit udp any eq 514 any
+ permit tcp any any eq 1514
+ permit tcp any eq 1514 any
+ deny udp any any
+!
+class-map type inspect match-any syslog-class
+ match access-group name SYSLOG
+!
+policy-map type inspect to-self-policy
+ class type inspect syslog-class
+  pass
+```
+
+**L’ensemble des logs sont consultables directement sur le PC-distant. 
+Syslog est donc fonctionnel.**
+
 
 <a id="SNMP"></a>
 ###  9.2 SNMP
+
+SNMP, tout comme Syslog, permet de collecter des informations de surveillance sur un server central provenant d'appareils distants. 
+Mais SNMP permet de faire une peu de gestion et est plus sécurisé que Syslog. 
+
+Toutefois, nous ne l'avons pas implémenter. Pour ce faire, il aurai fallut suivre les instructions suivantes :
+
+
+### Pour configurer les périphériques Cisco
+
+```
+snmp-server community Projet3SNMP RO
+snmp-server enable traps
+snmp-server host 10.192.10.102 private   # L'adresse du server
+``` 
+
+### Securisation envisageables
+
+SNMPv2c se sécurise :
+
+ - En choisissant judicieusement un nom de Communauté
+ - En configurant des SNMP View
+ - En activant des ACLs sur les Communautés et sur les interfaces
+ - En isolant ce trafic dans un VLAN contrôlé par des ACLs
+ - En activant SNMPv3
+
+### REMOTE
+
+Installation des outils Net-SNMP3 sous Rehat Enterprise Linux ou Centos (RHEL7) :
+
+yum install net-snmp-utils
+
+Usage :
+
+snmpwalk -v2c -c <nom de la communauté> <périphérique à gérer>
+
 
 
 <a id="+loin"></a>
