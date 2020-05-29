@@ -430,6 +430,7 @@ Nous avons configuré 3 interfaces dans Forti3 :
 Port1 | LAN | 192.168.100.1 |
 Port2 | Internet | 192.168.122.55 |
 Port3 | Gestion | 192.168.122.56 |
+
 Paramètres du tunnel IPsec :
 -	Template : site-to-site
 -	Remote device : Cisco
