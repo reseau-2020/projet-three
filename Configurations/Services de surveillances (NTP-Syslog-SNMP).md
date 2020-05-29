@@ -29,24 +29,28 @@ show ntp config
 ```
 
 # Syslog
-## Configuration Syslog
 
-On considaire que l'on veut vérifier notre topologie depuis chez nous. 
+## Serveur syslog
 
+Ici **PC-distant**
 ```
-conf t
-service timestamp log datetime
-service timestamp debug datetime
-```
-
-### Notre serveur est le PC-distant : 
-```
-conf t 
 yum -y install rsyslog
+```
+
+### Modification du fichier de configuration 
+```
 vi /etc/rsyslog.conf
 ```
-Il faut enlever les commentaire contenu dans cette partie pour activer le transport TCP et UDP : 
 ```
+# rsyslog configuration file
+# For more information see /usr/share/doc/rsyslog-*/rsyslog_conf.html
+# If you experience problems, see http://www.rsyslog.com/doc/troubleshoot.html
+#### MODULES ####
+# The imjournal module bellow is now used as a message source instead of imuxsocck.
+$ModLoad imuxsock # provides support for local system logging (e.g. via logger ccommand)
+$ModLoad imjournal # provides access to the systemd journal
+#$ModLoad imklog # reads kernel messages (the same are read from journald)
+#$ModLoad immark  # provides --MARK-- message capability
 # Provides UDP syslog reception
 $ModLoad imudp
 $UDPServerRun 514
@@ -54,29 +58,25 @@ $UDPServerRun 514
 $ModLoad imtcp
 $InputTCPServerRun 1514
 ```
-Puis `systemctl restart rsyslog`
 
-### Sur les postes de travail 
+On décommenter la partie UDP et TCP syslog reception et port TCP : 1514.
+
+
+### Enregistrer et redémarrer 
 ```
-conf t
+systemctl restart rsyslog
+```
+## Client
+
+### installation du service rsyslog
+```
 yum -y install rsyslog
+```
+### Modification du fichier de configuration 
+```
 vi /etc/rsyslog.conf
 ```
-Ajouter cette partie dans le fichier 
-
 ```
-# rsyslog configuration file
-
-# For more information see /usr/share/doc/rsyslog-*/rsyslog_conf.html
-# If you experience problems, see http://www.rsyslog.com/doc/troubleshoot.html
-
-#### MODULES ####
-
-# The imjournal module bellow is now used as a message source instead of imuxsock.
-$ModLoad imuxsock # provides support for local system logging (e.g. via logger command)
-$ModLoad imjournal # provides access to the systemd journal
-#$ModLoad imklog # reads kernel messages (the same are read from journald)
-#$ModLoad immark  # provides --MARK-- message capability
 $template TmplAuthpriv, "/var/log/remote/auth/%HOSTNAME%/%PROGRAMNAME:::secpath--
 replace%.log"
 $template TmplMsg, "/var/log/remote/msg/%HOSTNAME%/%PROGRAMNAME:::secpath-replacc
@@ -96,29 +96,45 @@ $InputTCPServerBindRuleset remote1  #Define a new input and bind it to the "remo
 te1" rule set
 $InputTCPServerRun 1514
 *.* @192.168.100.2:514
-*.* @@192.168.100.2:1514
+*.* @192.168.100.2:1514
 ```
-UDP est le plus rapide, mais l’inconvénient c’est qu’en cas de surcharge réseau, vous risquerez des pertes de données. 
-Ce qui ne serait pas le cas par exemple avec le protocole TCP.
 
-@ pour le protocole UDP
-
-@@ pour le protocole TCP
-
-Puis `systemctl restart rsyslog`
-
-## Sur les routeurs
+### Enregistrer et redémarrer 
 ```
-conf t
+systemctl restart rsyslog
+```
+
+## Configuration sur R1
+```
 logging trap debugging
 logging 192.168.100.2
 ```
-Pour vérifier : 
-```
-R1#show logging
 
-    Trap logging: level debugging, 58 message lines logged
-        Logging to 192.168.100.2 
+On peut vérifier la configuration:
+```
+show logging
+```
+```
+Trap logging: level debugging, 111 message lines logged
+        Logging to 10.192.1.101
+```
+
+# MODIFICATION DU PARE-FEU
+
+```
+ip access-list extended SYSLOG
+ permit udp any any eq 514
+ permit udp any eq 514 any
+ permit tcp any any eq 1514
+ permit tcp any eq 1514 any
+ deny udp any any
+!
+class-map type inspect match-any syslog-class
+ match access-group name SYSLOG
+!
+policy-map type inspect to-self-policy
+ class type inspect syslog-class
+  pass
 ```
 
 * On retrouve les logs dans le PC-distant (server) dans le fichier `/var/log`
