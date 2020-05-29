@@ -633,7 +633,7 @@ snmpwalk -v2c -c <nom de la communauté> <périphérique à gérer>
 
 - Interdire l'accès à certaines URLs et cookies sur FortiOS;
 
-![Policy Forti3](https://github.com/reseau-2020/projet-three/blob/master/Configurations/Policy%20Forti3.png?raw=true)
+![Policy Forti3](https://github.com/reseau-2020/projet-three/blob/master/Configurations/Policy%20Forti3.png)
 
 - Mettre en place un serveur RADIUS afin de sécuriser les accès administratifs aux différents périphériques de la topologie;
 
