@@ -7,22 +7,23 @@ permalink: /documentation/
 
 # Projet 3 Consultant réseau
 
-# Sommaire
+## Sommaire
 
-Topologie
-Plan d’adressage Ipv4/Ipv6
-Configuration des services d’infrastructures (DNS, NTP)
-Connectivité Ipv4 et Ipv6
-Tests de fiabilité
-Configuration parefeu FortiOS et Cisco
-Mise en place d'un VPN Ipsec Ipv4
-Mise en place des services de surveillance (syslog, SNMP)
-Pour aller plus loin
-  2nd Switchblock
-  VPN Ipsec Ipv6
-  Sécurité
-Annexes
-  Fichiers de configuration
+1. Topologie
+2. Plan d’adressage Ipv4/Ipv6
+3. Ansible
+4. Configuration des services d’infrastructures (DNS, NTP)
+5. Connectivité Ipv4 et Ipv6
+6. Tests de fiabilité
+7. Configuration parefeu FortiOS et Cisco
+8. Mise en place d'un VPN Ipsec Ipv4
+9. Mise en place des services de surveillance (syslog, SNMP)
+10. Pour aller plus loin
+10.1 Second Switchblock
+10.2 VPN Ipsec Ipv6
+10.3 Focus Sécurité
+11. Annexes
+11.1 Fichiers de configuration
 
 #### [Topologie](#Topo)
 #### [Plan d'adressage](#Plan)
