@@ -19,8 +19,10 @@
 
 <a id="Topo"></a>
 ## Topologie
-
 ![Topologie](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Topologie.PNG)
+*Avec un deuxième switchblock*
+![Topologie](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Topologie_2_switchblocks.png)
+
 
 <a id="Plan"></a>
 ## Plan d'adressage
