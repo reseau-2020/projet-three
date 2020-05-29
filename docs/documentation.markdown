@@ -37,8 +37,9 @@ Il faut redémarrer le système Syslog pour que les modifications soit prises en
 
 Le traffic TCP 1514 et UDP 514 passe donc par le VPN.
 
+.
 
-Nous avons configuré centos-1 en client syslog. 
+Nous avons configuré centos-1 en client syslog :
 
 Il faut installer Syslog sur le PC : `yum -y install rsyslog` et modifier le fichier de configuration : `vi /etc/rsyslog.conf` 
 ``` 
@@ -65,8 +66,9 @@ $InputTCPServerRun 1514
 ```
 Il faut redémarrer le système Syslog pour que les modifications soit prises en compte : `systemctl restart rsyslog`
 
+.
 
-Nous avons également configuré R1 en client syslog.
+Nous avons également configuré R1 en client syslog :
 
 En configuration terminal, on active le service Syslog avec `logging trap debugging` et on indique le server `logging 192.168.100.2`
 
