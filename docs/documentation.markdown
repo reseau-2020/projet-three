@@ -51,6 +51,9 @@ permalink: /documentation/
 <a id="Ansible"></a>
 ## 3. Ansible
 
+On a choisi le protocol EIGRP car, contrairement a OSPF, c'est un système autonome qui possède des routes secondaire et de multiples protocoles autre que IP. 
+Et il est plus facile a configurer que OSPF. 
+
 
 <a id="Infra"></a>
 ## 4. Configuration des services d’infrastructures
