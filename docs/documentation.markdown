@@ -59,18 +59,88 @@ permalink: /documentation/
 
 [Adressage](https://github.com/reseau-2020/projet-three/blob/master/Plan%20d'adressage.md)
 
-<a id="Config"></a>
-## Configuration des périphérique (via Ansible)
-[Config](https://github.com/reseau-2020/projet-three/tree/master/Configurations)
-
-## Choix de technologie de routage dynamique
-
-```
-EIGRP
-```
-[Choix EIGRP](https://github.com/reseau-2020/projet-three/blob/master/Tableau%20comparatif%20IRP.md)
+<a id="Ansible"></a>
+## 3. Ansible
 
 
+<a id="Infra"></a>
+## 4. Configuration des services d’infrastructures
 
 
+<a id="DNS"></a>
+###  4.1 DNS
 
+
+<a id="NTP"></a>
+###  4.2 NTP]
+
+
+<a id="Connect"></a>
+## 5. Connectivité Ipv4 et Ipv6
+
+
+<a id="Test"></a>
+## 6. Tests de fiabilité
+
+
+<a id="Span"></a>
+###  6.1 Spanning-Tree
+
+
+<a id="HSRP"></a>
+###  6.2 HSRP
+
+
+<a id="EIGRP"></a>
+###  6.3 EIGRP
+
+
+<a id="Pare-feu"></a>
+## 7. Configuration parefeu FortiOS et Cisco
+
+
+<a id="Forti"></a>
+###  7.1 Site distant et FortiOS
+
+
+<a id="Parcisoc"></a>
+###  7.2 Pare-feu Cisco
+
+
+<a id="VPN4"></a>
+## 8. Mise en place d'un VPN Ipsec Ipv4
+
+
+<a id="Surveillance"></a>
+## 9. Mise en place des services de surveillance
+
+
+<a id="Syslog"></a>
+###  9.1 Syslog
+
+
+<a id="SNMP"></a>
+###  9.2 SNMP
+
+
+<a id="+loin"></a>
+## 10. Pour aller plus loin
+
+
+<a id="2switchblock"></a>
+### 10.1 Second Switchblock
+
+
+<a id="VPN6"></a>
+### 10.2 VPN Ipsec Ipv6
+
+
+<a id="Secu"></a>
+### 10.3 Focus Sécurité
+
+<a id="Annexes"></a>
+## 11. Annexes
+
+
+<a id="config"></a>
+### 11.1 Fichiers de configuration
