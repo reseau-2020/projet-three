@@ -38,6 +38,12 @@ permalink: /documentation/
 <a id="Topo"></a>
 ## Topologie
 
+Une couche Core maillé de 3 Routeurs (R1, R2, R3) 
+Un switch block (4 VLANs utiles) composé de 2 périphérique de couche Distribution (DS1, DS2) et 2 périphérique de couche Acces (AS1, AS2)
+Un maillage entre la couche Core et le switchblock
+Un PC-distant avec un Fortiget. 
+Un PC pirate pour faire des tests. 
+Un controleur afin d'implémenter la configuration Ansible. 
 ![Topologie](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/2020-05-28-Topologie.png?raw=true)
 
 *Avec un deuxième switchblock*
