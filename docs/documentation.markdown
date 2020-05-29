@@ -645,6 +645,8 @@ En activant des ACLs sur les Communautés et sur les interfaces
 En isolant ce trafic dans un VLAN contrôlé par des ACLs En activant SNMPv3
 
 - Avoir des fichiers de sauvegarde
+- UTM
+- Antivirus sur les PC
 
 <a id="Annexes"></a>
 ## 11. Annexes
