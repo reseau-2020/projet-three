@@ -20,10 +20,10 @@ permalink: /documentation/
  - #####  [6.1 Spanning-Tree](#Span)
  - #####  [6.2 HSRP](#HSRP)
  - #####  [6.3 EIGRP](#EIGRP)
-#### [7. Configuration parefeu FortiOS et Cisco](#Pare-feu)
- - #####  [7.1 Site distant et FortiOS](#Forti)
- - #####  [7.2 Pare-feu Cisco](#Parcisoc)
+#### [7. Configuration parefeu Cisco](#Parcisoc)
 #### [8. Mise en place d'un VPN Ipsec Ipv4](#VPN4)
+ - #####  [8.1 Configuration de FortiOS](#FortiOS)
+ - #####  [8.2 Configuration sur CiscoIOS](#VPN4Cisco)
 #### [9. Mise en place des services de surveillance](#Surveillance)
  - #####  [9.1 Syslog](#Syslog)
  - #####  [9.2 SNMP](#SNMP)
@@ -120,20 +120,11 @@ Ping (IPV4 et IPV6) de Centos-8 vers l'internet
 [Test EIGRP de centos-8](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_traceroute_centos8.png?raw=true)
 
 
-<a id="Pare-feu"></a>
-## 7. Configuration parefeu FortiOS et Cisco
-
-
-<a id="Forti"></a>
-###  7.1 Site distant et FortiOS
-Policy
-![Policy Forti3](https://github.com/reseau-2020/projet-three/blob/master/Configurations/Policy%20Forti3.png?raw=true)
-
 
 <a id="Parcisoc"></a>
-###  7.2 Pare-feu Cisco
+###  7 Pare-feu Cisco
 
-### 7.2.1 Configuration globale
+### 7.1 Configuration globale
 
 R1 fera office de pare-feu. C'est un routeur cisco. 
 Cette première configuration permet de mettre en place le filtrage sortant de notre réseau vers l'Internet. 
@@ -192,7 +183,7 @@ zone-pair security lan-internet source lan destination internet
 ```
 
 
-### 7.2.2 Configuration spécifiques
+### 7.2 Configuration spécifiques
 
 Il a été nécessaire de rajouter des ACLs pour les protocoles spécifiques suivant : SSH, DNS, DHCP, NTP, SYSLOG.
 
@@ -314,6 +305,94 @@ On remarquera que seul SSH est disponible.
 
 <a id="VPN4"></a>
 ## 8. Mise en place d'un VPN Ipsec Ipv4
+
+Site distant
+<a id="FortiOS"></a>
+### 8.1 Configuration VPN IPSEC IPv4 sur FortiOS
+
+Policy
+![Policy Forti3](https://github.com/reseau-2020/projet-three/blob/master/Configurations/Policy%20Forti3.png?raw=true)
+
+<a id="VPN4Cisco"></a>
+### 8.2 Configuration VPN IPSEC IPv4 sur CiscoIOS
+
+Nous avons monté un VPN IPSEC en Ipv4 entre R1 et Forti3. Nous avions essayé dans un premier temps avec une encryption/authentification en `esp-des`/`esp-sha-hmac`. Toutefois, le tunnel ne se montait pas et restait inactif. Après quelques recherches, et l'aide précieuse de nos collègues du groupe 4. Il s'est avéré qu'un tunnel ne pouvait être monté entre un CiscoIOS et un FortIOS qu'avec `esp-des`/`esp-md5-hmac`. Nous avons donc réalisé les modifications nécessaires et le tunnel s'est monté.
+
+- #### CRYPTO ISAKMP - phase 1 des/md5
+
+Encryption : des
+Authentification : md5
+192.168.122.55 : IPv4 extérieur de Forti3
+
+```
+crypto isakmp policy 1
+encr des
+hash md5
+authentication pre-share
+group 5
+lifetime 86400
+
+crypto isakmp key cisco123 address 192.168.122.55
+```
+
+- #### TRANSFORM SET - phase 2 `esp-des`/`esp-md5-hmac`
+
+```
+crypto ipsec transform-set cisco-to-forti3-set esp-des esp-md5-hmac
+```
+
+- #### CRYPTO MAP
+
+```
+crypto map cisco-to-forti3 1 ipsec-isakmp
+set peer 192.168.122.55
+set transform-set cisco-to-forti3-set
+match address crypto-acl
+
+interface G0/0
+crypto map cisco-to-forti3
+```
+
+- #### CRYPTO ACL
+
+Configuration du traffic qui doit passer dans le tunnel (source/destination) :
+```
+ip access-list extended crypto-acl
+permit ip 10.192.0.0 0.0.255.255 192.168.100.0 0.0.0.255
+```
+
+Configuration du traffic qui n'est pas traduit en NAT :
+```
+no ip access-list standard LANS
+ip access-list extended LANS
+5 deny ip 10.0.0.0 0.255.255.255 192.168.100.0 0.0.0.255    
+10 permit ip 10.0.0.0 0.255.255.255 any
+
+no ip access-list extended crypto-acl
+ip access-list extended crypto-acl
+permit ip 192.168.100.0 0.0.0.255 10.0.0.0 0.255.255.255 
+permit ip 10.0.0.0 0.255.255.255 192.168.100.0 0.0.0.255
+```
+
+- #### MODIFICATION PARE-FEU
+
+Des modifications sont nécessaire sur R1 afin de laisser passer les paquets isakmp sur le port 500 notamment. On crée une ACL spécifique au VPN, que l'on associe à une class-map `vpn-class`et que l'on ajoute à la règle de filtrage déjà existante `to-self-policy`.
+
+```
+ip access-list extended VPN
+ permit udp any any eq isakmp
+ permit ahp any any
+ permit esp any any
+ permit udp any any eq non500-isakmp
+
+class-map type inspect match-any vpn-class
+ match access-group name VPN
+
+policy-map type inspect to-self-policy
+ class type inspect vpn-class
+  inspect
+```
+
 
 
 <a id="Surveillance"></a>
