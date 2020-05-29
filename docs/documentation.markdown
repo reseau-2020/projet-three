@@ -72,13 +72,39 @@ permalink: /documentation/
 <a id="Span"></a>
 ###  6.1 Spanning-Tree
 
+Dans l'éventualité, lors d'un envoie de paquet, qu'une interface du chemin principale tombe, les switch trouveraient un chemin alternatif. 
+
+C'est le cas dans cette exemple, lors d'un ping (IPV4 et IPV6) de PC2 a PC6, les interfaces G0/0 et G1/0 de DS2 tombe et le trafic trouve un autre chemin en ne perdant que 3 paquets. 
+![Test spanning-tree sur DS2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/test%20Spanning%20DS2.png?raw=true)
+![Capture traffic de DS2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/Capture_po2-reprise_traffic_test_span_DS2.PNG?raw=true)
+
 
 <a id="HSRP"></a>
 ###  6.2 HSRP
 
+Un ping depuis le PC centos-1 vers l'Internet passe par AS1 puis DS1. En testant un crash de DS1, les paquets transmis utilise une autre passerelle et passe par DS2 pour atteidnre l'Internet.  
+![Test HSRP vers l'Internet](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/test%20HSRP%20DS1%20routage%20internet.png?raw=true)
+
+C'est le même principe qui est appliquer lors de communications entre deux PC. 
+![Test HSRP sur DS2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/test%20HSRP%20DS2.png?raw=true)
+
+Il semblerait que l’adresse MAC de la passerelle virtuelle (fe80:d0) ne se mette pas à jour toute seule. Et meme après redémarrage des périphériques, les liaisons ne sont pas rétablit. 
+Nous n’avons pas trouvé l’origine du problème. Notre topologie semble conforme au modèle suivit.
+
 
 <a id="EIGRP"></a>
 ###  6.3 EIGRP
+
+On trouve la route suivit pas le trafic depuis le périphérique avec la commande `trace route xxx.xxx.xxx.xxx` avec les XX l'adresse IP de destination.
+
+Dans le cas d'un ping (IPV4 et IPV6) du PC centos-1 vers l'internet, on bloque la route principale, puis la route secondaire et la route tertiaire entre les couches Core et Distribution. Le routage s'adapte aux différentes routes. 
+[Test EIGRP 3 coupes](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/fiabilit%C3%A9-eigrp4.png?raw=true)
+
+Ping (IPV4 et IPV6) de Centos-1 vers l'internet
+[Test EIGRP de centos-1](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_fromcentos1.png?raw=true)
+
+Ping (IPV4 et IPV6) de Centos-8 vers l'internet 
+[Test EIGRP de centos-8](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_traceroute_centos8.png?raw=true)
 
 
 <a id="Pare-feu"></a>
