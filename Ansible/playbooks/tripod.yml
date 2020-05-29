@@ -1,0 +1,34 @@
+---
+# tripod.yml
+- hosts: core
+  gather_facts: False
+  roles:
+    - role: ios_common
+    - role: ios_interface
+    - role: ios_ipv4
+    - role: ios_ipv6
+    - role: ios_ipv4-routing
+    - role: ios_ipv6-routing
+    - role: ios_fhrp
+    - role: ios_rip
+      when: '"rip" in ipv4.routing'
+    - role: ios_eigrp4
+      when: '"eigrp" in ipv4.routing'
+    - role: ios_ospfv2
+      when: '"ospf" in ipv4.routing'
+    - role: ios_eigrp6
+      when:
+        - '"eigrp" in ipv6.routing'
+    - role: ios_ospfv3
+      when:
+        - '"ospf" in ipv6.routing'
+    - role: ios_recursive-dns-server
+    - role: ios_dhcp-server
+- hosts: R1
+  gather_facts: False
+  roles:
+    - role: ios_nat
+- hosts: core
+  gather_facts: False
+  roles:
+    - role: ios_write

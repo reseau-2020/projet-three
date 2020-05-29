@@ -1,0 +1,37 @@
+---
+# switchblock.yml
+- hosts: blocks
+  gather_facts: False
+  roles:
+    - role: ios_common
+    - role: ios_vlans
+    - role: ios_etherchannel
+    - role: ios_interface
+    - role: ios_spanning-tree
+    - role: ios_ipv4
+    - role: ios_ipv6
+- hosts: access
+  gather_facts: False
+  roles:
+    - role: ios_no-ipv4-routing
+- hosts: distribution
+  gather_facts: False
+  roles:
+    - role: ios_ipv4-routing
+    - role: ios_ipv6-routing
+    - role: ios_fhrp
+    - role: ios_rip
+      when: '"rip" in ipv4.routing'
+    - role: ios_eigrp4
+      when: '"eigrp" in ipv4.routing'
+    - role: ios_ospfv2
+      when: '"ospf" in ipv4.routing'
+    - role: ios_eigrp6
+      when:
+        - '"eigrp" in ipv6.routing'
+    - role: ios_recursive-dns-server
+    - role: ios_dhcp-server
+- hosts: blocks
+  gather_facts: False
+  roles:
+    - role: ios_write
