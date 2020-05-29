@@ -82,7 +82,7 @@ C'est le cas dans cette exemple, lors d'un ping (IPV4 et IPV6) de PC2 a PC6, les
 <a id="HSRP"></a>
 ###  6.2 HSRP
 
-Un ping depuis le PC centos-1 vers l'Internet passe par AS1 puis DS1. En testant un crash de DS1, les paquets transmis utilise une autre passerelle et passe par DS2 pour atteidnre l'Internet.  
+Un ping depuis le PC centos-1 vers l'Internet passe par AS1 puis DS1. En testant un crash de DS1, les paquets transmis utilise une autre passerelle et passe par DS2 pour atteindre l'Internet.  
 ![Test HSRP vers l'Internet](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/test%20HSRP%20DS1%20routage%20internet.png?raw=true)
 
 C'est le même principe qui est appliquer lors de communications entre deux PC. 
@@ -100,8 +100,10 @@ On trouve la route suivit pas le trafic depuis le périphérique avec la command
 Dans le cas d'un ping (IPV4 et IPV6) du PC centos-1 vers l'internet, on bloque la route principale, puis la route secondaire et la route tertiaire entre les couches Core et Distribution. Le routage s'adapte aux différentes routes. 
 ![Test EIGRP 3 coupes](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/fiabilit%C3%A9-eigrp4.png?raw=true)
 
+
 Ping (IPV4 et IPV6) de Centos-1 vers l'internet
 ![Test EIGRP de centos-1](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_fromcentos1.png?raw=true)
+
 
 Ping (IPV4 et IPV6) de Centos-8 vers l'internet 
 ![Test EIGRP de centos-8](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_traceroute_centos8.png?raw=true)
