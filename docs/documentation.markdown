@@ -318,7 +318,7 @@ Policy
 
 Nous avons monté un VPN IPSEC en Ipv4 entre R1 et Forti3. Nous avions essayé dans un premier temps avec une encryption/authentification en `esp-des`/`esp-sha-hmac`. Toutefois, le tunnel ne se montait pas et restait inactif. Après quelques recherches, et l'aide précieuse de nos collègues du groupe 4. Il s'est avéré qu'un tunnel ne pouvait être monté entre un CiscoIOS et un FortIOS qu'avec `esp-des`/`esp-md5-hmac`. Nous avons donc réalisé les modifications nécessaires et le tunnel s'est monté.
 
-- #### CRYPTO ISAKMP - phase 1 des/md5
+- #### CRYPTO ISAKMP - phase 1 `esp-des`/`esp-md5`
 
 Encryption : des
 Authentification : md5
