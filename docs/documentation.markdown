@@ -67,7 +67,8 @@ permalink: /documentation/
 
 <a id="Test"></a>
 ## 6. Tests de fiabilité
-
+Plusieurs essais ont été effectuée en tombant des liaisons (couches ACCESS, DISTRIBUTION et CORE) ou des periphériques entiers. 
+La connectivité entre les PCs et la connectivité vers internet sont restaurés systématiquement après quelques secondes d’attente (3 paquets perdus).
 
 <a id="Span"></a>
 ###  6.1 Spanning-Tree
