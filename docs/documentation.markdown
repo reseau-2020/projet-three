@@ -104,9 +104,8 @@ DNS fonctionne correctement sur la partie tripod. Mais pas sur les Vlans.
 <a id="NTP"></a>
 ###  4.2 NTP
 
-**Copier-coller Daily recap Jour 5 : **
-
-Nous avons d'abord ajusté l'heure de tous les périphériques Cisco :
+Network Time Protocol (NTP) est un protocole TCP/IP qui permet de synchroniser à travers le réseau l'horloge locale des ordinateurs sur une date et une heure de référence. 
+Dans le cadre du projet nous avons ajusté l'heure de tous les périphériques Cisco selon les paramètres de la zone horaire et l'heure d'été français.
 
 ``
 (config)#clock timezone GMT +1
@@ -116,8 +115,11 @@ Nous avons d'abord ajusté l'heure de tous les périphériques Cisco :
 (config)#clock summer-time FR recurring last SUN MAR 02:00 last SUN OCT 02:00
 ``
 
-Deuxièmement, nous avons paramétré un server NTP publique sur R1 : 
-
+Deuxièmement, nous avons vérifié le statut NTP (désactivé par défaut sur le matériel Cisco) et paramétré un serveur NTP publique sur R1 : 
+``
+#show ntp status
+%NTP is not enabled.
+``
 ``
 (config)#ntp server 3.fr.pool.ntp.org
 ``
@@ -126,7 +128,7 @@ Deuxièmement, nous avons paramétré un server NTP publique sur R1 :
 (config)#ntp update-calendar
 ``
 
-Ensuite, nous avons configuré une interface R1 (10.1.1.1) en tant que serveur NTP pour les autres périphériques Cisco :
+Ensuite, nous avons configuré une interface R1 (10.1.1.1) en tant que serveur NTP pour les autres périphériques Cisco de la topologie, sur R2, R3, AS1, AS2, DS1 et DS2 :
 
 ``
 (config)#ntp server 10.1.1.1
@@ -406,9 +408,27 @@ On remarquera que seul SSH est disponible.
 <a id="VPN4"></a>
 ## 8. Mise en place d'un VPN Ipsec Ipv4
 
-Site distant
+On appelle site distant un site séparé du siège de la société par une distance assez importante pour que les échanges nécessitent de passer par Internet. Pour simuler un site distant nous avons ajouté un ordinateur  connecté à un FortiOS, qui représente un pare-feu Fortigate, à notre topologie.
+Afin d’établir une connexion sécurisée, un tunnel VPN a été implémenté entre R1 et le Forti3 (FortiOS). Un tunnel VPN est une connexion vpn sécurisée et cryptée entre un appareil et l’internet public. Avec une connexion cryptée à l’aide d’algorithmes robustes, toute communication reste privée et confidentielle.
+
 <a id="FortiOS"></a>
 ### 8.1 Configuration VPN IPSEC IPv4 sur FortiOS
+
+Dans notre topologie le FortiOS a les fonctions de router et filtrer le trafic entre l’Internet et le site distant, bien comme établir la connexion vpn avec le réseau principal. 
+La configuration a été faite à partir de l’interface d’administration du pare-feu accédé avec un navigateur Web.
+Nous avons configuré 3 interfaces dans Forti3 :
+| Interface  | Identification  | Adresse ipv4 (dhcp)  |
+|:-----:|:-----:|:-----:|
+Port1 | LAN | 192.168.100.1 |
+Port2 | Internet | 192.168.122.55 |
+Port3 | Gestion | 192.168.122.56 |
+Paramètres du tunnel IPsec :
+-	Template : site-to-site
+-	Remote device : Cisco
+-	Passerelle : 192.168.122.221 (IP de l’interface extérieure du routeur Cisco)
+-	Interface : Internet (port2)
+-	Encryption : DES
+-	Authentification : MD5
 
 <a id="VPN4Cisco"></a>
 ### 8.2 Configuration VPN IPSEC IPv4 sur CiscoIOS
