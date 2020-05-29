@@ -5,6 +5,7 @@
 R1
 R2
 R3
+R4
 
 [distribution]
 DS1
@@ -27,11 +28,8 @@ blocks
 [cisco:children]
 core
 blocks
-R4
-DS3
-DS4
-AS3
-AS4
+
+
 
 [cisco:vars]
 ansible_user=root
