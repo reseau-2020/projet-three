@@ -20,7 +20,7 @@
 <a id="Topo"></a>
 ## Topologie
 
-![Topologie](https://github.com/reseau-2020/projet-three/blob/master/2020-05-28-Topologie.png?raw=true)
+![Topologie](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Topologie.PNG)
 
 <a id="Plan"></a>
 ## Plan d'adressage
