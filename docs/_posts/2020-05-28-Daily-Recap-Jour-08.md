@@ -9,11 +9,10 @@ categories: welcome
 ## Réalisations de la journée :
 
  - Tests de Fiabilité HSRP (IPV4 et Ipv6), etherchannel et spanning-tree
- - Mise en place d'un 2nd switchlock sur une copie de la topologie
  - Revision des services de surveillances
    - [x] SNMP
    - [x] Syslog
- - Implémentation d'un deuxième switchblock
+ - Implémentation d'un deuxième switchblock sur une copie de la topologie
  
 ## Débriefing
 
