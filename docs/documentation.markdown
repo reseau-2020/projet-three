@@ -58,7 +58,7 @@ permalink: /documentation/
 
 
 <a id="NTP"></a>
-###  4.2 NTP]
+###  4.2 NTP
 
 
 <a id="Connect"></a>
