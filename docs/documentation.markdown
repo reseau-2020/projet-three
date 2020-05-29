@@ -189,11 +189,16 @@ C'est le cas dans cette exemple, lors d'un ping (IPV4 et IPV6) de PC2 a PC6, les
 <a id="HSRP"></a>
 ###  6.2 HSRP
 
+- #### IPv4
 Un ping depuis le PC centos-1 vers l'Internet passe par AS1 puis DS1. En testant un crash de DS1, les paquets transmis utilise une autre passerelle et passe par DS2 pour atteindre l'Internet.  
+
 ![Test HSRP vers l'Internet](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/test%20HSRP%20DS1%20routage%20internet.png?raw=true)
 
 C'est le même principe qui est appliquer lors de communications entre deux PC. 
 [Test HSRP sur DS2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/test%20HSRP%20DS2.png?raw=true)
+
+- #### IPv6
+Notre topologie souffre lors de la mise à l’épreuve de HSRP en IPv6.
 
 Il semblerait que l’adresse MAC de la passerelle virtuelle (fe80:d0) ne se mette pas à jour toute seule. Et meme après redémarrage des périphériques, les liaisons ne sont pas rétablit. 
 Nous n’avons pas trouvé l’origine du problème. Notre topologie semble conforme au modèle suivit.
@@ -204,7 +209,8 @@ Nous n’avons pas trouvé l’origine du problème. Notre topologie semble conf
 
 On trouve la route suivit pas le trafic depuis le périphérique avec la commande `trace route xxx.xxx.xxx.xxx` avec les XX l'adresse IP de destination.
 
-Dans le cas d'un ping (IPV4 et IPV6) du PC centos-1 vers l'internet, on bloque la route principale, puis la route secondaire et la route tertiaire entre les couches Core et Distribution. Le routage s'adapte aux différentes routes. 
+Dans le cas d'un ping (IPV4 et IPV6) du PC centos-1 vers l'internet, on bloque la route principale, puis la route secondaire et la route tertiaire entre les couches Core et Distribution. Le routage s'adapte aux différentes routes.
+
 ![Test EIGRP 3 coupes](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/fiabilit%C3%A9-eigrp4.png?raw=true)
 
 Ping (IPV4 et IPV6) de Centos-1 vers l'internet
