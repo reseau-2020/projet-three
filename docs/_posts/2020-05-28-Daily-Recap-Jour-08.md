@@ -43,7 +43,7 @@ Par securité, la configuration a été faite à partir d'une copie de notre pro
 (Repertoire : https://github.com/tayanateles/projet-three).
    - [x] Plan d'adressage du deuxième switchblock
    - [x] Fichiers édités : hosts, R1, R2, R3
-   - [x] Fichiers crés : AS3, AS4, DS3, DS4
+   - [x] Fichiers créés : AS3, AS4, DS3, DS4
    
 La connectivité de la topologie est fonctionnelle en ipv4.
 ## Update docs
