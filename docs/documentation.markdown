@@ -116,6 +116,7 @@ Dans le cadre du projet nous avons ajusté l'heure de tous les périphériques C
 ``
 
 Deuxièmement, nous avons vérifié le statut NTP (désactivé par défaut sur le matériel Cisco) et paramétré un serveur NTP publique sur R1 : 
+
 ``
 #show ntp status
 ``
