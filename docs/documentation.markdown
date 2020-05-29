@@ -410,9 +410,6 @@ Site distant
 <a id="FortiOS"></a>
 ### 8.1 Configuration VPN IPSEC IPv4 sur FortiOS
 
-Policy
-![Policy Forti3](https://github.com/reseau-2020/projet-three/blob/master/Configurations/Policy%20Forti3.png?raw=true)
-
 <a id="VPN4Cisco"></a>
 ### 8.2 Configuration VPN IPSEC IPv4 sur CiscoIOS
 
@@ -627,12 +624,17 @@ snmpwalk -v2c -c <nom de la communauté> <périphérique à gérer>
 - Réaliser des scans du réseau à partir d'un PC pirate. Et potentiellement essayer d'accéder aux fichiers contenu sur un périphérique grâce à SSH par exemple.
 
 
+
+
 - Améliorer les ACLs et policy-map des pare-feu en réduisant les blocs;
 
 - Mettre en place des groupes d'utilisateurs et des accès restreints en fonction des groupes et des VLANs (sur R1 et FortiOS);
  Notamment avec des mots de passe à plus de 8 caractères, combinaison de lettres, chiffres et caractères spéciaux, ainsi qu'une expiration.
 
 - Interdire l'accès à certaines URLs et cookies sur FortiOS;
+
+![Policy Forti3](https://github.com/reseau-2020/projet-three/blob/master/Configurations/Policy%20Forti3.png?raw=true)
+
 - Mettre en place un serveur RADIUS afin de sécuriser les accès administratifs aux différents périphériques de la topologie;
 
 
