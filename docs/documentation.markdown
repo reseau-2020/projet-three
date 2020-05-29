@@ -67,7 +67,7 @@ $InputTCPServerRun 1514
 Il faut redémarrer le système Syslog pour que les modifications soit prises en compte : `systemctl restart rsyslog`
 
 
-&thinsp;
+
 Nous avons également configuré R1 en client syslog :
 
 En configuration terminal, on active le service Syslog avec `logging trap debugging` et on indique le server `logging 192.168.100.2`
