@@ -49,18 +49,18 @@ DS1 | VLAN10 | Port Access Gi2/0 | 10.192.10.254 | fe80::d0 |
 DS1 | VLAN20 | Port Access Gi2/1 | 10.192.20.254 | fe80::d0 |
 DS1 | VLAN30 | Port Access Gi2/2 | 10.192.30.254 | fe80::d0 |
 DS1 | VLAN40 | Port Access Gi2/3 | 10.192.40.254 | fe80::d0 |
-DS2 | VLAN10 | Port Access Gi2/0 | 10.192.10.254 | fe80::d0 |
-DS2 | VLAN20 | Port Access Gi2/1 | 10.192.20.254 | fe80::d0 |
-DS2 | VLAN30 | Port Access Gi2/2 | 10.192.30.254 | fe80::d0 |
-DS2 | VLAN40 | Port Access Gi2/3 | 10.192.40.254 | fe80::d0 |
-DS3 | VLAN10 | Port Access Gi2/0 | 10.193.10.254 | fe80::d0 |
-DS3 | VLAN20 | Port Access Gi2/1 | 10.193.20.254 | fe80::d0 |
-DS3 | VLAN30 | Port Access Gi2/2 | 10.193.30.254 | fe80::d0 |
-DS3 | VLAN40 | Port Access Gi2/3 | 10.193.40.254 | fe80::d0 |
-DS4 | VLAN10 | Port Access Gi2/0 | 10.193.10.254 | fe80::d0 |
-DS4 | VLAN20 | Port Access Gi2/1 | 10.193.20.254 | fe80::d0 |
-DS4 | VLAN30 | Port Access Gi2/2 | 10.193.30.254 | fe80::d0 |
-DS4 | VLAN40 | Port Access Gi2/3 | 10.193.40.254 | fe80::d0 |
+DS2 | VLAN10 | Port Access Gi2/0 | 10.192.10.254 | fe80::d193 |
+DS2 | VLAN20 | Port Access Gi2/1 | 10.192.20.254 | fe80::d193 |
+DS2 | VLAN30 | Port Access Gi2/2 | 10.192.30.254 | fe80::d193 |
+DS2 | VLAN40 | Port Access Gi2/3 | 10.192.40.254 | fe80::d193 |
+DS3 | VLAN10 | Port Access Gi2/0 | 10.193.10.254 | fe80::d193 |
+DS3 | VLAN20 | Port Access Gi2/1 | 10.193.20.254 | fe80::d193 |
+DS3 | VLAN30 | Port Access Gi2/2 | 10.193.30.254 | fe80::d193 |
+DS3 | VLAN40 | Port Access Gi2/3 | 10.193.40.254 | fe80::d193 |
+DS4 | VLAN10 | Port Access Gi2/0 | 10.193.10.254 | fe80::d193 |
+DS4 | VLAN20 | Port Access Gi2/1 | 10.193.20.254 | fe80::d193 |
+DS4 | VLAN30 | Port Access Gi2/2 | 10.193.30.254 | fe80::d193 |
+DS4 | VLAN40 | Port Access Gi2/3 | 10.193.40.254 | fe80::d193 |
 ```
 Passerelle IPv6 vers l'internet : fe80::e53:21ff:fe38:5800
 ```
