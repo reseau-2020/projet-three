@@ -446,7 +446,7 @@ Règles pare-feu pour les trafics IPv4 :
 3 | Internet | lan(port1) | Internet(port2 |Acepter|
 4 | vpn_forti3-to-cisco_local | lan(port1) | forti3-to-cisco | Acepter|
 5 | vpn_forti3-to-cisco_remote| forti3-to-cisco | lan(port1)|Acepter|
-  | Refus implicite | Internet(port2) |all|Rejecter|
+0 | Refus implicite | any | any |Rejecter|
 
 Nous avons constaté que l’interface d’administration nous permet d’attribuer seulement une adresse IPv6 par interface. Devant l’impossibilité d’attribution d’une adresse privée et une publique, nous avons décidé de faire l’implémentation d’un pare-feu sur un périphérique Cisco pour le filtrage des trafics en IPv6
 
