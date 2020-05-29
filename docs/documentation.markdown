@@ -40,6 +40,9 @@ permalink: /documentation/
 
 ![Topologie](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/2020-05-28-Topologie.png?raw=true)
 
+*Avec un deuxième switchblock*
+![Topologie](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Topologie_2_switchblocks.png)
+
 <a id="Plan"></a>
 ## Plan d'adressage
 
