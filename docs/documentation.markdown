@@ -77,9 +77,74 @@ Pour mettre a jour sur le controller les modifications on effetue un `git pull` 
 <a id="DNS"></a>
 ###  4.1 DNS
 
+**Copier-coller Daily recap Jour 5 : **
+
+On remarquera que désormais le routage et la communication en IPv6 sera préféré par défault lors de l'utilisation de `ping`.
+
+Sur R1, R2 et R3
+```
+R1(config)#ip name-server 1.1.1.1
+R1(config)#ip domain lookup
+R1(config)#ip dns server
+R1(config)#end
+```
+conf t
+ip name-server 1.1.1.1
+ip domain lookup
+ip dns server
+end
+wr
+
+`ping ip www.google.com`fonctionne à 100% sur R1, R2, R3, DS1, DS2, AS1 et AS2
+
+
+DNS fonctionne correctement sur la partie tripod. Mais pas sur les Vlans.
+
 
 <a id="NTP"></a>
 ###  4.2 NTP
+
+**Copier-coller Daily recap Jour 5 : **
+
+Nous avons d'abord ajusté l'heure de tous les périphériques Cisco :
+
+``
+(config)#clock timezone GMT +1
+``
+
+``
+(config)#clock summer-time FR recurring last SUN MAR 02:00 last SUN OCT 02:00
+``
+
+Deuxièmement, nous avons paramétré un server NTP publique sur R1 : 
+
+``
+(config)#ntp server 3.fr.pool.ntp.org
+``
+
+``
+(config)#ntp update-calendar
+``
+
+Ensuite, nous avons configuré une interface R1 (10.1.1.1) en tant que serveur NTP pour les autres périphériques Cisco :
+
+``
+(config)#ntp server 10.1.1.1
+``
+
+``
+(config)#ntp update-calendar
+``
+
+Nous avons constaté que les commutateurs AS1 et AS2 n'étaient pas synchronisés. Le problème a été résolu en désactivant le routage et en ajoutant une route par défaut sur ces deux périphériques, l'adresse utilisée a été la passerelle du sous-réseau virtuel de gestion (VLAN99).
+
+``
+(config)#no ip routing
+``
+
+``
+(config)#ip default-gateway 10.192.1.252
+``
 
 
 <a id="Connect"></a>
