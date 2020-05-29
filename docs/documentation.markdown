@@ -61,6 +61,10 @@ On a choisi le protocol EIGRP car, contrairement a OSPF, c'est un système auton
 Et il est plus facile a configurer que OSPF. 
 
 
+Les livres de jeux Ansible sont lancé depuis un poste "controller". 
+Il faut adapter à notre configuration les fichiers du répertoire **/playbooks/inventories/ccna/host_var/**
+
+
 <a id="Infra"></a>
 ## 4. Configuration des services d’infrastructures
 
