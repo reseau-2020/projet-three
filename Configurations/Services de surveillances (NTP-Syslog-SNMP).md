@@ -119,6 +119,8 @@ Trap logging: level debugging, 111 message lines logged
         Logging to 10.192.1.101
 ```
 
+* On retrouve les logs dans le PC-distant (server) dans le fichier `/var/log`
+
 # MODIFICATION DU PARE-FEU
 
 ```
@@ -137,7 +139,6 @@ policy-map type inspect to-self-policy
   pass
 ```
 
-* On retrouve les logs dans le PC-distant (server) dans le fichier `/var/log`
 
 # SNMP
 
