@@ -553,6 +553,25 @@ snmpwalk -v2c -c <nom de la communauté> <périphérique à gérer>
 <a id="Secu"></a>
 ### 10.3 Focus Sécurité
 
+- Réaliser des scans du réseau à partir d'un PC pirate. Et potentiellement essayer d'accéder aux fichiers contenu sur un périphérique grâce à SSH par exemple.
+
+
+- Améliorer les ACLs et policy-map des pare-feu en réduisant les blocs;
+
+- Mettre en place des groupes d'utilisateurs et des accès restreints en fonction des groupes et des VLANs (sur R1 et FortiOS);
+ Notamment avec des mots de passe à plus de 8 caractères, combinaison de lettres, chiffres et caractères spéciaux, ainsi qu'une expiration.
+
+- Interdire l'accès à certaines URLs et cookies sur FortiOS;
+- Mettre en place un serveur RADIUS afin de sécuriser les accès administratifs aux différents périphériques de la topologie;
+
+
+- Sécurisation envisagables pour SNMP :
+En choisissant judicieusement un nom de Communauté 
+En configurant des SNMP View 
+En activant des ACLs sur les Communautés et sur les interfaces 
+En isolant ce trafic dans un VLAN contrôlé par des ACLs En activant SNMPv3
+
+
 <a id="Annexes"></a>
 ## 11. Annexes
 
