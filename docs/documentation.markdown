@@ -119,7 +119,6 @@ permalink: /documentation/
 <a id="Syslog"></a>
 ###  9.1 Syslog
 
- 
  On considère que le client, depuis son PC, veut surveiller son installation avec le service **Syslog**. 
 On installe le serveur sur le PC-distant `yum -y install rsyslog` qui a pour adresse IP `192.168.100.2` 
 
@@ -130,9 +129,7 @@ Il faut redémarrer le système Syslog pour que les modifications soit prises en
 
 Le traffic TCP 1514 et UDP 514 passe donc par le VPN.
 
-
-
-Nous avons configuré centos-1 en client syslog :
+#### Nous avons configuré centos-1 en client syslog :
 
 Il faut installer Syslog sur le PC : `yum -y install rsyslog` et modifier le fichier de configuration : `vi /etc/rsyslog.conf` 
 ``` 
@@ -159,9 +156,7 @@ $InputTCPServerRun 1514
 ```
 Il faut redémarrer le système Syslog pour que les modifications soit prises en compte : `systemctl restart rsyslog`
 
-
-
-Nous avons également configuré R1 en client syslog :
+#### Nous avons également configuré R1 en client syslog :
 
 En configuration terminal, on active le service Syslog avec `logging trap debugging` et on indique le server `logging 192.168.100.2`
 
@@ -201,7 +196,7 @@ Mais SNMP permet de faire une peu de gestion et est plus sécurisé que Syslog.
 Toutefois, nous ne l'avons pas implémenter. Pour ce faire, il aurai fallut suivre les instructions suivantes :
 
 
-### Pour configurer les périphériques Cisco
+#### Pour configurer les périphériques Cisco
 
 ```
 snmp-server community Projet3SNMP RO
@@ -209,7 +204,7 @@ snmp-server enable traps
 snmp-server host 10.192.10.102 private   # L'adresse du server
 ``` 
 
-### Securisation envisageables
+#### Securisation envisageables
 
 SNMPv2c se sécurise :
 
@@ -219,7 +214,7 @@ SNMPv2c se sécurise :
  - En isolant ce trafic dans un VLAN contrôlé par des ACLs
  - En activant SNMPv3
 
-### REMOTE
+#### REMOTE
 
 Installation des outils Net-SNMP3 sous Rehat Enterprise Linux ou Centos (RHEL7) :
 
