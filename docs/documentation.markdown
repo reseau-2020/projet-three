@@ -85,6 +85,26 @@ Pour mettre a jour sur le controller les modifications on effetue un `git pull` 
 <a id="Connect"></a>
 ## 5. Connectivité Ipv4 et Ipv6
 
+Copier coller du Daily-Recap-Jour-5:
+
+Connectivité IPv6 vers Internet
+
+Dans un premier temps, afin de déployer la connectivité vers l’internet, nous avions configuré une adresse statique en IPV6 ipv6 route ::/0 g0/0 FE80::E53:21FF:FE38:5800 avec :
+
+    FE80::E53:21FF:FE38:5800 , l’adresse link-local de notre passerelle vers l’internet
+    g0/0 notre interface de sortie vers l’extérieur
+
+Avec un show ipv6 routesur R2 et R3, nous nous sommes aperçu que la route ne se distribuait pas automatiquement. Nous avons donc déployer ipv6 route ::/0 g0/1 FE80::1 sur ces derniers.
+
+Cela n’était pas nécessaire. Nous aurions pu forcer R1 à distribuer cette route statique : ipv6 router eigrp 1 redistribute static Par ailleurs, il est plus correct de limiter la route par défaut aux adresses publiques : ipv6 route 2000::/3 g0/0 FE80::E53:21FF:FE38:5800.
+
+Nous avons fait le choix de ne pas déployer de LAN directement connectée sur R1. Par conséquent, aucune interface de R1 ne dispose d’adresse publique et donc ne peut pas joindre directement internet. Il est nécessaire de pingà partir des PCs des VLANs.
+
+Toutefois, aucune connectivité vers l’internet ou entre les différents PC est observée.
+
+show ipv6 route sur DS1 et DS2 nous apprend qu’il n’y a pas de route apprise par eigrp vers l’internet. show ipv6 eigrp neighborssur DS1 nous apprend qu’il ne voit pas R2 correctement. show run | b ipv6 eigrpsur R2 nous apprend que l’interface G0/4 n’est pas montée en eigrp.
+
+Sur R2 : int g0/4 ipv6 eigrp 1 On remarque un log de eigrp nous indiquant qu’une nouvelle route a été apprise. Les ping ipv6 de PC1 vers PC8 et de PC1 vers l’internet fonctionnent correctement.
 
 <a id="Test"></a>
 ## 6. Tests de fiabilité
