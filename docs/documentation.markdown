@@ -101,10 +101,10 @@ Dans le cas d'un ping (IPV4 et IPV6) du PC centos-1 vers l'internet, on bloque l
 ![Test EIGRP 3 coupes](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/fiabilit%C3%A9-eigrp4.png?raw=true)
 
 Ping (IPV4 et IPV6) de Centos-1 vers l'internet
-![Test EIGRP de centos-1](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_fromcentos1.png?raw=true)
+[Test EIGRP de centos-1](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_fromcentos1.png?raw=true)
 
 Ping (IPV4 et IPV6) de Centos-8 vers l'internet 
-![Test EIGRP de centos-8](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_traceroute_centos8.png?raw=true)
+[Test EIGRP de centos-8](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_traceroute_centos8.png?raw=true)
 
 
 <a id="Pare-feu"></a>
@@ -113,6 +113,8 @@ Ping (IPV4 et IPV6) de Centos-8 vers l'internet
 
 <a id="Forti"></a>
 ###  7.1 Site distant et FortiOS
+Policy
+![Policy Forti3](https://github.com/reseau-2020/projet-three/blob/master/Configurations/Policy%20Forti3.png?raw=true)
 
 
 <a id="Parcisoc"></a>
