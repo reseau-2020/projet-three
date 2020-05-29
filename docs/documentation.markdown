@@ -86,7 +86,7 @@ Un ping depuis le PC centos-1 vers l'Internet passe par AS1 puis DS1. En testant
 ![Test HSRP vers l'Internet](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/test%20HSRP%20DS1%20routage%20internet.png?raw=true)
 
 C'est le même principe qui est appliquer lors de communications entre deux PC. 
-![Test HSRP sur DS2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/test%20HSRP%20DS2.png?raw=true)
+[Test HSRP sur DS2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/test%20HSRP%20DS2.png?raw=true)
 
 Il semblerait que l’adresse MAC de la passerelle virtuelle (fe80:d0) ne se mette pas à jour toute seule. Et meme après redémarrage des périphériques, les liaisons ne sont pas rétablit. 
 Nous n’avons pas trouvé l’origine du problème. Notre topologie semble conforme au modèle suivit.
