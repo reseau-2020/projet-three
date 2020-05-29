@@ -1,0 +1,210 @@
+Building configuration...
+
+  
+Current configuration : 3121 bytes
+!
+version 15.7
+service timestamps debug datetime
+service timestamps log datetime
+no service password-encryption
+!
+hostname R3
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+clock timezone GMT 1 0
+clock summer-time FR recurring last Sun Mar 2:00 last Sun Oct 2:00
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+no ip icmp rate-limit unreachable
+!
+!
+!
+!
+!
+!
+ip domain name lan
+ip name-server 1.1.1.1
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username root privilege 15 password 0 testtest
+!
+redundancy
+!
+no cdp log mismatch duplex
+!
+ip tcp synwait-time 5
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description Link to R1
+ ip address 10.1.2.3 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::3 link-local
+ ipv6 enable
+ ipv6 eigrp 1
+!
+interface GigabitEthernet0/2
+ description Link to R2
+ ip address 10.1.3.3 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::3 link-local
+ ipv6 enable
+ ipv6 eigrp 1
+!
+interface GigabitEthernet0/3
+ description Link to DS2
+ ip address 10.3.1.3 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::3 link-local
+ ipv6 enable
+ ipv6 eigrp 1
+!
+interface GigabitEthernet0/4
+ description Link to DS2
+ ip address 10.3.2.3 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::3 link-local
+ ipv6 enable
+ ipv6 eigrp 1
+!
+interface GigabitEthernet0/5
+ description Link to DS1
+ ip address 10.3.3.3 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::3 link-local
+ ipv6 enable
+ ipv6 eigrp 1
+!
+interface GigabitEthernet0/6
+ description Link to DS1
+ ip address 10.3.4.3 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::3 link-local
+ ipv6 enable
+ ipv6 eigrp 1
+!
+interface GigabitEthernet0/7
+ ip address dhcp
+ duplex auto
+ speed auto
+ media-type rj45
+ no cdp enable
+!
+!
+router eigrp 1
+ network 10.1.2.3 0.0.0.0
+ network 10.1.3.3 0.0.0.0
+ network 10.3.1.3 0.0.0.0
+ network 10.3.2.3 0.0.0.0
+ network 10.3.3.3 0.0.0.0
+ network 10.3.4.3 0.0.0.0
+ eigrp router-id 3.3.3.3
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip dns server
+ip ssh version 2
+ip scp server enable
+!
+ipv6 router eigrp 1
+ eigrp router-id 3.3.3.3
+!
+ipv6 ioam timestamp
+!
+!
+!
+control-plane
+!
+banner exec ^C
+Default Multi-line exec banner
+for R3 device in the CCNA Lab
+^C
+banner incoming ^C
+Default Multi-line incoming banner
+for R3 device in the CCNA Lab
+^C
+banner login ^C
+Default Multi-line motd banner
+for R3 device in the CCNA Lab
+^C
+banner motd ^C
+Default Multi-line motd banner for R3
+for R3 device in the CCNA Lab
+^C
+banner slip-ppp ^C
+Default Multi-line slip-ppp banner
+for R3 device in the CCNA Lab
+^C
+!
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line aux 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line vty 0 4
+ login local
+ transport input ssh
+!
+no scheduler allocate
+ntp update-calendar
+ntp server 10.1.1.1
+!
+end
