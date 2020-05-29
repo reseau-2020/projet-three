@@ -1,0 +1,366 @@
+Building configuration...
+
+  
+Current configuration : 8942 bytes
+!
+! Last configuration change at 12:03:13 FR Fri May 29 2020 by root
+!
+version 15.7
+service timestamps debug datetime
+service timestamps log datetime
+no service password-encryption
+!
+hostname R3
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+clock timezone GMT 1 0
+clock summer-time FR recurring last Sun Mar 2:00 last Sun Oct 2:00
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+no ip icmp rate-limit unreachable
+!
+!
+!
+!
+!
+!
+ip domain name lan
+ip name-server 1.1.1.1
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username root privilege 15 password 0 testtest
+!
+redundancy
+!
+no cdp log mismatch duplex
+!
+ip tcp synwait-time 5
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description Link to R1
+ ip address 10.1.2.3 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::3 link-local
+ ipv6 enable
+ ipv6 eigrp 1
+!
+interface GigabitEthernet0/2
+ description Link to R2
+ ip address 10.1.3.3 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::3 link-local
+ ipv6 enable
+ ipv6 eigrp 1
+!
+interface GigabitEthernet0/3
+ description Link to DS2
+ ip address 10.3.1.3 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::3 link-local
+ ipv6 enable
+ ipv6 eigrp 1
+!
+interface GigabitEthernet0/4
+ description Link to DS2
+ ip address 10.3.2.3 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::3 link-local
+ ipv6 enable
+ ipv6 eigrp 1
+!
+interface GigabitEthernet0/5
+ description Link to DS1
+ ip address 10.3.3.3 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::3 link-local
+ ipv6 enable
+ ipv6 eigrp 1
+!
+interface GigabitEthernet0/6
+ description Link to DS1
+ ip address 10.3.4.3 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::3 link-local
+ ipv6 enable
+ ipv6 eigrp 1
+!
+interface GigabitEthernet0/7
+ ip address dhcp
+ duplex auto
+ speed auto
+ media-type rj45
+ no cdp enable
+!
+interface GigabitEthernet0/8
+ description Link to DS3
+ ip address 10.3.5.1 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::3 link-local
+ ipv6 enable
+ ipv6 eigrp 1
+!
+interface GigabitEthernet0/9
+ description Link to DS3
+ ip address 10.3.6.1 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::3 link-local
+ ipv6 enable
+ ipv6 eigrp 1
+!
+interface GigabitEthernet0/10
+ description Link to DS4
+ ip address 10.3.7.1 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::3 link-local
+ ipv6 enable
+ ipv6 eigrp 1
+!
+interface GigabitEthernet0/11
+ description Link to DS4
+ ip address 10.3.8.1 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::3 link-local
+ ipv6 enable
+ ipv6 eigrp 1
+!
+!
+router eigrp 1
+ network 10.1.2.3 0.0.0.0
+ network 10.1.3.3 0.0.0.0
+ network 10.3.1.3 0.0.0.0
+ network 10.3.2.3 0.0.0.0
+ network 10.3.3.3 0.0.0.0
+ network 10.3.4.3 0.0.0.0
+ network 10.3.5.1 0.0.0.0
+ network 10.3.6.1 0.0.0.0
+ network 10.3.7.1 0.0.0.0
+ network 10.3.8.1 0.0.0.0
+ eigrp router-id 3.3.3.3
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip dns server
+ip ssh version 2
+ip scp server enable
+!
+ipv6 router eigrp 1
+ eigrp router-id 3.3.3.3
+!
+ipv6 ioam timestamp
+!
+snmp-server community private RO
+snmp-server chassis-id 
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps vrrp
+snmp-server enable traps pfr
+snmp-server enable traps flowmon
+snmp-server enable traps tty
+snmp-server enable traps eigrp
+snmp-server enable traps ospf state-change
+snmp-server enable traps ospf errors
+snmp-server enable traps ospf retransmit
+snmp-server enable traps ospf lsa
+snmp-server enable traps ospf cisco-specific state-change nssa-trans-change
+snmp-server enable traps ospf cisco-specific state-change shamlink interface
+snmp-server enable traps ospf cisco-specific state-change shamlink neighbor
+snmp-server enable traps ospf cisco-specific errors
+snmp-server enable traps ospf cisco-specific retransmit
+snmp-server enable traps ospf cisco-specific lsa
+snmp-server enable traps ethernet cfm cc mep-up mep-down cross-connect loop config
+snmp-server enable traps ethernet cfm crosscheck mep-missing mep-unknown service-up
+snmp-server enable traps ethernet evc status create delete
+snmp-server enable traps diameter
+snmp-server enable traps auth-framework sec-violation auth-fail
+snmp-server enable traps trustsec-sxp conn-srcaddr-err msg-parse-err conn-config-err binding-err conn-up conn-down binding-expn-fail oper-nodeid-change binding-conflict
+snmp-server enable traps aaa_server
+snmp-server enable traps atm subif
+snmp-server enable traps bfd
+snmp-server enable traps bgp cbgp2
+snmp-server enable traps bstun
+snmp-server enable traps cef resource-failure peer-state-change peer-fib-state-change inconsistency
+snmp-server enable traps memory bufferpeak
+snmp-server enable traps cnpd
+snmp-server enable traps config-copy
+snmp-server enable traps config
+snmp-server enable traps config-ctid
+snmp-server enable traps dlsw
+snmp-server enable traps dsp card-status
+snmp-server enable traps dsp oper-state
+snmp-server enable traps dsp video-usage
+snmp-server enable traps dsp video-out-of-resource
+snmp-server enable traps entity-ext
+snmp-server enable traps entity
+snmp-server enable traps fru-ctrl
+snmp-server enable traps resource-policy
+snmp-server enable traps frame-relay multilink bundle-mismatch
+snmp-server enable traps frame-relay
+snmp-server enable traps frame-relay subif
+snmp-server enable traps hsrp
+snmp-server enable traps ipmobile
+snmp-server enable traps ipmulticast
+snmp-server enable traps isis
+snmp-server enable traps mempool
+snmp-server enable traps mpls traffic-eng
+snmp-server enable traps mpls fast-reroute protected
+snmp-server enable traps mpls rfc ldp
+snmp-server enable traps mpls ldp
+snmp-server enable traps msdp
+snmp-server enable traps mvpn
+snmp-server enable traps pim neighbor-change rp-mapping-change invalid-pim-message
+snmp-server enable traps pppoe
+snmp-server enable traps cpu threshold
+snmp-server enable traps nhrp nhs
+snmp-server enable traps nhrp nhc
+snmp-server enable traps nhrp nhp
+snmp-server enable traps nhrp quota-exceeded
+snmp-server enable traps rsvp
+snmp-server enable traps ipsla
+snmp-server enable traps stun
+snmp-server enable traps syslog
+snmp-server enable traps l2tun session
+snmp-server enable traps l2tun pseudowire status
+snmp-server enable traps pw vc
+snmp-server enable traps waas 
+snmp-server enable traps event-manager
+snmp-server enable traps lisp
+snmp-server enable traps firewall serverstatus
+snmp-server enable traps ospfv3 state-change
+snmp-server enable traps ospfv3 errors
+snmp-server enable traps pki
+snmp-server enable traps gdoi gm-start-registration
+snmp-server enable traps gdoi gm-registration-complete
+snmp-server enable traps gdoi gm-re-register
+snmp-server enable traps gdoi gm-rekey-rcvd
+snmp-server enable traps gdoi gm-rekey-fail
+snmp-server enable traps gdoi ks-rekey-pushed
+snmp-server enable traps gdoi gm-incomplete-cfg
+snmp-server enable traps gdoi ks-no-rsa-keys
+snmp-server enable traps gdoi ks-new-registration
+snmp-server enable traps gdoi ks-reg-complete
+snmp-server enable traps gdoi ks-role-change
+snmp-server enable traps gdoi ks-gm-deleted
+snmp-server enable traps gdoi ks-peer-reachable
+snmp-server enable traps gdoi ks-peer-unreachable
+snmp-server enable traps ike policy add
+snmp-server enable traps ike policy delete
+snmp-server enable traps ike tunnel start
+snmp-server enable traps ike tunnel stop
+snmp-server enable traps ipsec cryptomap add
+snmp-server enable traps ipsec cryptomap delete
+snmp-server enable traps ipsec cryptomap attach
+snmp-server enable traps ipsec cryptomap detach
+snmp-server enable traps ipsec tunnel start
+snmp-server enable traps ipsec tunnel stop
+snmp-server enable traps ipsec too-many-sas
+snmp-server enable traps ethernet cfm alarm
+snmp-server enable traps rf
+snmp-server enable traps bulkstat collection transfer
+snmp-server enable traps mpls vpn
+snmp-server enable traps vrfmib vrf-up vrf-down vnet-trunk-up vnet-trunk-down
+snmp-server host 10.100.0.1 private 
+!
+!
+control-plane
+!
+banner exec ^C
+Default Multi-line exec banner
+for R3 device in the CCNA Lab
+^C
+banner incoming ^C
+Default Multi-line incoming banner
+for R3 device in the CCNA Lab
+^C
+banner login ^C
+Default Multi-line motd banner
+for R3 device in the CCNA Lab
+^C
+banner motd ^C
+Default Multi-line motd banner for R3
+for R3 device in the CCNA Lab
+^C
+banner slip-ppp ^C
+Default Multi-line slip-ppp banner
+for R3 device in the CCNA Lab
+^C
+!
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line aux 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line vty 0 4
+ login local
+ transport input ssh
+!
+no scheduler allocate
+ntp update-calendar
+ntp server 10.1.1.1
+!
+end
