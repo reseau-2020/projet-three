@@ -37,7 +37,7 @@ L'ensemble des logs sont consultables directement sur le PC-distant. Syslog est 
 ### Deuxième switchblock
 Nous avons adapté la topologie en ajoutant un deuxième switchblock. 
 
-![Topologie](https://github.com/reseau-2020/projet-three/blob/master/Topologie_2_switchblocks.png)
+![Topologie](https://github.com/reseau-2020/projet-three/blob/master/Topologie_2_switchblocks.png?raw=true)
 
 Par securité, la configuration a été faite à partir d'une copie de notre projet et mise en place avec l'outil ansible.
 (Repertoire : https://github.com/tayanateles/projet-three).
