@@ -269,7 +269,7 @@ Ping (IPV4 et IPV6) de Centos-8 vers l'internet
 ---
 
 <a id="Parcisoc"></a>
-###  7 Pare-feu Cisco
+##  7. Pare-feu Cisco
 
 ### 7.1 Configuration globale
 
