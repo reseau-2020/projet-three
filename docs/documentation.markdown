@@ -208,7 +208,7 @@ Nous avons constaté que les commutateurs AS1 et AS2 n'étaient pas synchronisé
 <a id="51"></a>
 ### 5.1 Connectivité IPv4
 
-Des `ping` entre les différentes VLANs, ainsi que vers `www.test.tf`, `1.1.1.1` et `www.google.com` a permis de vérifier le bon fonctionnement de notre topologie en terme de connectivité.
+Des `ping` entre les différentes VLANs, ainsi que vers `www.test.tf`, `1.1.1.1` et `www.google.com` ont permis de vérifier le bon fonctionnement de notre topologie en terme de connectivité.
 
 <a id="52"></a>
 ### 5.2 Connectivité IPv6 vers Internet
@@ -501,8 +501,8 @@ Paramètres du tunnel IPsec :
 Règles pare-feu pour les trafics IPv4 :
 | ID  | Nom  | De | Vers | Action |
 |:-----:|:-----:|:-----:|:-----:|:-----:|
-2 | Réseaux sociaux | lan(port1) | Internet(port2 |Rejecter|
-3 | Internet | lan(port1) | Internet(port2 |Acepter|
+2 | Réseaux sociaux | lan(port1) | Internet(port2) |Rejecter|
+3 | Internet | lan(port1) | Internet(port2) |Acepter|
 4 | vpn_forti3-to-cisco_local | lan(port1) | forti3-to-cisco | Acepter|
 5 | vpn_forti3-to-cisco_remote| forti3-to-cisco | lan(port1)|Acepter|
 0 | Refus implicite | any | any |Rejecter|
@@ -713,7 +713,18 @@ snmpwalk -v2c -c <nom de la communauté> <périphérique à gérer>
 
 <a id="101"></a>
 ### 10.1 Second Switchblock
+Afin d'enrichir la topologie principale, un deuxième switchblock a été ajouté, analogue au premier, représentant un deuxième sous-réseau du site principal. 
 
+![Topologie2s](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Deuxième%20_switchblock.png)
+
+Sa configuration a été effectuée à l'aide de l'outil Ansible. Pour cela, quelques modifications ont été apportées au livre de jeu :
+
+-	Dans le fichier « hosts » les nouveaux commutateurs Cisco ont été ajoutés (AS3, AS4, DS3 et DS4) ;
+-	Les fichiers de configuration « AS3 », « AS4 », « DS3 » et « DS4 » ont été créés dans le dossier « host_vars » ;
+-	Les nouvelles interfaces ont été paramétrés dans les fichiers « R2 » et « R3 » ; 
+-	La plage des adresses du nouveau sous-réseau ("10.193.0.0 0.0.255.255") a été ajouté dans le paramétrage du protocole NAT dans le fichier « R1 ».
+
+Des `ping` entre les différentes VLANs et les deux switchblocks, ainsi que vers `1.1.1.1` et `www.google.com` ont permis de vérifier le bon fonctionnement de notre topologie en terme de connectivité IPv4. Malheureusement, on ne peut pas en dire autant de la connectivité IPv6, le diagnostic doit être fait en termes d'amélioration future du projet.
 
 <a id="102"></a>
 ### 10.2 VPN IPsec Ipv6
