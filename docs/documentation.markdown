@@ -51,12 +51,12 @@ Notre topologie est constitué de :
 <table>
     <tbody>
         <tr>
-            <td>The table body</td>
-            <td>with two columns</td>
+            <td>Couche</td>
+            <td>Ressources</td>
         </tr>
         <tr>
-            <td>The tabl</td>
-            <td>with two</td>
+            <td>Site controleur</td>
+            <td><p>Un CentOS Linux 7.5</p><p>Un switch Ethernet</p></td>
         </tr>
     </tbody>
 </table>
