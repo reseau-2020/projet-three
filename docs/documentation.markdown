@@ -45,6 +45,7 @@ permalink: /documentation/
 ## 1. Topologie
 
 ![Topologie](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/2020-05-28-Topologie.png?raw=true)
+![Topologieau](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Topo_autre.png?raw=true)
 
 Notre topologie est constitué de : 
 
