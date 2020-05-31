@@ -38,12 +38,12 @@ permalink: /documentation/
 <a id="Topo"></a>
 ## Topologie
 
-Une couche Core maillé de 3 Routeurs Cisco iOS (R1, R2, R3) 
-Un switch block (4 VLANs utiles) composé de 2 périphérique de couche Distribution (DS1, DS2) et 2 périphérique de couche Acces (AS1, AS2)
-Un maillage entre la couche Core et le switchblock
-Un PC-distant avec un Fortigate (FortiGate VM64-KVM). 
-Un PC pirate pour faire des tests. 
-Un controleur afin d'implémenter la configuration Ansible. 
+- Une couche Core maillé de 3 Routeurs Cisco iOS (R1, R2, R3) 
+- Un switch block (4 VLANs utiles) composé de 2 périphérique de couche Distribution (DS1, DS2) et 2 périphérique de couche Acces (AS1, AS2)
+- Un maillage entre la couche Core et le switchblock
+- Un PC-distant avec un Fortigate (FortiGate VM64-KVM). 
+- Un PC pirate pour faire des tests. 
+- Un controleur afin d'implémenter la configuration Ansible. 
 ![Topologie](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/2020-05-28-Topologie.png?raw=true)
 
 *Avec un deuxième switchblock*
@@ -58,7 +58,7 @@ Un controleur afin d'implémenter la configuration Ansible.
 ## 3. Ansible
 
 On a choisi le protocol EIGRP car, contrairement a OSPF, c'est un système autonome qui possède des routes secondaire et de multiples protocoles autre que IP. 
-Et il est plus facile a configurer que OSPF. 
+Et il est plus facile a configurer et plus rapide que OSPF. 
 
 
 Les livres de jeux Ansible sont lancé depuis un poste "controller". 
@@ -76,8 +76,6 @@ Pour mettre a jour sur le controller les modifications on effetue un `git pull` 
 
 <a id="DNS"></a>
 ###  4.1 DNS
-
-**Copier-coller Daily recap Jour 5 : **
 
 On remarquera que désormais le routage et la communication en IPv6 sera préféré par défault lors de l'utilisation de `ping`.
 
@@ -98,8 +96,24 @@ wr
 `ping ip www.google.com`fonctionne à 100% sur R1, R2, R3, DS1, DS2, AS1 et AS2
 
 
-DNS fonctionne correctement sur la partie tripod. Mais pas sur les Vlans.
+DNS fonctionne correctement sur la partie tripod. 
 
+Aussi, nous avons remarqué que `dns-server`était mal paramétré sur les VLANs (DS1 et DS2), sûrement dû à une mauvaise manipulation sur les fichiers ansible. 
+
+Nous avons donc rajouté manuellement sur DS1 et DS2 :
+
+```
+ip dhcp pool VLAN10
+ dns-server 1.1.1.1
+ip dhcp pool VLAN20
+ dns-server 1.1.1.1
+ip dhcp pool VLAN30
+ dns-server 1.1.1.1
+ip dhcp pool VLAN40
+ dns-server 1.1.1.1
+ ```
+ 
+ Un ping en IPv4 et IPv6 des PCs vers `www.google.com` nous a rassuré sur son fonctionnement.
 
 <a id="NTP"></a>
 ###  4.2 NTP
@@ -157,9 +171,11 @@ Nous avons constaté que les commutateurs AS1 et AS2 n'étaient pas synchronisé
 <a id="Connect"></a>
 ## 5. Connectivité Ipv4 et Ipv6
 
-Copier coller du Daily-Recap-Jour-5:
+### Connectivité IPv4
 
-Connectivité IPv6 vers Internet
+Des `ping` entre les différentes VLANs, ainsi que vers `www.test.tf`, `1.1.1.1` et `www.google.com` a permis de vérifier le bon fonctionnement de notre topologie en terme de connectivité.
+
+### Connectivité IPv6 vers Internet
 
 Dans un premier temps, afin de déployer la connectivité vers l’internet, nous avions configuré une adresse statique en IPV6 ipv6 route ::/0 g0/0 FE80::E53:21FF:FE38:5800 avec :
 
@@ -168,15 +184,15 @@ Dans un premier temps, afin de déployer la connectivité vers l’internet, nou
 
 Avec un show ipv6 routesur R2 et R3, nous nous sommes aperçu que la route ne se distribuait pas automatiquement. Nous avons donc déployer ipv6 route ::/0 g0/1 FE80::1 sur ces derniers.
 
-Cela n’était pas nécessaire. Nous aurions pu forcer R1 à distribuer cette route statique : ipv6 router eigrp 1 redistribute static Par ailleurs, il est plus correct de limiter la route par défaut aux adresses publiques : ipv6 route 2000::/3 g0/0 FE80::E53:21FF:FE38:5800.
+Cela n’était pas nécessaire. Nous aurions pu forcer R1 à distribuer cette route statique : ipv6 router eigrp 1 redistribute static Par ailleurs, il est plus correct de limiter la route par défaut aux adresses publiques : `ipv6 route 2000::/3 g0/0 FE80::E53:21FF:FE38:5800`.
 
-Nous avons fait le choix de ne pas déployer de LAN directement connectée sur R1. Par conséquent, aucune interface de R1 ne dispose d’adresse publique et donc ne peut pas joindre directement internet. Il est nécessaire de pingà partir des PCs des VLANs.
+Nous avons fait le choix de ne pas déployer de LAN directement connectée sur R1. Par conséquent, aucune interface de R1 ne dispose d’adresse publique et donc ne peut pas joindre directement internet. Il est nécessaire de ping à partir des PCs des VLANs.
 
 Toutefois, aucune connectivité vers l’internet ou entre les différents PC est observée.
 
-show ipv6 route sur DS1 et DS2 nous apprend qu’il n’y a pas de route apprise par eigrp vers l’internet. show ipv6 eigrp neighborssur DS1 nous apprend qu’il ne voit pas R2 correctement. show run | b ipv6 eigrpsur R2 nous apprend que l’interface G0/4 n’est pas montée en eigrp.
+show ipv6 route sur DS1 et DS2 nous apprend qu’il n’y a pas de route apprise par eigrp vers l’internet. `show ipv6 eigrp neighbors` sur DS1 nous apprend qu’il ne voit pas R2 correctement. `show run | b ipv6 eigrp` sur R2 nous apprend que l’interface G0/4 n’est pas montée en eigrp.
 
-Sur R2 : int g0/4 ipv6 eigrp 1 On remarque un log de eigrp nous indiquant qu’une nouvelle route a été apprise. Les ping ipv6 de PC1 vers PC8 et de PC1 vers l’internet fonctionnent correctement.
+Sur R2 : `int g0/4 ipv6 eigrp 1` On remarque un log de eigrp nous indiquant qu’une nouvelle route a été apprise. Les ping ipv6 de PC1 vers PC8 et de PC1 vers l’internet fonctionnent correctement.
 
 <a id="Test"></a>
 ## 6. Tests de fiabilité
@@ -658,6 +674,99 @@ snmpwalk -v2c -c <nom de la communauté> <périphérique à gérer>
 <a id="VPN6"></a>
 ### 10.2 VPN Ipsec Ipv6
 
+- ### MISE EN PLACE
+
+Nous avons voulu créer Un VPN IPSEC en IPv6. 
+
+> IPSEC est un standard ouvert de l’IETF pour sécuriser les réseaux IP. Il protège et authentifie les paquets IP d’un origine à une > destination grâce à des services de sécurité cryptographiques et à un ensemble de protocoles de transport. 
+(*www.cisco.goffinet.org*)
+
+Il assure les fonctions suivantes :
+
+- confidentialité des données
+- intégrité des données
+- authentification de l'origine
+- gestion des clès secrètes
+
+Nous utiliserons ici :
+- 3DES comme algorithme de chiffrement du traffic (encryption)
+- SHA comme HMAC (intégrité des données)
+- Diffie-Hellman en algorithme de chiffrement asymétrique (clés sécrètes)
+- ESP (Encapsulating Security Payload) qui est le protocole de transport de la pile IPSEC qui est utilisé pour la confidentialité, l’authentification et l’anti-rejeu des échanges entre deux noeuds IP.
+
+- ### Premier essai cisco-Fortigate
+Nous avions essayé entre 1 fortigate et 1 cisco mais cela semble très compliqué voir peut être impossible avec le fortiOS utilisé ici. L’usage de GUI pour ce faire sur FortiOs n’est pas possible, il aurait fallu utiliser CLI, sans être certain du résultat.
+
+- ### Second essai Cisco-Cisco
+
+Mise en place d’un routeur R4 avec un LAN avec adressage IPv4 et Ipv6, nat, dns, connectivité vers internet, eirgpv4 et v6 (Id 6.6.6.6).
+R4 ne dispose pas de pare-feu.
+
+Les fichiers de configurations : 
+- [R1](https://github.com/reseau-2020/projet-three/blob/master/Configurations/VPN_IPSEC_R1.txt)
+- [R4](https://github.com/reseau-2020/projet-three/blob/master/Configurations/VPN_IPSEC_R4.txt)
+
+Une adresse publique IPV6 a été rajouté à l'interface g0/0 de R1.
+
+Pour R4 :
+> 2001:470:C814:7006::/64
+
+> FD00:470:C814:7006::/64
+
+> FE80::cafe:7 sur interface externe de R4
+
+Mise en place du VPN IPSEC entre R1 et R4.
+
+Nous avons créé une nouvelle interface Tunnel6 de chaque côté avec une adresse IPv6 virtuelle.
+
+Un premier problème est apparu :
+```
+Dropping udp session [2001:470:C814:3001::1]:500 [2001:470:C814:7006::1]:500 on zone-pair self-internet class class-default due to  DROP action found in policy-map with ip ident 11032
+```
+
+Il semblerait que nous ayons un problèmle de règles de pare-feu.
+
+```
+class-map type inspect match-any vpn-class
+ match access-group name VPN6
+
+ipv6 access-list VPN6
+ permit icmp any any nd-na
+ permit icmp any any nd-ns
+ permit udp any any eq 500
+ permit udp any eq 500 any
+ permit udp any any eq isakmp
+ permit ahp any any
+ permit esp any any
+ permit udp any any eq non500-isakmp
+En effet, nous n’avions pas paramétré les ACLs en IPv6.
+```
+
+L'ajout de cette ACL a permis d'éviter le log d'erreur, toutefois il nous est toujours impossible de ping d’un côté ou de l’autre. Pourtant le tunnel semble être mis en place et fonctionnel :
+```
+show crypto isakmp sa
+sur R1 :
+
+IPv4 Crypto ISAKMP SA
+dst             src             state          conn-id status
+192.168.122.221 192.168.122.55  QM_IDLE           1001 ACTIVE
+
+IPv6 Crypto ISAKMP SA
+
+ dst: 2001:470:C814:7006::1
+ src: 2001:470:C814:3001::1
+ state: QM_IDLE         conn-id:   1002 status: ACTIVE
+```
+
+Aussi, un `traceroute6`de chaque côté du tunnel (centos-1 et PC-distantR4) nous a permis d'observer l'arrêt des paquets aux interfaces du tunnel. 
+
+L'arrêt total du pare-feu sur R1 nous a permis d'observer le bon fonctionnement du tunnel en IPV6. 
+
+La suite à donner serait de trouver comment règler le pare-feu afin de laisser passer ce traffic sans détériorer la sécurité du réseau. 
+
+Aussi, une bonne pratique serait d'utiliser l'adresse link-local de chacun des routeurs R1 et R4 comme sources et destinations des routes statiques permettant d'accéder au tunnel.
+
+Aussi, il serait préférable d'utiliser des adresses privées comme Ipv6 virtuelles pour les interfaces Tunnel6.
 
 <a id="Secu"></a>
 ### 10.3 Focus Sécurité
