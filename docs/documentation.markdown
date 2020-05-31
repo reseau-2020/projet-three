@@ -52,7 +52,7 @@ Notre topologie est constitué de :
 <table>
   <thead>
         <tr>
-            <th>Couche</th>
+            <th>Ensemble</th>
             <th>Ressources</th>
         </tr>
   </thead>
