@@ -724,7 +724,7 @@ Sa configuration a été effectuée à l'aide de l'outil Ansible. Pour cela, que
 -	Les nouvelles interfaces ont été paramétrés dans les fichiers « R2 » et « R3 » ; 
 -	La plage des adresses du nouveau sous-réseau ("10.193.0.0 0.0.255.255") a été ajouté dans le paramétrage du protocole NAT dans le fichier « R1 ».
 
-Des `ping` entre les différentes VLANs et les deux switchblocks, ainsi que vers `1.1.1.1` et `www.google.com` ont permis de vérifier le bon fonctionnement de notre topologie en terme de connectivité IPv4. Malheureusement, on ne peut pas en dire autant de la connectivité IPv6, le diagnostic doit être fait en termes d'amélioration future du projet.
+Des `ping` entre les différentes VLANs et les deux switchblocks, ainsi que vers `1.1.1.1` et `www.google.com` ont permis de vérifier le bon fonctionnement de notre topologie en terme de connectivité IPv4. Malheureusement, on ne peut pas en dire autant de la connectivité IPv6, le diagnostic doit être fait en terme d'amélioration future du projet.
 
 <a id="102"></a>
 ### 10.2 VPN IPsec Ipv6
