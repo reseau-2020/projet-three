@@ -90,7 +90,7 @@ Notre topologie est constitué de :
 
 
 
-*Une seconde topologie avec un deuxième switchblock est disponible *
+* Une seconde topologie avec un deuxième switchblock est disponible *
 ![Topologie2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Topologie_2_switchblocks.png?raw=true)
 
 
