@@ -20,7 +20,7 @@ categories: welcome
 
 Notre topologie ne possède pas une grande sécurisation, c'est pourquoi nous avons fait une étude des éléments sécuritaire pouvant y être appliquer. 
 
-## Mise à jour
+### Mise à jour
 
 Les fichiers de la plateforme GitHub ont été mis à jour et réorganiser de façon simplifié. 
 
