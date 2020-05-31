@@ -49,11 +49,13 @@ permalink: /documentation/
 Notre topologie est constitué de : 
 
 <table>
-    <tbody>
+  <thead>
         <tr>
-            <td>Couche</td>
-            <td>Ressources</td>
+            <th ALIGN=CENTER BGCOLOR="BB">Couche</th>
+            <th ALIGN=CENTER BGCOLOR="BB">Ressources</th>
         </tr>
+  </thead>
+  <tbody>
         <tr>
             <td>Site controleur</td>
             <td><p>Un CentOS Linux 7.5</p><p>Un switch Ethernet</p></td>
