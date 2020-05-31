@@ -5,7 +5,7 @@ permalink: /documentation/
 ---
 
 
-# Documentation Technique
+---
 
 ## Sommaire
 
