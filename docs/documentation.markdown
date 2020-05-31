@@ -51,8 +51,8 @@ Notre topologie est constitué de :
 <table>
   <thead>
         <tr>
-            <th ALIGN=CENTER BGCOLOR="BB">Couche</th>
-            <th ALIGN=CENTER BGCOLOR="BB">Ressources</th>
+            <th ALIGN=CENTER>Couche</th>
+            <th ALIGN=CENTER>Ressources</th>
         </tr>
   </thead>
   <tbody>
