@@ -9,64 +9,69 @@ permalink: /documentation/
 
 ## Sommaire
 
-- #### [1. Topologie](#Topo)
-- #### [2. Plan d’adressage Ipv4/Ipv6](#Plan)
-- #### [3. Ansible](#Ansible)
-- #### [4. Configuration des services d’infrastructures](#Infra)
-  - #####  [4.1 DNS](#DNS)
-  - #####  [4.2 NTP](#NTP)
-- #### [5. Connectivité Ipv4 et Ipv6](#Connect)
-  - #####  [5.1 Connectivité IPv4](#Conn4)
-  - #####  [5.2 Connectivité IPv6 vers Internet](Conn6)
-- #### [6. Tests de fiabilité](#Test)
-  - #####  [6.1 Spanning-Tree](#Span)
-  - #####  [6.2 HSRP](#HSRP)
-  - #####  [6.3 EIGRP](#EIGRP)
-- #### [7. Configuration parefeu Cisco](#Parcisoc)
-- #### [8. Mise en place d'un VPN Ipsec Ipv4](#VPN4)
-  - #####  [8.1 Configuration de FortiOS](#FortiOS)
-  - #####  [8.2 Configuration sur CiscoIOS](#VPN4Cisco)
-- #### [9. Mise en place des services de surveillance](#Surveillance)
-  - #####  [9.1 Syslog](#Syslog)
-  - #####  [9.2 SNMP](#SNMP)
-- #### [10. Pour aller plus loin](#+loin)
-  - ##### [10.1 Second Switchblock](#2switchblock)
-  - ##### [10.2 VPN Ipsec Ipv6](#VPN6)
-  - ##### [10.3 Focus Sécurité](#Secu)
-- #### [11. Annexes](#Annexes)
-  - ##### [Fichiers de configuration](#config)
+- #### [1. Topologie](#1)
+- #### [2. Plan d’adressage Ipv4/Ipv6](#2)
+- #### [3. Ansible](#3)
+- #### [4. Configuration des services d’infrastructures](#4)
+  - #####  [4.1 DNS](#41)
+  - #####  [4.2 NTP](#42)
+- #### [5. Connectivité Ipv4 et Ipv6](#5)
+  - #####  [5.1 Connectivité IPv4](#51)
+  - #####  [5.2 Connectivité IPv6 vers Internet](#52)
+- #### [6. Tests de fiabilité](#6)
+  - #####  [6.1 Spanning-Tree](#61)
+  - #####  [6.2 HSRP](#62)
+  - #####  [6.3 EIGRP](#63)
+- #### [7. Parefeu Cisco](#7)
+  - ##### [7.1 Configuration globale](#71)
+  - ##### [7.2 Configuration spécifiques](#72)
+- #### [8. Mise en place d'un VPN Ipsec Ipv4](#8)
+  - #####  [8.1 Configuration de FortiOS](#81)
+  - #####  [8.2 Configuration sur CiscoIOS](#82)
+- #### [9. Mise en place des services de surveillance](#9)
+  - #####  [9.1 Syslog](#91)
+  - #####  [9.2 SNMP](#92)
+- #### [10. Pour aller plus loin](#10)
+  - ##### [10.1 Second Switchblock](#101)
+  - ##### [10.2 VPN Ipsec Ipv6](#102)
+  - ##### [10.3 Focus Sécurité](#103)
+- #### [11. Annexes](#11)
+  - ##### [11.1 Fichiers de configuration](#111)
 
 
 ---
 
-<a id="Topo"></a>
+<a id="1"></a>
 ## 1. Topologie
 
-- Une couche Core maillé de 3 Routeurs Cisco iOS (R1, R2, R3) 
-- Un switch block (4 VLANs utiles) composé de 2 périphérique de couche Distribution (DS1, DS2) et 2 périphérique de couche Acces (AS1, AS2)
-- Un maillage entre la couche Core et le switchblock
-- Un PC-distant avec un Fortigate (FortiGate VM64-KVM). 
-- Un PC pirate pour faire des tests. 
-- Un controleur afin d'implémenter la configuration Ansible. 
 ![Topologie](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/2020-05-28-Topologie.png?raw=true)
 
-*Avec un deuxième switchblock*
-![Topologie2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Topologie_2_switchblocks.png)
+Notre topologie est constitué de : 
 
-  
+   | Couche | Ressources | 
+   |-------|----|
+   |Site contôleur| <ul><li> Un CentOS Linux 7.5 </li><li> Un switch Ethernet </li></ul> |
+   |Couche core| <ul><li> Trois routeurs R1, R2 et R3 Cisco IOS Software, IOSv Software (VIOS-ADVENTERPRISEK9-M),  Version 15.7(3)M3 </li></ul> |
+   |Couche distribution| <ul><li> Deux switchs de distribution DS1 et DS2 Cisco IOS Software, vios_l2 Software (vios_l2-ADVENTERPRISEK9-M), Experimental Version 15.2(20170321:233949) </li></ul> |
+   |Couche access| <ul><li> Deux switchs AS1 et AS2 Cisco IOS Software, vios_l2 Software (vios_l2-ADVENTERPRISEK9-M) Experimental Version 15.2(20170321:233949)</li><li> 8 postes de travail VPCS </li><li> 2 postes de travail CentOS Linux 7.5</li></ul> |
+   |Site Internet| <ul><li> Un switch Ethernet </li><li> Un nuage NAT utiliser comme router par GNS3 pour atteindre l'Internet </li><li> Une station pirate CentOS Linux 7.5 </li></ul> |
+   |Site Forti3| <ul><li> Pare-feu fortinet : Model name: FortiGate-VM64-KVM </li><li> Un PC-distant CentOS Linux 7.5 </li></ul> |
+   |Site R4| <ul><li> Un routeur Cisco IOS Software, IOSv Software (VIOS-ADVENTERPRISEK9-M), Version 15.6(2)T </li><li> Un switch Ethernet </li><li> Un PC-distant CentOS Linux 7.5 </li></ul> |
+
+*Une seconde topologie avec un deuxième switchblock est disponible *
+![Topologie2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Topologie_2_switchblocks.png?raw=true)
+
 
 ---
 
-<a id="Plan"></a>
+<a id="2"></a>
 ## 2. Plan d'adressage
 
-
-[Adressage](https://github.com/reseau-2020/projet-three/blob/master/Plan%20d'adressage.md)
-
+Le plan d'adressage IP de la topologie est disponible en cliquant sur le lien : [Adressage](https://github.com/reseau-2020/projet-three/blob/master/Plan%20d'adressage.md)
 
 ---
 
-<a id="Ansible"></a>
+<a id="3"></a>
 ## 3. Ansible
 
 On a choisi le protocol EIGRP car, contrairement a OSPF, c'est un système autonome qui possède des routes secondaire et de multiples protocoles autre que IP. 
@@ -84,12 +89,12 @@ Pour mettre a jour sur le controller les modifications on effetue un `git pull` 
 
 ---
 
-<a id="Infra"></a>
+<a id="4"></a>
 ## 4. Configuration des services d’infrastructures
 
   
   
-<a id="DNS"></a>
+<a id="41"></a>
 ###  4.1 DNS
 
 On remarquera que désormais le routage et la communication en IPv6 sera préféré par défault lors de l'utilisation de `ping`.
@@ -130,7 +135,7 @@ ip dhcp pool VLAN40
  
  Un ping en IPv4 et IPv6 des PCs vers `www.google.com` nous a rassuré sur son fonctionnement.
 
-<a id="NTP"></a>
+<a id="42"></a>
 ###  4.2 NTP
 
 Network Time Protocol (NTP) est un protocole TCP/IP qui permet de synchroniser à travers le réseau l'horloge locale des ordinateurs sur une date et une heure de référence. 
@@ -185,15 +190,15 @@ Nous avons constaté que les commutateurs AS1 et AS2 n'étaient pas synchronisé
 
 ---
   
-<a id="Connect"></a>
+<a id="5"></a>
 ## 5. Connectivité Ipv4 et Ipv6
 
-<a id="Conn4"></a>
+<a id="51"></a>
 ### 5.1 Connectivité IPv4
 
 Des `ping` entre les différentes VLANs, ainsi que vers `www.test.tf`, `1.1.1.1` et `www.google.com` a permis de vérifier le bon fonctionnement de notre topologie en terme de connectivité.
 
-<a id="Conn6"></a>
+<a id="52"></a>
 ### 5.2 Connectivité IPv6 vers Internet
 
 Dans un premier temps, afin de déployer la connectivité vers l’internet, nous avions configuré une adresse statique en IPV6 ipv6 route ::/0 g0/0 FE80::E53:21FF:FE38:5800 avec :
@@ -215,14 +220,14 @@ Sur R2 : `int g0/4 ipv6 eigrp 1` On remarque un log de eigrp nous indiquant qu�
 
 ---
   
-<a id="Test"></a>
+<a id="6"></a>
 ## 6. Tests de fiabilité
 
 
 Plusieurs essais ont été effectuée en tombant des liaisons (couches ACCESS, DISTRIBUTION et CORE) ou des periphériques entiers. 
 La connectivité entre les PCs et la connectivité vers internet sont restaurés systématiquement après quelques secondes d’attente (3 paquets perdus).
 
-<a id="Span"></a>
+<a id="61"></a>
 ###  6.1 Spanning-Tree
 
 Dans l'éventualité, lors d'un envoie de paquet, qu'une interface du chemin principale tombe, les switch trouveraient un chemin alternatif. 
@@ -232,7 +237,7 @@ C'est le cas dans cette exemple, lors d'un ping (IPV4 et IPV6) de PC2 a PC6, les
 ![Capture traffic de DS2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/Capture_po2-reprise_traffic_test_span_DS2.PNG?raw=true)
 
 
-<a id="HSRP"></a>
+<a id="62"></a>
 ###  6.2 HSRP
 
 - #### IPv4
@@ -250,7 +255,7 @@ Il semblerait que l’adresse MAC de la passerelle virtuelle (fe80:d0) ne se met
 Nous n’avons pas trouvé l’origine du problème. Notre topologie semble conforme au modèle suivit.
 
 
-<a id="EIGRP"></a>
+<a id="63"></a>
 ###  6.3 EIGRP
 
 On trouve la route suivit pas le trafic depuis le périphérique avec la commande `trace route xxx.xxx.xxx.xxx` avec les XX l'adresse IP de destination.
@@ -268,9 +273,10 @@ Ping (IPV4 et IPV6) de Centos-8 vers l'internet
 
 ---
 
-<a id="Parcisoc"></a>
+<a id="7"></a>
 ##  7. Pare-feu Cisco
 
+<a id="71"></a>
 ### 7.1 Configuration globale
 
 R1 fera office de pare-feu. C'est un routeur cisco. 
@@ -329,7 +335,7 @@ zone-pair security lan-internet source lan destination internet
   service-policy type inspect internet-trafic-policy
 ```
 
-
+<a id="72"></a>
 ### 7.2 Configuration spécifiques
 
 Il a été nécessaire de rajouter des ACLs pour les protocoles spécifiques suivant : SSH, DNS, DHCP, NTP, SYSLOG.
@@ -451,14 +457,14 @@ On remarquera que seul SSH est disponible.
 
 ---
 
-<a id="VPN4"></a>
+<a id="8"></a>
 ## 8. Mise en place d'un VPN Ipsec Ipv4
 
 On appelle site distant un site séparé du siège de la société par une distance assez importante pour que les échanges nécessitent de passer par Internet. Pour simuler un site distant nous avons ajouté un ordinateur  connecté à un FortiOS, qui représente un pare-feu Fortigate, à notre topologie.
 
 Afin d’établir une connexion sécurisée, un tunnel VPN a été implémenté entre R1 et le Forti3 (FortiOS). Un tunnel VPN est une connexion vpn sécurisée et cryptée entre un appareil et l’internet public. Avec une connexion cryptée à l’aide d’algorithmes robustes, toute communication reste privée et confidentielle.
 
-<a id="FortiOS"></a>
+<a id="81"></a>
 ### 8.1 Configuration VPN IPSEC IPv4 sur FortiOS
 
 Dans notre topologie le FortiOS a les fonctions de router et filtrer le trafic entre l’Internet et le site distant, bien comme établir la connexion vpn avec le réseau principal. 
@@ -492,7 +498,7 @@ Règles pare-feu pour les trafics IPv4 :
 Nous avons constaté que l’interface d’administration nous permet d’attribuer seulement une adresse IPv6 par interface. Devant l’impossibilité d’attribution d’une adresse privée et une publique, nous avons décidé de faire l’implémentation d’un pare-feu sur un périphérique Cisco pour le filtrage des trafics en IPv6
 
 
-<a id="VPN4Cisco"></a>
+<a id="82"></a>
 ### 8.2 Configuration VPN IPSEC IPv4 sur CiscoIOS
 
 Nous avons monté un VPN IPSEC en Ipv4 entre R1 et Forti3. Nous avions essayé dans un premier temps avec une encryption/authentification en `esp-des`/`esp-sha-hmac`. Toutefois, le tunnel ne se montait pas et restait inactif. Après quelques recherches, et l'aide précieuse de nos collègues du groupe 4. Il s'est avéré qu'un tunnel ne pouvait être monté entre un CiscoIOS et un FortIOS qu'avec `esp-des`/`esp-md5-hmac`. Nous avons donc réalisé les modifications nécessaires et le tunnel s'est monté.
@@ -575,10 +581,10 @@ policy-map type inspect to-self-policy
 
 ---
 
-<a id="Surveillance"></a>
+<a id="9"></a>
 ## 9. Mise en place des services de surveillance
 
-<a id="Syslog"></a>
+<a id="91"></a>
 ###  9.1 Syslog
 
  On considère que le client, depuis son PC, veut surveiller son installation avec le service **Syslog**. 
@@ -649,7 +655,7 @@ policy-map type inspect to-self-policy
 Syslog est donc fonctionnel.**
 
 
-<a id="SNMP"></a>
+<a id="92"></a>
 ###  9.2 SNMP
 
 SNMP, tout comme Syslog, permet de collecter des informations de surveillance sur un server central provenant d'appareils distants. 
@@ -689,15 +695,15 @@ snmpwalk -v2c -c <nom de la communauté> <périphérique à gérer>
 
 ---
 
-<a id="+loin"></a>
+<a id="10"></a>
 ## 10. Pour aller plus loin
 
 
-<a id="2switchblock"></a>
+<a id="101"></a>
 ### 10.1 Second Switchblock
 
 
-<a id="VPN6"></a>
+<a id="102"></a>
 ### 10.2 VPN Ipsec Ipv6
 
 - ### MISE EN PLACE
@@ -797,7 +803,7 @@ Aussi, une bonne pratique serait d'utiliser l'adresse link-local de chacun des r
 
 Aussi, il serait préférable d'utiliser des adresses privées comme Ipv6 virtuelles pour les interfaces Tunnel6.
 
-<a id="Secu"></a>
+<a id="103"></a>
 ### 10.3 Focus Sécurité
 
 Par manque de temps, nous n'avons pas pu nous attarder sur l'aspect sécurité de notre topologie. Mais voici quelques pistes d'améliorations qui auraient pu être envisagées.
@@ -829,8 +835,8 @@ En activant SNMPv3
 
 ---
 
-<a id="Annexes"></a>
+<a id="11"></a>
 ## 11. Annexes
 
-<a id="config"></a>
+<a id="111"></a>
 - [Fichiers de configuration](https://github.com/reseau-2020/projet-three/tree/master/Ansible/playbooks/backup)
