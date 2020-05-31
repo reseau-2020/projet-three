@@ -695,7 +695,8 @@ Nous utiliserons ici :
 - ESP (Encapsulating Security Payload) qui est le protocole de transport de la pile IPSEC qui est utilisé pour la confidentialité, l’authentification et l’anti-rejeu des échanges entre deux noeuds IP.
 
 - ### Premier essai cisco-Fortigate
-Nous avions essayé entre 1 fortigate et 1 cisco mais cela semble très compliqué voir peut être impossible avec le fortiOS utilisé ici. L’usage de GUI pour ce faire sur FortiOs n’est pas possible, il aurait fallu utiliser CLI, sans être certain du résultat.
+
+Nous avions essayé entre 1 fortigate et 1 cisco mais cela semble très compliqué voir peut être impossible avec le fortiOS utilisé ici. L’usage de GUI pour ce faire sur FortiOs n’est pas possible, il aurait fallu utiliser CLI, sans être certain du résultat. Il semblerait que même en 2020, les fabriquants tels que Fortinet ne se préoccupent pas ou très peu du développement en IPv6. C'est un constat que nous avions déjà effectué sur les PCs virtualisés en VPCS pour lesquels IPv6 n'est pas completement implantés. 
 
 - ### Second essai Cisco-Cisco
 
@@ -771,12 +772,11 @@ Aussi, il serait préférable d'utiliser des adresses privées comme Ipv6 virtue
 <a id="Secu"></a>
 ### 10.3 Focus Sécurité
 
+Par manque de temps, nous n'avons pas pu nous attarder sur l'aspect sécurité de notre topologie. Mais voici quelques pistes d'améliorations qui auraient pu être envisagées.
+
 - Réaliser des scans du réseau à partir d'un PC pirate. Et potentiellement essayer d'accéder aux fichiers contenu sur un périphérique grâce à SSH par exemple.
 
-
-
-
-- Améliorer les ACLs et policy-map des pare-feu en réduisant les blocs;
+- Améliorer les ACLs et policy-map des pare-feu en réduisant les blocs d'adresses;
 
 - Mettre en place des groupes d'utilisateurs et des accès restreints en fonction des groupes et des VLANs (sur R1 et FortiOS);
  Notamment avec des mots de passe à plus de 8 caractères, combinaison de lettres, chiffres et caractères spéciaux, ainsi qu'une expiration.
@@ -787,16 +787,17 @@ Aussi, il serait préférable d'utiliser des adresses privées comme Ipv6 virtue
 
 - Mettre en place un serveur RADIUS afin de sécuriser les accès administratifs aux différents périphériques de la topologie;
 
-
 - Sécurisation envisagables pour SNMP :
 En choisissant judicieusement un nom de Communauté 
 En configurant des SNMP View 
 En activant des ACLs sur les Communautés et sur les interfaces 
-En isolant ce trafic dans un VLAN contrôlé par des ACLs En activant SNMPv3
+En isolant ce trafic dans un VLAN contrôlé par des ACLs 
+En activant SNMPv3
 
-- Avoir des fichiers de sauvegarde
-- UTM
-- Antivirus sur les PC
+- Mettre en place des sauvegardes automatiques des configurations et des données
+
+- Installation d'Antivirus
+
 
 <a id="Annexes"></a>
 ## 11. Annexes
