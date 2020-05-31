@@ -42,6 +42,7 @@ permalink: /documentation/
 
 ---
 
+
 - Une couche Core maillé de 3 Routeurs Cisco iOS (R1, R2, R3) 
 - Un switch block (4 VLANs utiles) composé de 2 périphérique de couche Distribution (DS1, DS2) et 2 périphérique de couche Acces (AS1, AS2)
 - Un maillage entre la couche Core et le switchblock
@@ -61,6 +62,7 @@ permalink: /documentation/
 
 ---
 
+
 [Adressage](https://github.com/reseau-2020/projet-three/blob/master/Plan%20d'adressage.md)
 
   
@@ -70,6 +72,7 @@ permalink: /documentation/
 ## 3. Ansible
 
 ---
+
 
 On a choisi le protocol EIGRP car, contrairement a OSPF, c'est un système autonome qui possède des routes secondaire et de multiples protocoles autre que IP. 
 Et il est plus facile a configurer et plus rapide que OSPF. 
