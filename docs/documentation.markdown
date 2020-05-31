@@ -717,7 +717,7 @@ Afin d'enrichir le réseau principal de notre topologie, un deuxième switchbloc
 
 ![Topologie2s](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Deuxième%20_switchblock.png)
 
-Sa configuration a été effectuée à l'aide de l'outil Ansible. Pour cela, quelques modifications ont été apportées au livre de jeu :
+Sa configuration a été effectuée à l'aide de l'outil Ansible. Pour cela, quelques modifications ont été apportées à l'inventaire des livres de jeu :
 
 -	Dans le fichier « hosts » les nouveaux commutateurs Cisco ont été ajoutés (AS3, AS4, DS3 et DS4) ;
 -	Les fichiers de configuration « AS3 », « AS4 », « DS3 » et « DS4 » ont été créés dans le dossier « host_vars » ;
