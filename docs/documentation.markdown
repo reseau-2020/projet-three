@@ -48,12 +48,18 @@ permalink: /documentation/
 
 Notre topologie est constitué de : 
 
-<tr>
-  <td>Bonjour, je suis votre première cellule </td>
-  <td>je suis votre deuxième cellule </td>
-  <td>je suis votre troisième cellule </td>
-  <td>je suis votre quatrième cellule </td>
-</tr>
+<table>
+    <tbody>
+        <tr>
+            <td>The table body</td>
+            <td>with two columns</td>
+        </tr>
+        <tr>
+            <td>The tabl</td>
+            <td>with two</td>
+        </tr>
+    </tbody>
+</table>
 
    | Couche | Ressources | 
    |:-------:|:----|
