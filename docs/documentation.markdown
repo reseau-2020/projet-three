@@ -54,9 +54,9 @@ Notre topologie est constitué de :
    | Couche core | <p> Trois routeurs R1, R2 et R3 Cisco IOS Software, IOSv Software (VIOS-ADVENTERPRISEK9-M),  Version 15.7(3)M3 </p> |
    | Couche distribution | <p> Deux switchs de distribution DS1 et DS2 Cisco IOS Software, vios_l2 Software (vios_l2-ADVENTERPRISEK9-M), Experimental Version 15.2(20170321:233949) </p> |
    |Couche access| <p> Deux switchs AS1 et AS2 Cisco IOS Software, vios_l2 Software (vios_l2-ADVENTERPRISEK9-M) Experimental Version 15.2(20170321:233949)</p><p> 8 postes de travail VPCS </p><p> 2 postes de travail CentOS Linux 7.5 </p> |
-   |Site Internet| <p> Un switch Ethernet </li><li> Un nuage NAT utiliser comme router par GNS3 pour atteindre l'Internet </p><p> Une station pirate CentOS Linux 7.5 </p> |
+   |Site Internet| <p> Un switch Ethernet </p><p> Un nuage NAT utiliser comme router par GNS3 pour atteindre l'Internet </p><p> Une station pirate CentOS Linux 7.5 </p> |
    |Site Forti3| <p> Pare-feu fortinet : Model name: FortiGate-VM64-KVM </p><p> Un PC-distant CentOS Linux 7.5 </p> |
-   |Site R4| <p> Un routeur Cisco IOS Software, IOSv Software (VIOS-ADVENTERPRISEK9-M), Version 15.6(2)T </p><p> Un switch Ethernet </li><li> Un PC-distant CentOS Linux 7.5 </p> |
+   |Site R4| <p> Un routeur Cisco IOS Software, IOSv Software (VIOS-ADVENTERPRISEK9-M), Version 15.6(2)T </p><p> Un switch Ethernet </p><p> Un PC-distant CentOS Linux 7.5 </p> |
 
 *Une seconde topologie avec un deuxième switchblock est disponible *
 ![Topologie2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Topologie_2_switchblocks.png?raw=true)
