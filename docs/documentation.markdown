@@ -133,17 +133,13 @@ On remarquera que désormais le routage et la communication en IPv6 sera préfé
 
 Sur R1, R2 et R3
 ```
+R1#conf t
 R1(config)#ip name-server 1.1.1.1
 R1(config)#ip domain lookup
 R1(config)#ip dns server
 R1(config)#end
+R1#wr
 ```
-conf t
-ip name-server 1.1.1.1
-ip domain lookup
-ip dns server
-end
-wr
 
 `ping ip www.google.com`fonctionne à 100% sur R1, R2, R3, DS1, DS2, AS1 et AS2
 
