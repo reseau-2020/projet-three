@@ -81,16 +81,12 @@ Il faut adapter à notre configuration les fichiers du répertoire **/playbooks/
 
 Pour mettre a jour sur le controller les modifications on effetue un `git pull` dans le répertoire souhaité. 
 
-  
-  
+
+---
 
 <a id="Infra"></a>
 ## 4. Configuration des services d’infrastructures
 
----
-
-
-  
   
   
 <a id="DNS"></a>
@@ -186,13 +182,11 @@ Nous avons constaté que les commutateurs AS1 et AS2 n'étaient pas synchronisé
 (config)#ip default-gateway 10.192.1.252
 ``
 
-  
-  
+
+---
   
 <a id="Connect"></a>
 ## 5. Connectivité Ipv4 et Ipv6
-
----
 
 <a id="Conn4"></a>
 ### 5.1 Connectivité IPv4
@@ -219,13 +213,11 @@ show ipv6 route sur DS1 et DS2 nous apprend qu’il n’y a pas de route apprise
 
 Sur R2 : `int g0/4 ipv6 eigrp 1` On remarque un log de eigrp nous indiquant qu’une nouvelle route a été apprise. Les ping ipv6 de PC1 vers PC8 et de PC1 vers l’internet fonctionnent correctement.
 
-  
-  
+---
   
 <a id="Test"></a>
 ## 6. Tests de fiabilité
 
----
 
 Plusieurs essais ont été effectuée en tombant des liaisons (couches ACCESS, DISTRIBUTION et CORE) ou des periphériques entiers. 
 La connectivité entre les PCs et la connectivité vers internet sont restaurés systématiquement après quelques secondes d’attente (3 paquets perdus).
@@ -273,13 +265,11 @@ Ping (IPV4 et IPV6) de Centos-1 vers l'internet
 Ping (IPV4 et IPV6) de Centos-8 vers l'internet 
 [Test EIGRP de centos-8](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_traceroute_centos8.png?raw=true)
 
-  
-  
+
+---
 
 <a id="Parcisoc"></a>
 ###  7 Pare-feu Cisco
-
----
 
 ### 7.1 Configuration globale
 
@@ -458,13 +448,11 @@ Nmap done: 1 IP address (1 host up) scanned in 90.78 seconds
 
 On remarquera que seul SSH est disponible.
 
-  
-  
+
+---
 
 <a id="VPN4"></a>
 ## 8. Mise en place d'un VPN Ipsec Ipv4
-
----
 
 On appelle site distant un site séparé du siège de la société par une distance assez importante pour que les échanges nécessitent de passer par Internet. Pour simuler un site distant nous avons ajouté un ordinateur  connecté à un FortiOS, qui représente un pare-feu Fortigate, à notre topologie.
 
@@ -584,13 +572,11 @@ policy-map type inspect to-self-policy
   inspect
 ```
 
-  
-  
+
+---
 
 <a id="Surveillance"></a>
 ## 9. Mise en place des services de surveillance
-
----
 
 <a id="Syslog"></a>
 ###  9.1 Syslog
@@ -700,13 +686,12 @@ Usage :
 
 snmpwalk -v2c -c <nom de la communauté> <périphérique à gérer>
 
-  
-  
+
+---
 
 <a id="+loin"></a>
 ## 10. Pour aller plus loin
 
----
 
 <a id="2switchblock"></a>
 ### 10.1 Second Switchblock
@@ -841,13 +826,11 @@ En activant SNMPv3
 
 - Installation d'Antivirus
 
-  
-  
-  
-<a id="Annexes"></a>
-## 11. Annexes
 
 ---
+
+<a id="Annexes"></a>
+## 11. Annexes
 
 <a id="config"></a>
 - [Fichiers de configuration](https://github.com/reseau-2020/projet-three/tree/master/Ansible/playbooks/backup)
