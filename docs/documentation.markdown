@@ -22,7 +22,7 @@ permalink: /documentation/
   - #####  [6.1 Spanning-Tree](#61)
   - #####  [6.2 HSRP](#62)
   - #####  [6.3 EIGRP](#63)
-- #### [7. Parefeu Cisco](#7)
+- #### [7. Pare-feu Cisco](#7)
   - ##### [7.1 Configuration globale](#71)
   - ##### [7.2 Configuration spécifiques](#72)
 - #### [8. Mise en place d'un VPN Ipsec Ipv4](#8)
@@ -33,7 +33,7 @@ permalink: /documentation/
   - #####  [9.2 SNMP](#92)
 - #### [10. Pour aller plus loin](#10)
   - ##### [10.1 Second Switchblock](#101)
-  - ##### [10.2 VPN Ipsec Ipv6](#102)
+  - ##### [10.2 VPN IPsec Ipv6](#102)
   - ##### [10.3 Focus Sécurité](#103)
 - #### [11. Annexes](#11)
   - ##### [11.1 Fichiers de configuration](#111)
@@ -58,19 +58,19 @@ Notre topologie est constitué de :
   </thead>
   <tbody>
         <tr>
-            <td>Site controleur</td>
+            <td>Site contrôleur</td>
             <td><p>Un CentOS Linux 7.5</p><p>Un switch Ethernet</p></td>
         </tr>
         <tr>
-            <td>Couche core</td>
+            <td>Couche Core</td>
             <td><p> Trois routeurs R1, R2 et R3 Cisco IOS Software, IOSv Software (VIOS-ADVENTERPRISEK9-M),  Version 15.7(3)M3 </p></td>
         </tr>
         <tr>
-            <td>Couche distribution</td>
+            <td>Couche Distribution</td>
             <td><p> Deux switchs de distribution DS1 et DS2 Cisco IOS Software, vios_l2 Software (vios_l2-ADVENTERPRISEK9-M), Experimental Version 15.2(20170321:233949) </p></td>
         </tr>
         <tr>
-            <td>Couche access</td>
+            <td>Couche Access</td>
             <td><p> Deux switchs AS1 et AS2 Cisco IOS Software, vios_l2 Software (vios_l2-ADVENTERPRISEK9-M) Experimental Version 15.2(20170321:233949)</p><p> 8 postes de travail VPCS </p><p> 2 postes de travail CentOS Linux 7.5 </p></td>
         </tr>
         <tr>
@@ -106,17 +106,17 @@ Le plan d'adressage IP de la topologie est disponible en cliquant sur le lien : 
 <a id="3"></a>
 ## 3. Ansible
 
-On a choisi le protocol EIGRP car, contrairement a OSPF, c'est un système autonome qui possède des routes secondaire et de multiples protocoles autre que IP. 
-Et il est plus facile a configurer et plus rapide que OSPF. 
+On a choisi le protocole EIGRP car, contrairement à OSPF, c'est un système autonome qui possède des routes secondaire et de multiples protocoles autre qu'IP. 
+Et il est plus facile à configurer et plus rapide qu'OSPF. 
 
 
-Les livres de jeux Ansible sont lancé depuis un poste "controller". 
+Les livres de jeux Ansible sont lancé depuis un poste "Controller". 
 ```
 [root@controller]# ansible-playbook /ansible-ccna-lab/playbooks/ccna.yml
 ```
 Il faut adapter à notre configuration les fichiers du répertoire **/playbooks/inventories/projet3_main/host_var/**
 
-Pour mettre a jour sur le controller les modifications on effetue un `git pull` dans le répertoire souhaité. 
+Pour mettre à jour sur le Controller les modifications on effectue un `git pull` dans le répertoire souhaité. 
 
 
 ---
@@ -129,7 +129,7 @@ Pour mettre a jour sur le controller les modifications on effetue un `git pull` 
 <a id="41"></a>
 ###  4.1 DNS
 
-On remarquera que désormais le routage et la communication en IPv6 sera préféré par défault lors de l'utilisation de `ping`.
+On remarquera que désormais le routage et la communication en IPv6 sera préféré par défaut lors de l'utilisation de `ping`.
 
 Sur R1, R2 et R3
 ```
@@ -146,7 +146,7 @@ R1#wr
 
 DNS fonctionne correctement sur la partie tripod. 
 
-Aussi, nous avons remarqué que `dns-server`était mal paramétré sur les VLANs (DS1 et DS2), sûrement dû à une mauvaise manipulation sur les fichiers ansible. 
+Aussi, nous avons remarqué que `dns-server` était mal paramétré sur les VLANs (DS1 et DS2), sûrement dû à une mauvaise manipulation sur les fichiers Ansible. 
 
 Nous avons donc rajouté manuellement sur DS1 et DS2 :
 
@@ -179,41 +179,25 @@ Dans le cadre du projet nous avons ajusté l'heure de tous les périphériques C
 
 Deuxièmement, nous avons vérifié le statut NTP (désactivé par défaut sur le matériel Cisco) et paramétré un serveur NTP publique sur R1 : 
 
-``
-#show ntp status
-``
+`#show ntp status`
 
-``
-%NTP is not enabled.
-``
+`%NTP is not enabled`
 
-``
-(config)#ntp server 3.fr.pool.ntp.org
-``
+`(config)#ntp server 3.fr.pool.ntp.org`
 
-``
-(config)#ntp update-calendar
-``
+`(config)#ntp update-calendar`
 
 Ensuite, nous avons configuré une interface R1 (10.1.1.1) en tant que serveur NTP pour les autres périphériques Cisco de la topologie, sur R2, R3, AS1, AS2, DS1 et DS2 :
 
-``
-(config)#ntp server 10.1.1.1
-``
+`(config)#ntp server 10.1.1.1`
 
-``
-(config)#ntp update-calendar
-``
+`(config)#ntp update-calendar`
 
 Nous avons constaté que les commutateurs AS1 et AS2 n'étaient pas synchronisés. Le problème a été résolu en désactivant le routage et en ajoutant une route par défaut sur ces deux périphériques, l'adresse utilisée a été la passerelle du sous-réseau virtuel de gestion (VLAN99).
 
-``
-(config)#no ip routing
-``
+`(config)#no ip routing`
 
-``
-(config)#ip default-gateway 10.192.1.252
-``
+`(config)#ip default-gateway 10.192.1.252`
 
 
 ---
@@ -229,22 +213,22 @@ Des `ping` entre les différentes VLANs, ainsi que vers `www.test.tf`, `1.1.1.1`
 <a id="52"></a>
 ### 5.2 Connectivité IPv6 vers Internet
 
-Dans un premier temps, afin de déployer la connectivité vers l’internet, nous avions configuré une adresse statique en IPV6 ipv6 route ::/0 g0/0 FE80::E53:21FF:FE38:5800 avec :
+Dans un premier temps, afin de déployer la connectivité vers l’internet, nous avions configuré une adresse statique en IPV6, `ipv6 route ::/0 g0/0 FE80::E53:21FF:FE38:5800` avec :
 
     FE80::E53:21FF:FE38:5800 , l’adresse link-local de notre passerelle vers l’internet
     g0/0 notre interface de sortie vers l’extérieur
 
-Avec un show ipv6 routesur R2 et R3, nous nous sommes aperçu que la route ne se distribuait pas automatiquement. Nous avons donc déployer ipv6 route ::/0 g0/1 FE80::1 sur ces derniers.
+Avec un `show ipv6 route` sur R2 et R3, nous nous sommes aperçu que la route ne se distribuait pas automatiquement. Nous avons donc déployé `ipv6 route ::/0 g0/1 FE80::1` sur ces derniers.
 
-Cela n’était pas nécessaire. Nous aurions pu forcer R1 à distribuer cette route statique : ipv6 router eigrp 1 redistribute static Par ailleurs, il est plus correct de limiter la route par défaut aux adresses publiques : `ipv6 route 2000::/3 g0/0 FE80::E53:21FF:FE38:5800`.
+Cela n’était pas nécessaire. Nous aurions pu forcer R1 à distribuer cette route statique : `ipv6 router eigrp 1 redistribute static` Par ailleurs, il est plus correct de limiter la route par défaut aux adresses publiques : `ipv6 route 2000::/3 g0/0 FE80::E53:21FF:FE38:5800`.
 
 Nous avons fait le choix de ne pas déployer de LAN directement connectée sur R1. Par conséquent, aucune interface de R1 ne dispose d’adresse publique et donc ne peut pas joindre directement internet. Il est nécessaire de ping à partir des PCs des VLANs.
 
-Toutefois, aucune connectivité vers l’internet ou entre les différents PC est observée.
+Toutefois, aucune connectivité vers l’internet ou entre les différents PC n'est observée.
 
-show ipv6 route sur DS1 et DS2 nous apprend qu’il n’y a pas de route apprise par eigrp vers l’internet. `show ipv6 eigrp neighbors` sur DS1 nous apprend qu’il ne voit pas R2 correctement. `show run | b ipv6 eigrp` sur R2 nous apprend que l’interface G0/4 n’est pas montée en eigrp.
+`show ipv6 route` sur DS1 et DS2 nous apprend qu’il n’y a pas de route apprise par EIGRP vers l’internet. `show ipv6 eigrp neighbors` sur DS1 nous apprend qu’il ne voit pas R2 correctement. `show run | b ipv6 eigrp` sur R2 nous apprend que l’interface G0/4 n’est pas montée en EIGRP.
 
-Sur R2 : `int g0/4 ipv6 eigrp 1` On remarque un log de eigrp nous indiquant qu’une nouvelle route a été apprise. Les ping ipv6 de PC1 vers PC8 et de PC1 vers l’internet fonctionnent correctement.
+Sur R2 : `int g0/4 ipv6 eigrp 1` On remarque un log de EIGRP nous indiquant qu’une nouvelle route a été apprise. Les ping ipv6 de PC1 vers PC8 et de PC1 vers l’internet fonctionnent correctement.
 
 ---
   
@@ -252,7 +236,7 @@ Sur R2 : `int g0/4 ipv6 eigrp 1` On remarque un log de eigrp nous indiquant qu�
 ## 6. Tests de fiabilité
 
 
-Plusieurs essais ont été effectuée en tombant des liaisons (couches ACCESS, DISTRIBUTION et CORE) ou des periphériques entiers. 
+Plusieurs essais ont été effectués en tombant des liaisons (couches ACCESS, DISTRIBUTION et CORE) ou des périphériques entiers. 
 La connectivité entre les PCs et la connectivité vers internet sont restaurés systématiquement après quelques secondes d’attente (3 paquets perdus).
 
 <a id="61"></a>
@@ -260,26 +244,26 @@ La connectivité entre les PCs et la connectivité vers internet sont restaurés
 
 Dans l'éventualité, lors d'un envoie de paquet, qu'une interface du chemin principale tombe, les switch trouveraient un chemin alternatif. 
 
-C'est le cas dans cette exemple, lors d'un ping (IPV4 et IPV6) de PC2 a PC6, les interfaces G0/0 et G1/0 de DS2 tombe et le trafic trouve un autre chemin en ne perdant que 3 paquets. 
+C'est le cas dans cet exemple, lors d'un ping (IPV4 et IPV6) de PC2 a PC6, les interfaces G0/0 et G1/0 de DS2 tombe et le trafic trouve un autre chemin en ne perdant que 3 paquets. 
 ![Test spanning-tree sur DS2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/test%20Spanning%20DS2.png?raw=true)
-![Capture traffic de DS2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/Capture_po2-reprise_traffic_test_span_DS2.PNG?raw=true)
+![Capture trafic de DS2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/Capture_po2-reprise_traffic_test_span_DS2.PNG?raw=true)
 
 
 <a id="62"></a>
 ###  6.2 HSRP
 
 - #### IPv4
-Un ping depuis le PC centos-1 vers l'Internet passe par AS1 puis DS1. En testant un crash de DS1, les paquets transmis utilise une autre passerelle et passe par DS2 pour atteindre l'Internet.  
+Un ping depuis le PC centos-1 vers l'Internet passe par AS1 puis DS1. En testant un crash de DS1, les paquets transmis utilisent une autre passerelle et passe par DS2 pour atteindre l'Internet.  
 
 ![Test HSRP vers l'Internet](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/test%20HSRP%20DS1%20routage%20internet.png?raw=true)
 
-C'est le même principe qui est appliquer lors de communications entre deux PC. 
+C'est le même principe qui est appliqué lors de communications entre deux PC. 
 [Test HSRP sur DS2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/test%20HSRP%20DS2.png?raw=true)
 
 - #### IPv6
 Notre topologie souffre lors de la mise à l’épreuve de HSRP en IPv6.
 
-Il semblerait que l’adresse MAC de la passerelle virtuelle (fe80:d0) ne se mette pas à jour toute seule. Et meme après redémarrage des périphériques, les liaisons ne sont pas rétablit. 
+Il semblerait que l’adresse MAC de la passerelle virtuelle (fe80:d0) ne se mette pas à jour toute seule. Et même après redémarrage des périphériques, les liaisons ne sont pas rétablit. 
 Nous n’avons pas trouvé l’origine du problème. Notre topologie semble conforme au modèle suivit.
 
 
@@ -307,13 +291,13 @@ Ping (IPV4 et IPV6) de Centos-8 vers l'internet
 <a id="71"></a>
 ### 7.1 Configuration globale
 
-R1 fera office de pare-feu. C'est un routeur cisco. 
+R1 fera office de pare-feu. C'est un routeur Cisco. 
 Cette première configuration permet de mettre en place le filtrage sortant de notre réseau vers l'Internet. 
 
 - #### CLASS MAPS
 
-Ici, on vient définir la `class-map` pour le traffic internet. Quels sont les protocoles ou les ACLs que l'on souhaite examiner ici ?
-Le traffic sortant concernera les protocoles HTTP, HTTPS, DNS, ICMP, SSH.
+Ici, on vient définir la `class-map` pour le trafic internet. Quels sont les protocoles ou les ACLs que l'on souhaite examiner ici ?
+Le trafic sortant concernera les protocoles HTTP, HTTPS, DNS, ICMP, SSH.
 
 ```
 class-map type inspect match-any internet-trafic-class
@@ -368,9 +352,9 @@ zone-pair security lan-internet source lan destination internet
 
 Il a été nécessaire de rajouter des ACLs pour les protocoles spécifiques suivant : SSH, DNS, DHCP, NTP, SYSLOG.
 
-En effet, afin de pouvoir utiliser certains services, il est nécessaire d'autoriser le traffic de ces protocoles sur certains ports.
+En effet, afin de pouvoir utiliser certains services, il est nécessaire d'autoriser le trafic de ces protocoles sur certains ports.
 
-L'ensemble de ce code n'a pas été mis en place d'un seul bloc. Nous sommes aperçu au fur et à mesure de problèmes avec le filtrage du pare-feu. Par exemple avec NTP, le log suivant est apparu sur R1 lors de la mise en place de ce dernier sur notre topologie :
+L'ensemble de ce code n'a pas été mis en place d'un seul bloc. Nous sommes aperçus au fur et à mesure de problèmes avec le filtrage du pare-feu. Par exemple avec NTP, le log suivant est apparu sur R1 lors de la mise en place de ce dernier sur notre topologie :
 ```
 Dropping udp session 188.165.250.19:123 192.168.122.221:123 on zone-pair internet-self class class-default due to  DROP action found in policy-map with ip ident 23648
 ```
@@ -445,7 +429,7 @@ zone-pair security internet-lan source internet destination lan
 
 - #### VERIFICATIONS
 
-L'ensemble de la configuration pourra être inspecter avec les commandes suivantes.
+L'ensemble de la configuration pourra être inspecté avec les commandes suivantes.
 
 ```
 show zone security
@@ -462,7 +446,7 @@ ping -6 www.google.com
 curl www.test.tf
 ```
 
-Aussi, nous avons ajouter un PC-pirate afin de nous assurer des ports accessibles depuis Internet.
+Aussi, nous avons ajouté un PC-pirate afin de nous assurer des ports accessibles depuis Internet.
 192.168.122.221 étant l'adresse externe de R1 sur G0/0.
 
 ![Image PC Pirate](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_divers/pirate.PNG?raw=true)
@@ -486,21 +470,21 @@ On remarquera que seul SSH est disponible.
 ---
 
 <a id="8"></a>
-## 8. Mise en place d'un VPN Ipsec Ipv4
+## 8. Mise en place d'un VPN IPsec Ipv4
 
 On appelle site distant un site séparé du siège de la société par une distance assez importante pour que les échanges nécessitent de passer par Internet. Pour simuler un site distant nous avons ajouté un ordinateur  connecté à un FortiOS, qui représente un pare-feu Fortigate, à notre topologie.
 
-Afin d’établir une connexion sécurisée, un tunnel VPN a été implémenté entre R1 et le Forti3 (FortiOS). Un tunnel VPN est une connexion vpn sécurisée et cryptée entre un appareil et l’internet public. Avec une connexion cryptée à l’aide d’algorithmes robustes, toute communication reste privée et confidentielle.
+Afin d’établir une connexion sécurisée, un tunnel VPN a été implémenté entre R1 et le Forti3 (FortiOS). Un tunnel VPN est une connexion VPN sécurisée et cryptée entre un appareil et l’internet public. Avec une connexion cryptée à l’aide d’algorithmes robustes, toute communication reste privée et confidentielle.
 
 <a id="81"></a>
 ### 8.1 Configuration VPN IPSEC IPv4 sur FortiOS
 
-Dans notre topologie le FortiOS a les fonctions de router et filtrer le trafic entre l’Internet et le site distant, bien comme établir la connexion vpn avec le réseau principal. 
+Dans notre topologie le FortiOS a les fonctions de router et filtrer le trafic entre l’Internet et le site distant, bien comme établir la connexion VPN avec le réseau principal. 
 
 La configuration a été faite à partir de l’interface d’administration du pare-feu accédée avec un navigateur Web.
 
 Nous avons configuré 3 interfaces dans Forti3 :
-| Interface  | Identification  | Adresse ipv4 (dhcp)  |
+| Interface  | Identification  | Adresse ipv4 (DHCP)  |
 |:-----:|:-----:|:-----:|
 Port1 | LAN | 192.168.100.1 |
 Port2 | Internet | 192.168.122.55 |
@@ -568,13 +552,13 @@ crypto map cisco-to-forti3
 
 - #### CRYPTO ACL
 
-Configuration du traffic qui doit passer dans le tunnel (source/destination) :
+Configuration du trafic qui doit passer dans le tunnel (source/destination) :
 ```
 ip access-list extended crypto-acl
 permit ip 10.192.0.0 0.0.255.255 192.168.100.0 0.0.0.255
 ```
 
-Configuration du traffic qui n'est pas traduit en NAT :
+Configuration du trafic qui n'est pas traduit en NAT :
 ```
 no ip access-list standard LANS
 ip access-list extended LANS
@@ -589,7 +573,7 @@ permit ip 10.0.0.0 0.255.255.255 192.168.100.0 0.0.0.255
 
 - #### MODIFICATION PARE-FEU
 
-Des modifications sont nécessaire sur R1 afin de laisser passer les paquets isakmp sur le port 500 notamment. On crée une ACL spécifique au VPN, que l'on associe à une class-map `vpn-class`et que l'on ajoute à la règle de filtrage déjà existante `to-self-policy`.
+Des modifications sont nécessaires sur R1 afin de laisser passer les paquets isakmp sur le port 500 notamment. On crée une ACL spécifique au VPN, que l'on associe à une class-map `vpn-class`et que l'on ajoute à la règle de filtrage déjà existante `to-self-policy`.
 
 ```
 ip access-list extended VPN
@@ -619,13 +603,13 @@ policy-map type inspect to-self-policy
 On installe le serveur sur le PC-distant `yum -y install rsyslog` qui a pour adresse IP `192.168.100.2` 
 
 Il faut modifier le fichier de configuration `vi /etc/rsyslog.conf` 
-et décommenter la partie UDP et TCP syslog reception avec port UDP : 514 et port TCP : 1514.
+et dé-commenter la partie UDP et TCP syslog reception avec port UDP : 514 et port TCP : 1514.
 
 Il faut redémarrer le système Syslog pour que les modifications soit prises en compte : `systemctl restart rsyslog`
 
-Le traffic TCP 1514 et UDP 514 passe donc par le VPN.
+Le trafic TCP 1514 et UDP 514 passe donc par le VPN.
 
-#### Nous avons configuré centos-1 en client syslog :
+#### Nous avons configuré centos-1 en client Syslog :
 
 Il faut installer Syslog sur le PC : `yum -y install rsyslog` et modifier le fichier de configuration : `vi /etc/rsyslog.conf` 
 ``` 
@@ -652,11 +636,11 @@ $InputTCPServerRun 1514
 ```
 Il faut redémarrer le système Syslog pour que les modifications soit prises en compte : `systemctl restart rsyslog`
 
-#### Nous avons également configuré R1 en client syslog :
+#### Nous avons également configuré R1 en client Syslog :
 
 En configuration terminal, on active le service Syslog avec `logging trap debugging` et on indique le server `logging 192.168.100.2`
 
-Pour vérifier la configuratin de R1 : `show logging`
+Pour vérifier la configuration de R1 : `show logging`
 ```
 Trap logging: level debugging, 111 message lines logged
         Logging to 10.192.1.101
@@ -686,10 +670,10 @@ Syslog est donc fonctionnel.**
 <a id="92"></a>
 ###  9.2 SNMP
 
-SNMP, tout comme Syslog, permet de collecter des informations de surveillance sur un server central provenant d'appareils distants. 
-Mais SNMP permet de faire une peu de gestion et est plus sécurisé que Syslog. 
+SNMP, tout comme Syslog, permet de collecter des informations de surveillance sur un serveur central provenant d'appareils distants. 
+Mais SNMP permet de faire un peu de gestion et est plus sécurisé que Syslog. 
 
-Toutefois, nous ne l'avons pas implémenter. Pour ce faire, il aurai fallut suivre les instructions suivantes :
+Toutefois, nous ne l'avons pas implémenté. Pour ce faire, il aura fallu suivre les instructions suivantes :
 
 
 #### Pour configurer les périphériques Cisco
@@ -700,7 +684,7 @@ snmp-server enable traps
 snmp-server host 10.192.10.102 private   # L'adresse du server
 ``` 
 
-#### Securisation envisageables
+#### Sécurisation envisageables
 
 SNMPv2c se sécurise :
 
@@ -732,13 +716,13 @@ snmpwalk -v2c -c <nom de la communauté> <périphérique à gérer>
 
 
 <a id="102"></a>
-### 10.2 VPN Ipsec Ipv6
+### 10.2 VPN IPsec Ipv6
 
 - ### MISE EN PLACE
 
 Nous avons voulu créer Un VPN IPSEC en IPv6. 
 
-> IPSEC est un standard ouvert de l’IETF pour sécuriser les réseaux IP. Il protège et authentifie les paquets IP d’un origine à une > destination grâce à des services de sécurité cryptographiques et à un ensemble de protocoles de transport. 
+> IPSEC est un standard ouvert de l’IETF pour sécuriser les réseaux IP. Il protège et authentifie les paquets IP d’une origine à une destination grâce à des services de sécurité cryptographiques et à un ensemble de protocoles de transport. 
 (*www.cisco.goffinet.org*)
 
 Il assure les fonctions suivantes :
@@ -746,21 +730,21 @@ Il assure les fonctions suivantes :
 - confidentialité des données
 - intégrité des données
 - authentification de l'origine
-- gestion des clès secrètes
+- gestion des clés secrètes
 
 Nous utiliserons ici :
-- 3DES comme algorithme de chiffrement du traffic (encryption)
+- 3DES comme algorithme de chiffrement du trafic (encryption)
 - SHA comme HMAC (intégrité des données)
 - Diffie-Hellman en algorithme de chiffrement asymétrique (clés sécrètes)
 - ESP (Encapsulating Security Payload) qui est le protocole de transport de la pile IPSEC qui est utilisé pour la confidentialité, l’authentification et l’anti-rejeu des échanges entre deux noeuds IP.
 
-- ### Premier essai cisco-Fortigate
+- ### Premier essai Cisco-Fortigate
 
-Nous avions essayé entre 1 fortigate et 1 cisco mais cela semble très compliqué voir peut être impossible avec le fortiOS utilisé ici. L’usage de GUI pour ce faire sur FortiOs n’est pas possible, il aurait fallu utiliser CLI, sans être certain du résultat. Il semblerait que même en 2020, les fabriquants tels que Fortinet ne se préoccupent pas ou très peu du développement en IPv6. C'est un constat que nous avions déjà effectué sur les PCs virtualisés en VPCS pour lesquels IPv6 n'est pas completement implantés. 
+Nous avions essayé entre 1 Fortigate et 1 Cisco mais cela semble très compliqué voir peut être impossible avec le fortiOS utilisé ici. L’usage de GUI pour ce faire sur FortiOs n’est pas possible, il aurait fallu utiliser CLI, sans être certain du résultat. Il semblerait que même en 2020, les fabricants tels que Fortinet ne se préoccupent pas ou très peu du développement en IPv6. C'est un constat que nous avions déjà effectué sur les PCs virtualisés en VPCS pour lesquels IPv6 n'est pas complètement implantés. 
 
 - ### Second essai Cisco-Cisco
 
-Mise en place d’un routeur R4 avec un LAN avec adressage IPv4 et Ipv6, nat, dns, connectivité vers internet, eirgpv4 et v6 (Id 6.6.6.6).
+Mise en place d’un routeur R4 avec un LAN avec adressage IPv4 et Ipv6, NAT, DNS, connectivité vers internet, EIGRPv4 et v6 (Id 6.6.6.6).
 R4 ne dispose pas de pare-feu.
 
 ![image](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_divers/R4distant.PNG?raw=true)
@@ -769,7 +753,7 @@ Les fichiers de configurations :
 - [R1](https://github.com/reseau-2020/projet-three/blob/master/Configurations/VPN_IPSEC_R1.txt)
 - [R4](https://github.com/reseau-2020/projet-three/blob/master/Configurations/VPN_IPSEC_R4.txt)
 
-Une adresse publique IPV6 a été rajouté à l'interface g0/0 de R1.
+Une adresse publique IPV6 a été rajoutée à l'interface g0/0 de R1.
 
 Pour R4 :
 > 2001:470:C814:7006::/64
@@ -787,7 +771,7 @@ Un premier problème est apparu :
 Dropping udp session [2001:470:C814:3001::1]:500 [2001:470:C814:7006::1]:500 on zone-pair self-internet class class-default due to  DROP action found in policy-map with ip ident 11032
 ```
 
-Il semblerait que nous ayons un problèmle de règles de pare-feu.
+Il semblerait que nous ayons un problème de règles de pare-feu.
 
 ```
 class-map type inspect match-any vpn-class
@@ -807,8 +791,7 @@ En effet, nous n’avions pas paramétré les ACLs en IPv6.
 
 L'ajout de cette ACL a permis d'éviter le log d'erreur, toutefois il nous est toujours impossible de ping d’un côté ou de l’autre. Pourtant le tunnel semble être mis en place et fonctionnel :
 ```
-show crypto isakmp sa
-sur R1 :
+R1#show crypto isakmp sa
 
 IPv4 Crypto ISAKMP SA
 dst             src             state          conn-id status
@@ -825,7 +808,7 @@ Aussi, un `traceroute6`de chaque côté du tunnel (centos-1 et PC-distantR4) nou
 
 L'arrêt total du pare-feu sur R1 nous a permis d'observer le bon fonctionnement du tunnel en IPV6. 
 
-La suite à donner serait de trouver comment règler le pare-feu afin de laisser passer ce traffic sans détériorer la sécurité du réseau. 
+La suite à donner serait de trouver comment règler le pare-feu afin de laisser passer ce trafic sans détériorer la sécurité du réseau. 
 
 Aussi, une bonne pratique serait d'utiliser l'adresse link-local de chacun des routeurs R1 et R4 comme sources et destinations des routes statiques permettant d'accéder au tunnel.
 
@@ -836,7 +819,7 @@ Aussi, il serait préférable d'utiliser des adresses privées comme Ipv6 virtue
 
 Par manque de temps, nous n'avons pas pu nous attarder sur l'aspect sécurité de notre topologie. Mais voici quelques pistes d'améliorations qui auraient pu être envisagées.
 
-- Réaliser des scans du réseau à partir d'un PC pirate. Et potentiellement essayer d'accéder aux fichiers contenu sur un périphérique grâce à SSH par exemple.
+- Réaliser des scans du réseau à partir d'un PC pirate. Et potentiellement essayer d'accéder aux fichiers contenus sur un périphérique grâce à SSH par exemple.
 
 - Améliorer les ACLs et policy-map des pare-feu en réduisant les blocs d'adresses;
 
@@ -849,7 +832,7 @@ Par manque de temps, nous n'avons pas pu nous attarder sur l'aspect sécurité d
 
 - Mettre en place un serveur RADIUS afin de sécuriser les accès administratifs aux différents périphériques de la topologie;
 
-- Sécurisation envisagables pour SNMP :
+- Sécurisation envisageables pour SNMP :
 En choisissant judicieusement un nom de Communauté 
 En configurant des SNMP View 
 En activant des ACLs sur les Communautés et sur les interfaces 
