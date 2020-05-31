@@ -48,9 +48,16 @@ permalink: /documentation/
 
 Notre topologie est constitué de : 
 
+<tr>
+  <td>Bonjour, je suis votre première cellule </td>
+  <td>je suis votre deuxième cellule </td>
+  <td>je suis votre troisième cellule </td>
+  <td>je suis votre quatrième cellule </td>
+</tr>
+
    | Couche | Ressources | 
    |:-------:|:----|
-   | Site contôleur | <p> Un CentOS Linux 7.5 </p><p> Un switch Ethernet </p> |
+   | Site contôleur | - Un CentOS Linux 7.5  - Un switch Ethernet |
    | Couche core | <p> Trois routeurs R1, R2 et R3 Cisco IOS Software, IOSv Software (VIOS-ADVENTERPRISEK9-M),  Version 15.7(3)M3 </p> |
    | Couche distribution | <p> Deux switchs de distribution DS1 et DS2 Cisco IOS Software, vios_l2 Software (vios_l2-ADVENTERPRISEK9-M), Experimental Version 15.2(20170321:233949) </p> |
    |Couche access| <p> Deux switchs AS1 et AS2 Cisco IOS Software, vios_l2 Software (vios_l2-ADVENTERPRISEK9-M) Experimental Version 15.2(20170321:233949)</p><p> 8 postes de travail VPCS </p><p> 2 postes de travail CentOS Linux 7.5 </p> |
