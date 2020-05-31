@@ -9,34 +9,38 @@ permalink: /documentation/
 
 ## Sommaire
 
-#### [1. Topologie](#Topo)
-#### [2. Plan d’adressage Ipv4/Ipv6](#Plan)
-#### [3. Ansible](#Ansible)
-#### [4. Configuration des services d’infrastructures](#Infra)
- - #####  [4.1 DNS](#DNS)
- - #####  [4.2 NTP](#NTP)
-#### [5. Connectivité Ipv4 et Ipv6](#Connect)
-#### [6. Tests de fiabilité](#Test)
- - #####  [6.1 Spanning-Tree](#Span)
- - #####  [6.2 HSRP](#HSRP)
- - #####  [6.3 EIGRP](#EIGRP)
-#### [7. Configuration parefeu Cisco](#Parcisoc)
-#### [8. Mise en place d'un VPN Ipsec Ipv4](#VPN4)
- - #####  [8.1 Configuration de FortiOS](#FortiOS)
- - #####  [8.2 Configuration sur CiscoIOS](#VPN4Cisco)
-#### [9. Mise en place des services de surveillance](#Surveillance)
- - #####  [9.1 Syslog](#Syslog)
- - #####  [9.2 SNMP](#SNMP)
-#### [10. Pour aller plus loin](#+loin)
- - ##### [10.1 Second Switchblock](#2switchblock)
- - ##### [10.2 VPN Ipsec Ipv6](#VPN6)
- - ##### [10.3 Focus Sécurité](#Secu)
-#### [11. Annexes](#Annexes)
- - ##### [Fichiers de configuration](#config)
+- #### [1. Topologie](#Topo)
+- #### [2. Plan d’adressage Ipv4/Ipv6](#Plan)
+- #### [3. Ansible](#Ansible)
+- #### [4. Configuration des services d’infrastructures](#Infra)
+  - #####  [4.1 DNS](#DNS)
+  - #####  [4.2 NTP](#NTP)
+- #### [5. Connectivité Ipv4 et Ipv6](#Connect)
+  - #####  [5.1 Connectivité IPv4](#Conn4)
+  - #####  [5.2 Connectivité IPv6 vers Internet](Conn6)
+- #### [6. Tests de fiabilité](#Test)
+  - #####  [6.1 Spanning-Tree](#Span)
+  - #####  [6.2 HSRP](#HSRP)
+  - #####  [6.3 EIGRP](#EIGRP)
+- #### [7. Configuration parefeu Cisco](#Parcisoc)
+- #### [8. Mise en place d'un VPN Ipsec Ipv4](#VPN4)
+  - #####  [8.1 Configuration de FortiOS](#FortiOS)
+  - #####  [8.2 Configuration sur CiscoIOS](#VPN4Cisco)
+- #### [9. Mise en place des services de surveillance](#Surveillance)
+  - #####  [9.1 Syslog](#Syslog)
+  - #####  [9.2 SNMP](#SNMP)
+- #### [10. Pour aller plus loin](#+loin)
+  - ##### [10.1 Second Switchblock](#2switchblock)
+  - ##### [10.2 VPN Ipsec Ipv6](#VPN6)
+  - ##### [10.3 Focus Sécurité](#Secu)
+- #### [11. Annexes](#Annexes)
+  - ##### [Fichiers de configuration](#config)
 
 
 <a id="Topo"></a>
-## Topologie
+## 1. Topologie
+
+---
 
 - Une couche Core maillé de 3 Routeurs Cisco iOS (R1, R2, R3) 
 - Un switch block (4 VLANs utiles) composé de 2 périphérique de couche Distribution (DS1, DS2) et 2 périphérique de couche Acces (AS1, AS2)
@@ -49,13 +53,23 @@ permalink: /documentation/
 *Avec un deuxième switchblock*
 ![Topologie2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Topologie_2_switchblocks.png)
 
+  
+  
+  
 <a id="Plan"></a>
-## Plan d'adressage
+## 2. Plan d'adressage
+
+---
 
 [Adressage](https://github.com/reseau-2020/projet-three/blob/master/Plan%20d'adressage.md)
 
+  
+  
+  
 <a id="Ansible"></a>
 ## 3. Ansible
+
+---
 
 On a choisi le protocol EIGRP car, contrairement a OSPF, c'est un système autonome qui possède des routes secondaire et de multiples protocoles autre que IP. 
 Et il est plus facile a configurer et plus rapide que OSPF. 
@@ -69,11 +83,18 @@ Il faut adapter à notre configuration les fichiers du répertoire **/playbooks/
 
 Pour mettre a jour sur le controller les modifications on effetue un `git pull` dans le répertoire souhaité. 
 
+  
+  
 
 <a id="Infra"></a>
 ## 4. Configuration des services d’infrastructures
 
+---
 
+
+  
+  
+  
 <a id="DNS"></a>
 ###  4.1 DNS
 
@@ -167,15 +188,21 @@ Nous avons constaté que les commutateurs AS1 et AS2 n'étaient pas synchronisé
 (config)#ip default-gateway 10.192.1.252
 ``
 
-
+  
+  
+  
 <a id="Connect"></a>
 ## 5. Connectivité Ipv4 et Ipv6
 
-### Connectivité IPv4
+---
+
+<a id="Conn4"></a>
+### 5.1 Connectivité IPv4
 
 Des `ping` entre les différentes VLANs, ainsi que vers `www.test.tf`, `1.1.1.1` et `www.google.com` a permis de vérifier le bon fonctionnement de notre topologie en terme de connectivité.
 
-### Connectivité IPv6 vers Internet
+<a id="Conn6"></a>
+### 5.2 Connectivité IPv6 vers Internet
 
 Dans un premier temps, afin de déployer la connectivité vers l’internet, nous avions configuré une adresse statique en IPV6 ipv6 route ::/0 g0/0 FE80::E53:21FF:FE38:5800 avec :
 
@@ -194,8 +221,14 @@ show ipv6 route sur DS1 et DS2 nous apprend qu’il n’y a pas de route apprise
 
 Sur R2 : `int g0/4 ipv6 eigrp 1` On remarque un log de eigrp nous indiquant qu’une nouvelle route a été apprise. Les ping ipv6 de PC1 vers PC8 et de PC1 vers l’internet fonctionnent correctement.
 
+  
+  
+  
 <a id="Test"></a>
 ## 6. Tests de fiabilité
+
+---
+
 Plusieurs essais ont été effectuée en tombant des liaisons (couches ACCESS, DISTRIBUTION et CORE) ou des periphériques entiers. 
 La connectivité entre les PCs et la connectivité vers internet sont restaurés systématiquement après quelques secondes d’attente (3 paquets perdus).
 
@@ -242,10 +275,13 @@ Ping (IPV4 et IPV6) de Centos-1 vers l'internet
 Ping (IPV4 et IPV6) de Centos-8 vers l'internet 
 [Test EIGRP de centos-8](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_fiabilite/testeigrp_traceroute_centos8.png?raw=true)
 
-
+  
+  
 
 <a id="Parcisoc"></a>
 ###  7 Pare-feu Cisco
+
+---
 
 ### 7.1 Configuration globale
 
@@ -424,10 +460,13 @@ Nmap done: 1 IP address (1 host up) scanned in 90.78 seconds
 
 On remarquera que seul SSH est disponible.
 
-
+  
+  
 
 <a id="VPN4"></a>
 ## 8. Mise en place d'un VPN Ipsec Ipv4
+
+---
 
 On appelle site distant un site séparé du siège de la société par une distance assez importante pour que les échanges nécessitent de passer par Internet. Pour simuler un site distant nous avons ajouté un ordinateur  connecté à un FortiOS, qui représente un pare-feu Fortigate, à notre topologie.
 
@@ -547,11 +586,13 @@ policy-map type inspect to-self-policy
   inspect
 ```
 
-
+  
+  
 
 <a id="Surveillance"></a>
 ## 9. Mise en place des services de surveillance
 
+---
 
 <a id="Syslog"></a>
 ###  9.1 Syslog
@@ -661,11 +702,13 @@ Usage :
 
 snmpwalk -v2c -c <nom de la communauté> <périphérique à gérer>
 
-
+  
+  
 
 <a id="+loin"></a>
 ## 10. Pour aller plus loin
 
+---
 
 <a id="2switchblock"></a>
 ### 10.1 Second Switchblock
@@ -800,10 +843,13 @@ En activant SNMPv3
 
 - Installation d'Antivirus
 
-
+  
+  
+  
 <a id="Annexes"></a>
 ## 11. Annexes
 
+---
 
 <a id="config"></a>
 - [Fichiers de configuration](https://github.com/reseau-2020/projet-three/tree/master/Ansible/playbooks/backup)
