@@ -37,11 +37,10 @@ permalink: /documentation/
   - ##### [Fichiers de configuration](#config)
 
 
-<a id="Topo"></a>
-## 1. Topologie
-
 ---
 
+<a id="Topo"></a>
+## 1. Topologie
 
 - Une couche Core maillé de 3 Routeurs Cisco iOS (R1, R2, R3) 
 - Un switch block (4 VLANs utiles) composé de 2 périphérique de couche Distribution (DS1, DS2) et 2 périphérique de couche Acces (AS1, AS2)
@@ -55,24 +54,20 @@ permalink: /documentation/
 ![Topologie2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Topologie_2_switchblocks.png)
 
   
-  
-  
-<a id="Plan"></a>
-## 2. Plan d'adressage
 
 ---
+
+<a id="Plan"></a>
+## 2. Plan d'adressage
 
 
 [Adressage](https://github.com/reseau-2020/projet-three/blob/master/Plan%20d'adressage.md)
 
-  
-  
-  
-<a id="Ansible"></a>
-## 3. Ansible
 
 ---
 
+<a id="Ansible"></a>
+## 3. Ansible
 
 On a choisi le protocol EIGRP car, contrairement a OSPF, c'est un système autonome qui possède des routes secondaire et de multiples protocoles autre que IP. 
 Et il est plus facile a configurer et plus rapide que OSPF. 
