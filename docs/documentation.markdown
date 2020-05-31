@@ -713,7 +713,7 @@ snmpwalk -v2c -c <nom de la communauté> <périphérique à gérer>
 
 <a id="101"></a>
 ### 10.1 Second Switchblock
-Afin d'enrichir la topologie principale, un deuxième switchblock a été ajouté, analogue au premier, représentant un deuxième sous-réseau du site principal. 
+Afin d'enrichir le réseau principal de notre topologie, un deuxième switchblock a été ajouté, analogue au premier, représentant un deuxième sous-réseau du site principal. 
 
 ![Topologie2s](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Deuxième%20_switchblock.png)
 
