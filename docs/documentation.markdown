@@ -123,12 +123,13 @@ Les parties suivantes démonstrent le déroulement de l'éxecution d’un code A
 - [projet3_main.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/projet3_main.yml)
 
 Ce playbook configure une topologie à partir de deux autres livres de jeux en les importants :
-  - switchblock.yml
-  - tripod.yml
+  - [switchblock.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/switchblock.yml)
+  - [tripod.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/tripod.yml)
+
 
 ```
 ---
-# ccna.yml
+# projet3_main.yml
 # Playbook to configure CCNA "switchblock" and "tripod" topologies
 - import_playbook: switchblock.yml
 - import_playbook: tripod.yml
@@ -137,7 +138,6 @@ Ce playbook configure une topologie à partir de deux autres livres de jeux en l
 La fonction "import_playbook" permet d’executer les jeux d’un autre livre en l’invoquant par son nom. 
 Ici : «import_playbook: tripod.yml »
 
-- [tripod.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/tripod.yml)
 ```
 # tripod.yml
 - hosts: core
