@@ -36,7 +36,6 @@ permalink: /documentation/
   - ##### [10.2 VPN IPsec Ipv6](#102)
   - ##### [10.3 Focus Sécurité](#103)
 - #### [11. Annexes](#11)
-  - ##### [11.1 Fichiers de configuration](#111)
 
 
 ---
@@ -843,11 +842,11 @@ Par manque de temps, nous n'avons pas pu nous attarder sur l'aspect sécurité d
 - Mettre en place un serveur RADIUS afin de sécuriser les accès administratifs aux différents périphériques de la topologie;
 
 - Sécurisation envisageables pour SNMP :
-En choisissant judicieusement un nom de Communauté 
-En configurant des SNMP View 
-En activant des ACLs sur les Communautés et sur les interfaces 
-En isolant ce trafic dans un VLAN contrôlé par des ACLs 
-En activant SNMPv3
+  - En choisissant judicieusement un nom de Communauté 
+  - En configurant des SNMP View 
+  - En activant des ACLs sur les Communautés et sur les interfaces 
+  - En isolant ce trafic dans un VLAN contrôlé par des ACLs 
+  - En activant SNMPv3
 
 - Mettre en place des sauvegardes automatiques des configurations et des données
 
@@ -859,5 +858,4 @@ En activant SNMPv3
 <a id="11"></a>
 ## 11. Annexes
 
-<a id="111"></a>
 - [Fichiers de configuration](https://github.com/reseau-2020/projet-three/tree/master/Ansible/playbooks/backup)
