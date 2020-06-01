@@ -135,7 +135,8 @@ Ce playbook configure une topologie à partir de deux autres livres de jeux en l
 - import_playbook: tripod.yml
 ```
 
-La fonction "import_playbook" permet d’executer les jeux d’un autre livre en l’invoquant par son nom. 
+La fonction "import_playbook" permet d’executer les jeux d’un autre livre en l’invoquant par son nom.
+
 Ici : «import_playbook: tripod.yml »
 
 ```
