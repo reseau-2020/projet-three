@@ -44,8 +44,7 @@ permalink: /documentation/
 <a id="1"></a>
 ## 1. Topologie
 
-![Topologie](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/2020-05-28-Topologie.png?raw=true)
-![Topologieau](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Topo_autre.png?raw=true)
+![Topologie](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Topo_autre.png?raw=true)
 
 Notre topologie est constitué de : 
 
@@ -90,7 +89,7 @@ Notre topologie est constitué de :
 
 
 
-* Une seconde topologie avec un deuxième switchblock est disponible *
+*Une seconde topologie avec un deuxième switchblock est disponible*
 ![Topologie2](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/Topologie_2_switchblocks.png?raw=true)
 
 
