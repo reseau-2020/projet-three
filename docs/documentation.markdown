@@ -118,9 +118,9 @@ Pour mettre à jour sur le Controller les modifications on effectue un `git pull
 
 Les parties suivantes démonstrent le déroulement de l'éxecution d’un code Ansible de bout en bout pour deux fonctionnalités.
 
-## 3.1 cas : activation des interfaces du tripod
+### 3.1 cas : activation des interfaces du tripod
 
-- [projet3_main.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/projet3_main.yml)
+#### [projet3_main.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/projet3_main.yml)
 
 Ce playbook configure une topologie à partir de deux autres livres de jeux en les importants :
   - [switchblock.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/switchblock.yml)
@@ -241,7 +241,7 @@ Afin de couvrir toutes les interfaces d’un routeur, on utilise la fonction «�
 
 ---
 
-## 3.2 cas : sauvegarder une configuration
+### 3.2 cas : sauvegarder une configuration
 
 Ce livre de jeux permet, lors de son exécution, de sauvegarder les configurations de matériel sur une topologie.
 
