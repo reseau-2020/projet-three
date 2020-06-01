@@ -116,8 +116,204 @@ Il faut adapter à notre configuration les fichiers du répertoire **/playbooks/
 
 Pour mettre à jour sur le Controller les modifications on effectue un `git pull` dans le répertoire souhaité. 
 
+Les parties suivantes démonstrent le déroulement de l'éxecution d’un code Ansible de bout en bout pour deux fonctionnalités.
+
+## 3.1 cas : activation des interfaces du tripod
+
+# [projet3_main.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/projet3_main.yml)
+
+Ce playbook configure une topologie à partir de deux autres livres de jeux en les importants :
+  - switchblock.yml
+  - tripod.yml
+
+```
+---
+# ccna.yml
+# Playbook to configure CCNA "switchblock" and "tripod" topologies
+- import_playbook: switchblock.yml
+- import_playbook: tripod.yml
+```
+
+La fonction "import_playbook" permet d’executer les jeux d’un autre livre en l’invoquant par son nom. 
+Ici : «import_playbook: tripod.yml »
+
+# [tripod.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/tripod.yml)
+```
+# tripod.yml
+- hosts: core
+  gather_facts: False
+  roles:
+    - role: ios_common
+    - role: ios_interface
+    - role: ios_ipv4
+    - role: ios_ipv6
+    - role: ios_ipv4-routing
+    - role: ios_ipv6-routing
+    - role: ios_fhrp
+    - role: ios_rip
+      when: '"rip" in ipv4.routing'
+    - role: ios_eigrp4
+      when: '"eigrp" in ipv4.routing'
+    - role: ios_ospfv2
+      when: '"ospf" in ipv4.routing'
+    - role: ios_eigrp6
+      when:
+        - '"eigrp" in ipv6.routing'
+    - role: ios_ospfv3
+      when:
+        - '"ospf" in ipv6.routing'
+    - role: ios_recursive-dns-server
+    - role: ios_dhcp-server
+- hosts: R1
+  gather_facts: False
+  roles:
+    - role: ios_nat
+- hosts: core
+  gather_facts: False
+  roles:
+    - role: ios_write
+```
+
+Ce livre de jeux invoque une série de rôles qui serviront à configurer la topologie au fur et à mesure de leurs éxecutions. 
+Le premier élément « hosts » permet de définir une variable ou un groupe de variables contenues dans un autre fichier. Les instances de ce fichiers seront utilisées dans l’éxecution des rôles.
+
+Ici : « hosts: core » appelle le groupe de variables "[core]" qui définissent le tripod. En voici la structure :
+
+[hosts:](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/inventories/projet3_main/hosts)
+
+```
+[core]
+R1
+R2
+R3
+```
+
+Voici un exemple de fichier routeur utilisé dans ce rôle : [R2](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/inventories/projet3_main/host_vars/R2)
+
+L’élément « gather_facts » accepte une valeur booléenne. Elle permet de récupérer des informations concernant l’execution des rôles.
+
+Roles définit une liste de role à executer dans un ordre décidé. Un role appel un autre fichier playbook et en exécutera les tâches. L’élément rôle peut prendre des paramètres supplémentaires (ex : « where: ‘« ospf » in ipv4.routing’).
+
+Ici, nous allons analyser : « role: ios_interface ». Le fichier « main » est appelé en premier lors de l’execution du code. 
+
+
+# [main.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/roles/ios_interface/tasks/main.yml)
+
+```
+---
+- import_tasks: enable_interfaces.yml
+  when: ansible_network_os == 'ios'
+  tags:
+    - interface
+    - test
+```
+
+Il importe le livre de jeux « enable_interfaces.yml » à condition que la variable « ansible_network_os » corresponde à la valeur « ios ». Cette variable se situe dans le fichier « hosts » indiqué plus haut.
+
+# [enable_interfaces.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/roles/ios_interface/tasks/enable_interfaces.yml)
+
+Dans ce livre de jeux, deux rôles figurent. Nous allons étudier celui qui permet d'activer les interfaces qui ne sont pas stub.
+
+```
+- name: enable interface
+  ios_interfaces:
+    config:
+      - name: "{{ item.id }}"
+        enabled: True
+        description: "{{ item.description }}"
+  loop: "{{ interfaces }}"
+  when:
+    - item.stub is not defined
+    - item.id is defined
+  tags:
+    - interface
+ ```
+«ios_interfaces» est une fonctionnalité d’Ansible qui permet, dans notre cas, d’agir sur les interfaces des routeurs du tripod. 
+
+L’élément « config » permet de définir des options pour les interfaces. Le terme ‘item’ désigne l’instance de routeur en cours de traitement du code.
+
+Ici il s’agit notamment d’activé les interface via l’option « enabled: True » à condition que ce ne soit pas une interface stub et que l’interface puisse être identifiée (ex : « GigabitEthernet0/0 »). 
+
+Afin de couvrir toutes les interfaces d’un routeur, on utilise la fonction « loop » d’Ansible sur la variable "interfaces".
+
 
 ---
+
+## 3.2 cas : sauvegarder une configuration
+
+Ce livre de jeux permet, lors de son exécution, de sauvegarder les configurations de matériel sur une topologie.
+
+[save.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/save.yml)
+
+```
+---
+- name: BACKUP CONFIGURATIONS
+  hosts: cisco
+  connection: network_cli
+  gather_facts: no
+  
+  tasks:
+    - name: BACKUP THE CONFIG
+      ios_config:
+        backup: yes
+      register: config_output
+```
+
+Il utilise le paramètre « backup » du module  'Ansible ios_config' afin de copier les fichiers d’une configuration courante et d’en faire la copie dans un dossier de sauvegardes local « backup/ ».
+
+Le fichier de configuration enregistré de cette manière est encapsulé dans la variable « register: config_output ». L’intérêt de retenir cette variable est de pouvoir modifier le fichier enregistré.
+
+La modification du nom du fichier est nécessaire afin qu’il corresponde au nom de la machine enregistrée dans la topologie. Le but étant de pouvoir écrasé ce fichier lors d’un rétablissement d’une sauvegarde de la configuration.
+
+```
+ - name: RENAME BACKUP
+      copy:
+        src: "{{config_output.backup_path}}"
+        dest: « ./backup/{{inventory_hostname}}.cfg"
+```
+
+Remarque : on utilise la variable config_output citée plus haut pour en copier le contenu en modifiant le nom et ajouter l’extension « .cfg ».
+
+Les modifications suivantes servent à supprimer les lignes de code parasites qui ne permettraient pas de restaurer un fichier de configuration. Ces lignes sont les suivantes :
+
+```
+Building configuration...
+Current configuration with default configurations exposed : 393416 bytes
+```
+
+On utilisera le module « lineinlife » qui permet d’éditer le contenu des lignes de texte.
+Le paramètre « state: absent » permet d’enlever la ligne.
+
+```
+    - name: REMOVE NON CONFIG LINES
+      lineinfile:
+        path: "./backup/{{inventory_hostname}}.cfg"
+        line: "Building configuration..."
+        state: absent
+
+```
+
+Le paramètre regex désigne ici : tous les contenus commençant par « current configuration » et ce qui suit.
+
+```
+    - name: REMOVE NON CONFIG LINES - REGEXP
+      lineinfile:
+        path: "./backup/{{inventory_hostname}}.cfg"
+        regexp: 'Current configuration.*'
+        state: absent
+```
+
+Maintenant que le fichier de configuration est sauvegardé dans un dossier à art, il pourra être déployer à nouveau en cas de nécessité de revenir à une version antérieur de la topologie.
+
+Cependant, le fichier est sauvegardé en local sur la machine. Si nous voulions le retrouvé mis à jour dans notre git, il suffisait d'éxecuter à la suite les commandes suivantes :
+
+```
+git config --global user.email « example@email. com»
+git config --global user.name "usernameGitHub"
+git add backup
+git commit -a -m "update"
+git push
+```
 
 <a id="4"></a>
 ## 4. Configuration des services d’infrastructures
