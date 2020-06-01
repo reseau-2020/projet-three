@@ -120,6 +120,8 @@ Pour mettre à jour sur le Controller les modifications on effectue un `git pull
 
 Les parties suivantes démonstrent le déroulement de l'éxecution d’un code Ansible de bout en bout pour deux fonctionnalités.
 
+<a id="31"></a>
+
 ### 3.1 Activation des interfaces du tripod
 
 #### [projet3_main.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/projet3_main.yml)
@@ -244,6 +246,7 @@ Afin de couvrir toutes les interfaces d’un routeur, on utilise la fonction «�
 
 
 ---
+<a id="32"></a>
 
 ### 3.2 Sauvegarder une configuration
 
