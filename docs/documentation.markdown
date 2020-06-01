@@ -436,7 +436,7 @@ show zone-pair security
 show policy-map type insp zone-pair
 ```
 
-Aussi, les commandes suivantes nous a permis de vérifier le bon fonctionnement du pare-feu R1 :
+Aussi, les commandes suivantes nous ont permis de vérifier le bon fonctionnement du pare-feu R1 :
 
 Sur centos-1 (VLAN10/16) :
 ```
