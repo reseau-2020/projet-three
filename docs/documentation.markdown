@@ -56,7 +56,7 @@ Notre topologie est constitué de :
   </thead>
   <tbody>
         <tr>
-            <td>Site contrôleur</td>
+            <td>Site Controlleur</td>
             <td><p>Un CentOS Linux 7.5</p><p>Un switch Ethernet</p></td>
         </tr>
         <tr>
