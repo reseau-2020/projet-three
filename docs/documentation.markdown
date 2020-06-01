@@ -12,8 +12,8 @@ permalink: /documentation/
 - #### [1. Topologie](#1)
 - #### [2. Plan d’adressage Ipv4/Ipv6](#2)
 - #### [3. Ansible](#3)
-  - ##### [3.1 Activation des interfaces du tripod] (#31)
-  - ##### [3.2 Sauvegarder une configuration] (#32)
+  - ##### [3.1 Activation des interfaces du tripod](#31)
+  - ##### [3.2 Sauvegarder une configuration](#32)
 - #### [4. Configuration des services d’infrastructures](#4)
   - #####  [4.1 DNS](#41)
   - #####  [4.2 NTP](#42)
@@ -121,7 +121,6 @@ Pour mettre à jour sur le Controller les modifications on effectue un `git pull
 Les parties suivantes démonstrent le déroulement de l'éxecution d’un code Ansible de bout en bout pour deux fonctionnalités.
 
 <a id="31"></a>
-
 ### 3.1 Activation des interfaces du tripod
 
 #### [projet3_main.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/projet3_main.yml)
@@ -247,7 +246,6 @@ Afin de couvrir toutes les interfaces d’un routeur, on utilise la fonction «�
 
 ---
 <a id="32"></a>
-
 ### 3.2 Sauvegarder une configuration
 
 Ce livre de jeux permet, lors de son exécution, de sauvegarder les configurations de matériel sur une topologie.
