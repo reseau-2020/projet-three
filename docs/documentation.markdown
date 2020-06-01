@@ -758,7 +758,7 @@ Nous avions essayé entre 1 Fortigate et 1 Cisco mais cela semble très compliqu
 Mise en place d’un routeur R4 avec un LAN avec adressage IPv4 et Ipv6, NAT, DNS, connectivité vers internet, EIGRPv4 et v6 (Id 6.6.6.6).
 R4 ne dispose pas de pare-feu.
 
-![image](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_divers/R4distant.PNG?raw=true)
+![image](https://github.com/reseau-2020/projet-three/blob/master/_annexes/_topologies/VPN_IPV6.png?raw=true)
 
 Les fichiers de configurations : 
 - [R1](https://github.com/reseau-2020/projet-three/blob/master/Configurations/VPN_IPSEC_R1.txt)
