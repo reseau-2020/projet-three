@@ -122,7 +122,7 @@ Les parties suivantes démonstrent le déroulement de l'éxecution d’un code A
 
 #### [projet3_main.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/projet3_main.yml)
 
-Ce playbook configure une topologie à partir de deux autres livres de jeux en les importants :
+Ce playbook configure une topologie à partir de deux autres livres de jeux en les important :
   - [switchblock.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/switchblock.yml)
   - [tripod.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/tripod.yml)
 
@@ -175,7 +175,7 @@ Ici : «import_playbook: tripod.yml »
 ```
 
 Ce livre de jeux invoque une série de rôles qui serviront à configurer la topologie au fur et à mesure de leurs éxecutions. 
-Le premier élément « hosts » permet de définir une variable ou un groupe de variables contenues dans un autre fichier. Les instances de ce fichiers seront utilisées dans l’éxecution des rôles.
+Le premier élément « hosts » permet de définir une variable ou un groupe de variables contenues dans un autre fichier. Les instances de ce fichier seront utilisées dans l’éxecution des rôles.
 
 Ici : « hosts: core » appelle le groupe de variables "[core]" qui définissent le tripod. En voici la structure :
 
@@ -194,7 +194,7 @@ Voici un exemple de fichier routeur utilisé dans ce rôle :
 
 L’élément « gather_facts » accepte une valeur booléenne. Elle permet de récupérer des informations concernant l’execution des rôles.
 
-Roles définit une liste de role à executer dans un ordre décidé. Un role appel un autre fichier playbook et en exécutera les tâches. L’élément rôle peut prendre des paramètres supplémentaires (ex : « where: ‘« ospf » in ipv4.routing’).
+"Roles" définit une liste de role à executer dans un ordre décidé. Un rôle appelle un autre fichier playbook et en exécutera les tâches. L’élément rôle peut prendre des paramètres supplémentaires (ex : « where: ‘« ospf » in ipv4.routing’).
 
 Ici, nous allons analyser : « role: ios_interface ». Le fichier « main » est appelé en premier lors de l’execution du code. 
 
@@ -214,7 +214,7 @@ Il importe le livre de jeux « enable_interfaces.yml » à condition que la va
 
 #### [enable_interfaces.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/roles/ios_interface/tasks/enable_interfaces.yml)
 
-Dans ce livre de jeux, deux rôles figurent. Nous allons étudier celui qui permet d'activer les interfaces qui ne sont pas stub.
+Dans ce livre de jeux, deux rôles figurent. Nous allons étudier celui qui permet d'activer les interfaces qui ne sont pas utilisées comme interface 'stub'.
 
 ```
 - name: enable interface
@@ -230,11 +230,12 @@ Dans ce livre de jeux, deux rôles figurent. Nous allons étudier celui qui perm
   tags:
     - interface
  ```
+ 
 «ios_interfaces» est une fonctionnalité d’Ansible qui permet, dans notre cas, d’agir sur les interfaces des routeurs du tripod. 
 
 L’élément « config » permet de définir des options pour les interfaces. Le terme ‘item’ désigne l’instance de routeur en cours de traitement du code.
 
-Ici il s’agit notamment d’activé les interface via l’option « enabled: True » à condition que ce ne soit pas une interface stub et que l’interface puisse être identifiée (ex : « GigabitEthernet0/0 »). 
+Ici il s’agit notamment d’activer les interface via l’option « enabled: True » à condition que ce ne soit pas une interface stub et que l’interface puisse être identifiée (ex : « GigabitEthernet0/0 »). 
 
 Afin de couvrir toutes les interfaces d’un routeur, on utilise la fonction « loop » d’Ansible sur la variable "interfaces".
 
@@ -261,9 +262,9 @@ Ce livre de jeux permet, lors de son exécution, de sauvegarder les configuratio
       register: config_output
 ```
 
-Il utilise le paramètre « backup » du module  'Ansible ios_config' afin de copier les fichiers d’une configuration courante et d’en faire la copie dans un dossier de sauvegardes local « backup/ ».
+Il utilise le paramètre « backup » du module  'Ansible ios_config' afin de copier les fichiers d’une configuration courante et d’en faire la copie dans un dossier de sauvegarde local « backup/ ».
 
-Le fichier de configuration enregistré de cette manière est encapsulé dans la variable « register: config_output ». L’intérêt de retenir cette variable est de pouvoir modifier le fichier enregistré.
+Le fichier de configuration enregistré de cette manière est encapsulé dans la variable « register: config_output ». L’intérêt de retenir cette variable est de pouvoir modifier le fichier traité.
 
 La modification du nom du fichier est nécessaire afin qu’il corresponde au nom de la machine enregistrée dans la topologie. Le but étant de pouvoir écrasé ce fichier lors d’un rétablissement d’une sauvegarde de la configuration.
 
@@ -305,9 +306,9 @@ Le paramètre regex désigne ici : tous les contenus commençant par « current
         state: absent
 ```
 
-Maintenant que le fichier de configuration est sauvegardé dans un dossier à art, il pourra être déployer à nouveau en cas de nécessité de revenir à une version antérieur de la topologie.
+Maintenant que le fichier de configuration est sauvegardé dans un dossier à part, il pourra être déployé à nouveau en cas de nécessité de revenir à une version antérieur de la topologie.
 
-Cependant, le fichier est sauvegardé en local sur la machine. Si nous voulions le retrouvé mis à jour dans notre git, il suffisait d'éxecuter à la suite les commandes suivantes :
+Cependant, le fichier est sauvegardé en local sur la machine. Si nous voulons mettre à jour notre git, il suffit d'éxecuter ensuite les commandes suivantes :
 
 ```
 git config --global user.email « example@email. com»
