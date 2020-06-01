@@ -179,7 +179,7 @@ Le premier élément « hosts » permet de définir une variable ou un groupe 
 
 Ici : « hosts: core » appelle le groupe de variables "[core]" qui définissent le tripod. En voici la structure :
 
-- [hosts:](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/inventories/projet3_main/hosts)
+#### [hosts:](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/inventories/projet3_main/hosts)
 
 ```
 [core]
@@ -190,7 +190,7 @@ R3
 
 Voici un exemple de fichier routeur utilisé dans ce rôle : 
 
-- [R2](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/inventories/projet3_main/host_vars/R2)
+#### [R2](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/inventories/projet3_main/host_vars/R2)
 
 L’élément « gather_facts » accepte une valeur booléenne. Elle permet de récupérer des informations concernant l’execution des rôles.
 
@@ -199,7 +199,7 @@ Roles définit une liste de role à executer dans un ordre décidé. Un role app
 Ici, nous allons analyser : « role: ios_interface ». Le fichier « main » est appelé en premier lors de l’execution du code. 
 
 
-- [main.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/roles/ios_interface/tasks/main.yml)
+#### [main.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/roles/ios_interface/tasks/main.yml)
 
 ```
 ---
@@ -212,7 +212,7 @@ Ici, nous allons analyser : « role: ios_interface ». Le fichier « main »
 
 Il importe le livre de jeux « enable_interfaces.yml » à condition que la variable « ansible_network_os » corresponde à la valeur « ios ». Cette variable se situe dans le fichier « hosts » indiqué plus haut.
 
-- [enable_interfaces.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/roles/ios_interface/tasks/enable_interfaces.yml)
+#### [enable_interfaces.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/roles/ios_interface/tasks/enable_interfaces.yml)
 
 Dans ce livre de jeux, deux rôles figurent. Nous allons étudier celui qui permet d'activer les interfaces qui ne sont pas stub.
 
@@ -245,7 +245,7 @@ Afin de couvrir toutes les interfaces d’un routeur, on utilise la fonction «�
 
 Ce livre de jeux permet, lors de son exécution, de sauvegarder les configurations de matériel sur une topologie.
 
-- [save.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/save.yml)
+#### [save.yml](https://github.com/reseau-2020/projet-three/blob/master/Ansible/playbooks/save.yml)
 
 ```
 ---
