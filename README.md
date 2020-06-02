@@ -1,4 +1,4 @@
-Documentation complète dans le lien : [Doc]((https://github.com/reseau-2020/projet-three/blob/master/docs/documentation.markdown)
+Documentation complète dans le lien : [Doc](https://github.com/reseau-2020/projet-three/blob/master/docs/documentation.markdown)
 
 # Projet 3 Consultant réseau
 #### [Planning](#Plann)
